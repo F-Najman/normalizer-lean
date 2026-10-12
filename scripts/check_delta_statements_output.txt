@@ -1,0 +1,24 @@
+== K: Delta = {+-1}, N <= 400
+  exception/fail: (4, 6, 2, False, False)
+  K ok for all N <= 400 except: [4]
+== X: N = M^2, Delta = +-1 mod M, M <= 18
+  M=2  [Nor:Gamma_Delta]=6  #PSL2(Z/M)=6  True
+  M=3  [Nor:Gamma_Delta]=12  #PSL2(Z/M)=12  True
+  M=4  [Nor:Gamma_Delta]=24  #PSL2(Z/M)=24  True
+  M=5  [Nor:Gamma_Delta]=60  #PSL2(Z/M)=60  True
+  M=6  [Nor:Gamma_Delta]=72  #PSL2(Z/M)=72  True
+  M=7  [Nor:Gamma_Delta]=168  #PSL2(Z/M)=168  True
+  M=8  [Nor:Gamma_Delta]=192  #PSL2(Z/M)=192  True
+  M=9  [Nor:Gamma_Delta]=324  #PSL2(Z/M)=324  True
+  M=10  [Nor:Gamma_Delta]=360  #PSL2(Z/M)=360  True
+  M=11  [Nor:Gamma_Delta]=660  #PSL2(Z/M)=660  True
+  M=12  [Nor:Gamma_Delta]=576  #PSL2(Z/M)=576  True
+  M=13  [Nor:Gamma_Delta]=1092  #PSL2(Z/M)=1092  True
+  M=14  [Nor:Gamma_Delta]=1008  #PSL2(Z/M)=1008  True
+  M=15  [Nor:Gamma_Delta]=1440  #PSL2(Z/M)=1440  True
+  M=16  [Nor:Gamma_Delta]=1536  #PSL2(Z/M)=1536  True
+  M=17  [Nor:Gamma_Delta]=2448  #PSL2(Z/M)=2448  True
+  M=18  [Nor:Gamma_Delta]=1944  #PSL2(Z/M)=1944  True
+== D: all Delta, N <= 30, det(H) <= 2 N^2
+  subgroups tested: 77, matrices outside M_Delta: 0
+DONE

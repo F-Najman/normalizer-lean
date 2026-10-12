@@ -1,0 +1,30 @@
+N=2: 4 classes, checks G=3 P=4 B1=2 B2=2 B4=6
+N=3: 7 classes, checks G=5 P=7 B1=12 B2=12 B4=48
+  known value |B(9)| (X_sp(3) = X_0(9), H = +-1): 12 (expected 12)
+N=4: 19 classes, checks G=8 P=0 B1=144 B2=72 B4=384
+  known value |B(4)| (Gamma_0(4)): 6 (expected 6)
+N=5: 12 classes, checks G=9 P=12 B1=60 B2=60 B4=248
+  known value X_0(5): 2 (expected 2)
+  known value X_1(5) (+-Gamma_1): 4 (expected 4)
+N=6: 39 classes, checks G=19 P=0 B1=568 B2=568 B4=2016
+  known value |B(6)| (Gamma_0(6)): 4 (expected 4)
+N=7: 19 classes, checks G=15 P=19 B1=168 B2=168 B4=696
+  known value X_0(7): 2 (expected 2)
+  known value X_1(7) (+-Gamma_1): 6 (expected 6)
+N=8: 106 classes, checks G=24 P=0 B1=6560 B2=1888 B4=20224
+N=9: 48 classes, checks G=20 P=0 B1=3996 B2=2268 B4=6696
+  known value |B(9)| (Gamma_0(9)): 12 (expected 12)
+N=10: 66 classes, checks G=36 P=0 B1=2784 B2=2784 B4=9912
+N=11: 21 classes, checks G=17 P=21 B1=440 B2=440 B4=2680
+  known value X_0(11): 2 (expected 2)
+  known value X_1(11) (+-Gamma_1): 10 (expected 10)
+p=2: 2 subgroups of the Borel, 1 with a unique fixed line: P0, P2 checked
+p=3: 4 subgroups of the Borel, 2 with a unique fixed line: P0, P2 checked
+p=5: 10 subgroups of the Borel, 3 with a unique fixed line: P0, P2 checked
+p=7: 20 subgroups of the Borel, 4 with a unique fixed line: P0, P2 checked
+p=11: 28 subgroups of the Borel, 4 with a unique fixed line: P0, P2 checked
+p=13: 60 subgroups of the Borel, 6 with a unique fixed line: P0, P2 checked
+S: |SL2(Z/37)|/2 = 25308 (statement: 25308)
+S: |SL2(Z/38)|/2 = 20520 (statement: 20520)
+S: |SL2(Z/39)|/2 = 26208 (statement: 26208)
+TOTAL FAILURES: 0

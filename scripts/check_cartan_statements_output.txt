@@ -1,0 +1,25 @@
+p= 2 sp   |H|=   1 [SL2:Gamma]=    6 invariant line=(1, 0) [N(H):H]=6 expected=None ok
+p= 2 sp+  |H|=   2 [SL2:Gamma]=    3 invariant line=(1, 1) [N(H):H]=1 expected=None ok
+p= 3 sp   |H|=   2 [SL2:Gamma]=   12 invariant line=(1, 0) [N(H):H]=12 expected=None ok
+p= 3 sp+  |H|=   4 [SL2:Gamma]=    6 invariant line=None [N(H):H]=2 expected=None ok
+p= 3 ns   |H|=   4 [SL2:Gamma]=    6 invariant line=None [N(H):H]=2 expected=2 ok
+p= 3 ns+  |H|=   8 [SL2:Gamma]=    3 invariant line=None [N(H):H]=3 expected=3 ok
+p= 5 sp   |H|=   4 [SL2:Gamma]=   30 invariant line=(1, 0) [N(H):H]=2 expected=2 ok
+p= 5 sp+  |H|=   8 [SL2:Gamma]=   15 invariant line=None [N(H):H]=3 expected=3 ok
+p= 5 ns   |H|=   6 [SL2:Gamma]=   20 invariant line=None [N(H):H]=2 expected=2 ok
+p= 5 ns+  |H|=  12 [SL2:Gamma]=   10 invariant line=None [N(H):H]=1 expected=1 ok
+p= 7 sp   |H|=   6 [SL2:Gamma]=   56 invariant line=(1, 0) [N(H):H]=2 expected=2 ok
+p= 7 sp+  |H|=  12 [SL2:Gamma]=   28 invariant line=None [N(H):H]=1 expected=1 ok
+p= 7 ns   |H|=   8 [SL2:Gamma]=   42 invariant line=None [N(H):H]=2 expected=2 ok
+p= 7 ns+  |H|=  16 [SL2:Gamma]=   21 invariant line=None [N(H):H]=1 expected=1 ok
+p=11 sp   |H|=  10 [SL2:Gamma]=  132 invariant line=(1, 0) [N(H):H]=2 expected=2 ok
+p=11 sp+  |H|=  20 [SL2:Gamma]=   66 invariant line=None [N(H):H]=1 expected=1 ok
+p=11 ns   |H|=  12 [SL2:Gamma]=  110 invariant line=None [N(H):H]=2 expected=2 ok
+p=11 ns+  |H|=  24 [SL2:Gamma]=   55 invariant line=None [N(H):H]=1 expected=1 ok
+p=13 sp   |H|=  12 [SL2:Gamma]=  182 invariant line=(1, 0) [N(H):H]=2 expected=2 ok
+p=13 sp+  |H|=  24 [SL2:Gamma]=   91 invariant line=None [N(H):H]=1 expected=1 ok
+p=13 ns   |H|=  14 [SL2:Gamma]=  156 invariant line=None [N(H):H]=2 expected=2 ok
+p=13 ns+  |H|=  28 [SL2:Gamma]=   78 invariant line=None [N(H):H]=1 expected=1 ok
+witness for sp+(5): (1, 1, 2, 3) (one of 16)
+witness for ns+(3): (0, 1, 2, 1) (one of 16)
+failures: 0

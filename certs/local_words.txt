@@ -1,0 +1,11 @@
+L1 ww s
+L22 ww ss wswsws
+L23 ww ss WsWSwSws
+L24 ww ssss wswsws
+L25 ww ssss WsWWsWSwSwwSws SSWsWsswSw WsWSwSwSWsWWsW
+L26 ww ssssssss wswsws SSSSWSSSSWsssswssssw swsssswSWSSSSWSSSS
+L27 ww ssssssss WsWWsWSSwSwwSwss WsWsswSwSSWsWWsWWsWWsW SwSwwSwSSSWsWWsW WsWSwSwSWsWWsWWsWWsWWsWWsW
+L28 ww ssssssss WsWWsWSwSwwSws WsWswSwSSSSSWsWWsWWsWWsW
+L29 ww ssssssss WsWSwSws
+L32 ww sss wswsws
+L33 ww sss WsWSwSws

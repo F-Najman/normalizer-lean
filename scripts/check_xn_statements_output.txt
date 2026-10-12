@@ -1,0 +1,46 @@
+1. |SL2(Z/N)|, [G0:G1], [G1:G]
+  N= 1 |SL2|=     1 formula=1 [G0:G1]=1 phi=1 [G1:G]=1 ok
+  N= 2 |SL2|=     6 formula=6 [G0:G1]=1 phi=1 [G1:G]=2 ok
+  N= 3 |SL2|=    24 formula=24 [G0:G1]=2 phi=2 [G1:G]=3 ok
+  N= 4 |SL2|=    48 formula=48 [G0:G1]=2 phi=2 [G1:G]=4 ok
+  N= 5 |SL2|=   120 formula=120 [G0:G1]=4 phi=4 [G1:G]=5 ok
+  N= 6 |SL2|=   144 formula=144 [G0:G1]=2 phi=2 [G1:G]=6 ok
+  N= 7 |SL2|=   336 formula=336 [G0:G1]=6 phi=6 [G1:G]=7 ok
+  N= 8 |SL2|=   384 formula=384 [G0:G1]=4 phi=4 [G1:G]=8 ok
+  N= 9 |SL2|=   648 formula=648 [G0:G1]=6 phi=6 [G1:G]=9 ok
+  N=10 |SL2|=   720 formula=720 [G0:G1]=4 phi=4 [G1:G]=10 ok
+  N=11 |SL2|=  1320 formula=1320 [G0:G1]=10 phi=10 [G1:G]=11 ok
+  N=12 |SL2|=  1152 formula=1152 [G0:G1]=4 phi=4 [G1:G]=12 ok
+  N=13 |SL2|=  2184 formula=2184 [G0:G1]=12 phi=12 [G1:G]=13 ok
+  N=14 |SL2|=  2016 formula=2016 [G0:G1]=6 phi=6 [G1:G]=14 ok
+  N=15 |SL2|=  2880 formula=2880 [G0:G1]=8 phi=8 [G1:G]=15 ok
+  N=16 |SL2|=  3072 formula=3072 [G0:G1]=8 phi=8 [G1:G]=16 ok
+2. |PSL2(Z/M)|
+  M= 3 |PSL2|=12 formula=12 ok
+  M= 4 |PSL2|=24 formula=24 ok
+  M= 5 |PSL2|=60 formula=60 ok
+  M= 6 |PSL2|=72 formula=72 ok
+  M= 7 |PSL2|=168 formula=168 ok
+  M= 8 |PSL2|=192 formula=192 ok
+  M= 9 |PSL2|=324 formula=324 ok
+  M=10 |PSL2|=360 formula=360 ok
+  M=11 |PSL2|=660 formula=660 ok
+  M=12 |PSL2|=576 formula=576 ok
+  M=13 |PSL2|=1092 formula=1092 ok
+  M=14 |PSL2|=1008 formula=1008 ok
+  M=15 |PSL2|=1440 formula=1440 ok
+  M=16 |PSL2|=1536 formula=1536 ok
+  M=17 formula=2448
+  M=18 formula=1944
+  M=19 formula=3420
+  M=20 formula=2880
+3. table entries with N = M^2
+  N=49 M=7 Delta=<-1,[27]> = {+-1 mod M}: True, #Aut=168 formula=168 ok
+  N=64 M=8 Delta=<-1,[25, 63]> = {+-1 mod M}: True, #Aut=192 formula=192 ok
+  N=81 M=9 Delta=<-1,[8]> = {+-1 mod M}: True, #Aut=324 formula=324 ok
+  N=100 M=10 Delta=<-1,[9]> = {+-1 mod M}: True, #Aut=360 formula=360 ok
+  N=121 M=11 Delta=<-1,[10]> = {+-1 mod M}: True, #Aut=660 formula=660 ok
+  N=144 M=12 Delta=<-1,[11, 71]> = {+-1 mod M}: True, #Aut=576 formula=576 ok
+  N=169 M=13 Delta=<-1,[12]> = {+-1 mod M}: True, #Aut=1092 formula=1092 ok
+  N=196 M=14 Delta=<-1,[13]> = {+-1 mod M}: True, #Aut=1008 formula=1008 ok
+failures: 0

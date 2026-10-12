@@ -1,0 +1,2 @@
+H: 7773 subgroups, N <= 300, failures 0
+S: N <= 24, coincidences 0

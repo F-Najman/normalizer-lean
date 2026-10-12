@@ -1,0 +1,133 @@
+import NormalizerDelta.DefsExtra
+
+/-!
+# Additions (2026-10-09): statements (Stage 0, all `sorry`)
+
+The user approved these additions (2026-10-09: "Yes, do those!").  They do not change the 34 frozen statements
+of `Statements.lean`.  Definitions: `NormalizerDelta/DefsExtra.lean`.
+
+* §M: M_Δ = D⁻¹ Γ₀(n_Δ)⁺ D is exactly the set of matrices of the generalized Newman bound; it contains
+  Γ₀(N) with finite index, so Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ and its order is
+  i_Δ · [Nor(Γ_Δ(N)) : Γ₀(N)] with i_Δ = [(ℤ/N)ˣ : Δ]; every right coset Γ₀(N)g in M_Δ contains a real multiple
+  of exactly one σH, so [Nor(Γ_Δ(N)) : Γ₀(N)] is the number of normalizing pairs (σ, H) (what `aut_orders.py`
+  counts).  (Γ₀(N) is not normal in M_Δ in general, so the side of the cosets matters: the σH statements use
+  right cosets Γ₀(N)g, the quotients `BG`, `B` left cosets; the counts agree.)
+* Conventions: in SL₂(ℝ), for −1 ∉ Δ the quotient `BG (GammaDeltaR N Δ)` is twice the modular automorphism
+  group (a quotient in PSL₂(ℝ)), and i_Δ = Δ.index is twice the PSL index.
+* §H: h_Δ = h(N) unless one of the cases i)–iii) holds, and conversely.
+* §B: the group B₀(N) of the sporadic-points paper: the normalizer of Γ₀(N) in GL₂⁺(ℚ) modulo Γ₀(N) · ℚ^× is B(N),
+  via g ↦ (det g)^{-1/2} g; the literal quotient by Γ₀(N) alone is infinite.
+-/
+
+open Matrix MatrixGroups
+
+namespace NormalizerLean
+
+noncomputable section
+
+/-! ## §M. The group M_Δ and the σH coset description -/
+
+/-- The matrices of the generalized Newman bound form the group M_Δ = D⁻¹ Γ₀(n_Δ)⁺ D. -/
+theorem coe_MDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    (MDelta N Δ : Set SL(2, ℝ)) = {g | IsNewmanFormH N (hDelta N Δ) g} := by
+  sorry
+
+/-- Γ₀(N) ≤ M_Δ. -/
+theorem Gamma0R_le_MDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : Gamma0R N ≤ MDelta N Δ := by
+  sorry
+
+/-- Γ₀(N) has finite index in M_Δ (with `Gamma0R_le_MDelta`: [M_Δ : Γ₀(N)] < ∞). -/
+theorem relIndex_Gamma0R_MDelta_ne_zero (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    (Gamma0R N).relIndex (MDelta N Δ) ≠ 0 := by
+  sorry
+
+/-- The generalized Newman bound, restated: Nor(Γ_Δ(N)) ≤ M_Δ. -/
+theorem normG_GammaDeltaR_le_MDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    NormG (GammaDeltaR N Δ) ≤ MDelta N Δ := by
+  sorry
+
+/-- Nor(Γ_Δ(N))/Γ_Δ(N) is finite, for every Δ. -/
+theorem finite_BG_GammaDeltaR (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    Finite (BG (GammaDeltaR N Δ)) := by
+  sorry
+
+/-- The index: [Nor(Γ_Δ(N)) : Γ_Δ(N)] = i_Δ · [Nor(Γ_Δ(N)) : Γ₀(N)], for every Δ, with
+i_Δ = Δ.index = [(ℤ/N)ˣ : Δ].  Since Γ₀(N) ≤ Nor(Γ_Δ(N)) (frozen `Gamma0R_le_normG_GammaDeltaR`) and
+Nor(Γ_Δ(N)) ≤ M_Δ, the second factor is the number of cosets of Γ₀(N) in M_Δ that normalize Γ_Δ(N).
+(For −1 ∈ Δ the left side is the order of the modular automorphism group of X_Δ(N).) -/
+theorem card_BG_GammaDeltaR_eq (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    Nat.card (BG (GammaDeltaR N Δ)) = Δ.index * (Gamma0R N).relIndex (NormG (GammaDeltaR N Δ)) := by
+  sorry
+
+/-- Every right coset Γ₀(N)g in M_Δ contains a real multiple of a matrix σH, with σ in a fixed set R of
+representatives of Γ₀(N)\SL₂(ℤ) and H a Hermite form [[a, b], [0, d]] (a d ∣ N, 0 ≤ b < d,
+gcd(a, b, d) = 1). -/
+theorem exists_sigmaH {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) {R : Set SL(2, ℤ)}
+    (hR : IsGamma0Reps N R) {g : SL(2, ℝ)} (hg : g ∈ MDelta N Δ) :
+    ∃ γ ∈ Gamma0R N, ∃ r ∈ R, ∃ a b d : ℕ, IsHermiteN N a b d ∧ ∃ c : ℝ, c ≠ 0 ∧
+      ((γ * g : SL(2, ℝ)) : Matrix (Fin 2) (Fin 2) ℝ) =
+        c • ((ofZ r : Matrix (Fin 2) (Fin 2) ℝ) * hermMat a b d) := by
+  sorry
+
+/-- The pair (σ, H) of `exists_sigmaH` is unique: if real multiples of σH and σ'H' lie in the same coset
+Γ₀(N)·, then σ = σ' and H = H' (so counting normalizing pairs counts normalizing cosets). -/
+theorem sigmaH_unique {N : ℕ} [NeZero N] {R : Set SL(2, ℤ)} (hR : IsGamma0Reps N R)
+    {r r' : SL(2, ℤ)} (hr : r ∈ R) (hr' : r' ∈ R) {a b d a' b' d' : ℕ}
+    (hH : IsHermiteN N a b d) (hH' : IsHermiteN N a' b' d') {c c' : ℝ} (hc : c ≠ 0) (hc' : c' ≠ 0)
+    {γ : SL(2, ℝ)} (hγ : γ ∈ Gamma0R N)
+    (h : c • ((ofZ r : Matrix (Fin 2) (Fin 2) ℝ) * hermMat a b d) =
+      (γ : Matrix (Fin 2) (Fin 2) ℝ) * (c' • ((ofZ r' : Matrix (Fin 2) (Fin 2) ℝ) * hermMat a' b' d'))) :
+    r = r' ∧ a = a' ∧ b = b' ∧ d = d' := by
+  sorry
+
+/-- Sets of representatives of Γ₀(N)\SL₂(ℤ) exist (so the hypothesis `IsGamma0Reps N R` is satisfiable). -/
+theorem exists_Gamma0Reps (N : ℕ) : ∃ R : Set SL(2, ℤ), IsGamma0Reps N R := by
+  sorry
+
+/-- **The count of `aut_orders.py`**: for any set R of representatives of Γ₀(N)\SL₂(ℤ), [Nor(Γ_Δ(N)) : Γ₀(N)]
+is the number of pairs (σ, H), σ ∈ R, H = [[a, b], [0, d]] a Hermite form (a d ∣ N, 0 ≤ b < d,
+gcd(a, b, d) = 1), such that σH (rescaled into SL₂(ℝ)) normalizes Γ_Δ(N). -/
+theorem relIndex_normG_eq_card_sigmaH {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) {R : Set SL(2, ℤ)}
+    (hR : IsGamma0Reps N R) :
+    (Gamma0R N).relIndex (NormG (GammaDeltaR N Δ)) =
+      Nat.card {x : SL(2, ℤ) × ℕ × ℕ × ℕ // x.1 ∈ R ∧ IsHermiteN N x.2.1 x.2.2.1 x.2.2.2 ∧
+        projSL ((ofZ x.1 : Matrix (Fin 2) (Fin 2) ℝ) * hermMat x.2.1 x.2.2.1 x.2.2.2) ∈
+          NormG (GammaDeltaR N Δ)} := by
+  sorry
+
+/-! ## §H. When h_Δ ≠ h(N) (the cases i)–iii)) -/
+
+/-- h_Δ = h(N) iff none of: i) p² ∣ N and d ≡ ±1 (mod p) for all d ∈ Δ, for some prime p ≥ 5;
+ii) 3⁴ ∣ N and d ≡ ±1 (mod 9) for all d ∈ Δ; iii) 2⁸ ∣ N and d ≡ ±1 (mod 8) for all d ∈ Δ. -/
+theorem hDelta_eq_hPart_iff (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
+    hDelta N Δ = hPart N ↔
+      ¬ ((∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ p ^ 2 ∣ N ∧ ∀ d ∈ Δ, IsPmOneMod p d) ∨
+        (3 ^ 4 ∣ N ∧ ∀ d ∈ Δ, IsPmOneMod 9 d) ∨
+        (2 ^ 8 ∣ N ∧ ∀ d ∈ Δ, IsPmOneMod 8 d)) := by
+  sorry
+
+/-! ## §B. B₀(N) of the sporadic-points paper -/
+
+/-- The centre of GL₂⁺(ℚ) is the group of nonzero scalar matrices. -/
+theorem mem_center_GLPos_iff (g : GLPos (Fin 2) ℚ) :
+    g ∈ Subgroup.center (GLPos (Fin 2) ℚ) ↔
+      ∃ c : ℚ, c ≠ 0 ∧ ((g : GL (Fin 2) ℚ) : Matrix (Fin 2) (Fin 2) ℚ) = c • 1 := by
+  sorry
+
+/-- **B₀(N) and B(N)**: g ↦ (det g)^{-1/2} g maps Norm_{GL₂⁺(ℚ)}(Γ₀(N)) onto
+B(N) = Norm_{SL₂(ℝ)}(Γ₀(N))/Γ₀(N), with kernel Γ₀(N) · ℚ^× (ℚ^× the centre of GL₂⁺(ℚ)).  Hence (first
+isomorphism theorem) Norm_{GL₂⁺(ℚ)}(Γ₀(N))/(Γ₀(N) ℚ^×) ≅ B(N); the clause `IsClassOf` pins φ down. -/
+theorem B0_equiv (N : ℕ) [NeZero N] :
+    ∃ φ : Norm0Q N →* B N, Function.Surjective φ ∧
+      φ.ker = (Gamma0Q N ⊔ Subgroup.center (GLPos (Fin 2) ℚ)).subgroupOf (Norm0Q N) ∧
+      ∀ g : Norm0Q N, (φ g).IsClassOf (normSL g) := by
+  sorry
+
+/-- The quotient Norm_{GL₂⁺(ℚ)}(Γ₀(N))/Γ₀(N), as literally written in the sporadic-points paper, is infinite
+(it contains the classes of the scalars 2ᵏ). -/
+theorem infinite_B0lit (N : ℕ) [NeZero N] : Infinite (B0lit N) := by
+  sorry
+
+end
+
+end NormalizerLean

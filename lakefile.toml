@@ -1,0 +1,18 @@
+name = "NormalizerLean"
+version = "0.1.0"
+defaultTargets = ["NormalizerLean"]
+
+[leanOptions]
+pp.unicode.fun = true
+autoImplicit = false
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.34.1"
+
+[[lean_lib]]
+name = "NormalizerLean"
+
+[[lean_lib]]
+name = "NormalizerDelta"

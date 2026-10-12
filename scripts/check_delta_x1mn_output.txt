@@ -1,0 +1,14 @@
+M=1 N=1: 15668 elements of Gamma_Delta(N), 15668 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=1 N=6: 1258 elements of Gamma_Delta(N), 1258 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=2 N=4: 2642 elements of Gamma_Delta(N), 2650 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=2 N=8: 1378 elements of Gamma_Delta(N), 1342 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=2 N=12: 662 elements of Gamma_Delta(N), 630 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=2 N=16: 426 elements of Gamma_Delta(N), 390 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=3 N=9: 1322 elements of Gamma_Delta(N), 1330 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=3 N=18: 474 elements of Gamma_Delta(N), 418 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=3 N=27: 262 elements of Gamma_Delta(N), 198 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=4 N=16: 674 elements of Gamma_Delta(N), 658 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=4 N=32: 262 elements of Gamma_Delta(N), 194 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=5 N=25: 350 elements of Gamma_Delta(N), 306 of +-(Gamma(M) cap Gamma1(N/M)) tested
+M=6 N=36: 278 elements of Gamma_Delta(N), 210 of +-(Gamma(M) cap Gamma1(N/M)) tested
+ALL OK

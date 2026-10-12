@@ -1,0 +1,5 @@
+N <= 200: subgroups tested 1497, failures 0
+  P1 tested on 1438 subgroups (h_Delta = h(N)); P2 on 826 (also 4, 9 not dividing N)
+  validation: 29 subgroups with h_Delta != h(N) have Nor(Gamma_Delta) not in Nor(Gamma_0), at N = [25, 49, 50, 75, 81, 98, 100, 121, 125, 147, 150, 162]
+S7 normalizes Gamma_Delta(49) (Delta = +-1 mod 7): True; normalizes Gamma0(49): False
+DONE

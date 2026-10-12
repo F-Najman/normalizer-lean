@@ -1,0 +1,233 @@
+import NormalizerLean.Defs
+import NormalizerLean.Proofs
+
+/-!
+# B(N) = Norm_{SL₂(ℝ)}(Γ₀(N)) / Γ₀(N): definitions and main statements
+
+This file states T1–T8 of the handover note
+`~/automorphisms_X1/notes/2026-10-02-lean-BN-handover.md` (§4).  The definitions are in
+`Defs.lean` (moved there verbatim from this file); the proofs live in the other files and are
+imported through `Proofs.lean`.  Each theorem below is proved by applying its proof `X'`.  The
+statements are unchanged since the user's review (commit 11358c3); no definition or statement
+changes without the user's approval.
+
+Blueprint references (paths relative to `~/automorphisms_X1/audit/`):
+* [Nw]  `newman_normalizer.md`
+* [BA]  `bars_all_levels.md`
+* [BAu] `bars_audit.md`
+
+Conventions.
+* `B N` is defined honestly as a quotient of the normalizer in SL₂(ℝ); no statement uses a
+  presented group as a definition of `B N`.
+* An element of `B N` is tied to a real matrix by `B.IsClassOf x g`, which asserts that `g`
+  normalizes Γ₀(N) and that `x` is its coset.  So no statement silently assumes membership.
+* Atkin–Lehner elements are handled through the predicate `IsAtkinLehner N Q g` (all choices of
+  x, y, z, w at once), not through one hard-wired choice of Bézout coefficients.
+* `[x, y] = x⁻¹ y⁻¹ x y` (the blueprint's convention, `bracket` below).  Mathlib's `⁅x, y⁆` is
+  `x y x⁻¹ y⁻¹`; it is not used.
+-/
+
+open Matrix MatrixGroups
+
+namespace NormalizerLean
+
+noncomputable section
+
+/-! ## T1: explicit elements of the normalizer -/
+
+/-- h(N) is the largest divisor of 24 whose square divides N. -/
+theorem hPart_isGreatest (N : ℕ) [NeZero N] :
+    IsGreatest {d : ℕ | d ∣ 24 ∧ d ^ 2 ∣ N} (hPart N) := by apply hPart_isGreatest' <;> assumption
+
+/-- **T1** for Atkin–Lehner elements: every w_Q with Q ∣ N normalizes Γ₀(N).
+(`hQ` is essential; see `IsAtkinLehner`.) -/
+theorem isAtkinLehner_mem_normalizer {N Q : ℕ} [NeZero N] (hQ : Q ∣ N) {g : SL(2, ℝ)}
+    (hg : IsAtkinLehner N Q g) : g ∈ Norm0 N := by apply isAtkinLehner_mem_normalizer' <;> assumption
+
+/-- Atkin–Lehner elements exist for every exact divisor Q ∥ N. -/
+theorem exists_isAtkinLehner {N Q : ℕ} [NeZero N] (hQ : Q ∣ N) (hcop : Nat.Coprime Q (N / Q)) :
+    ∃ g, IsAtkinLehner N Q g := by apply exists_isAtkinLehner' <;> assumption
+
+/-- Any two Atkin–Lehner elements for Q differ by an element of Γ₀(N), so w_Q ∈ B(N) is
+well defined. -/
+theorem isAtkinLehner_mul_inv_mem {N Q : ℕ} [NeZero N] (hQ : Q ∣ N) {g g' : SL(2, ℝ)}
+    (hg : IsAtkinLehner N Q g) (hg' : IsAtkinLehner N Q g') : g * g'⁻¹ ∈ Gamma0R N := by apply isAtkinLehner_mul_inv_mem' <;> assumption
+
+/-- **T1** for translations: S_k normalizes Γ₀(N) for every k ∣ h(N); in particular S_h does. -/
+theorem S_mem_normalizer {N k : ℕ} [NeZero N] (hk : k ∣ hPart N) : S k ∈ Norm0 N := by apply S_mem_normalizer' <;> assumption
+
+/-- **T1** in general [Nw §1]: every matrix of the form (8′) normalizes Γ₀(N). -/
+theorem newmanForm_mem_normalizer {N : ℕ} [NeZero N] {g : SL(2, ℝ)} (hg : IsNewmanForm N g) :
+    g ∈ Norm0 N := by apply newmanForm_mem_normalizer' <;> assumption
+
+/-! ## T2: Newman's theorem -/
+
+/-- **T2** (Newman) [Nw §§2–8]: every element of the normalizer has the form (8′). -/
+theorem newman {N : ℕ} [NeZero N] {g : SL(2, ℝ)} (hg : g ∈ Norm0 N) : IsNewmanForm N g := by apply newman' <;> assumption
+
+/-! ## T3: the order of B(N) -/
+
+/-- The index formula μ(t) = [SL₂(ℤ) : Γ₀(t)] = t ∏_{p ∣ t} (1 + 1/p). -/
+theorem Gamma0_index (t : ℕ) [NeZero t] :
+    ((CongruenceSubgroup.Gamma0 t).index : ℚ) = psi t := by apply Gamma0_index' <;> assumption
+
+/-- **T3**: B(N) is finite. -/
+theorem finite_B (N : ℕ) [NeZero N] : Finite (B N) := by apply finite_B' <;> assumption
+
+/-- **T3**: |B(N)| = 2^{ω(n)} μ(N)/μ(n). -/
+theorem card_B (N : ℕ) [NeZero N] :
+    (Nat.card (B N) : ℚ) = 2 ^ (nPart N).primeFactors.card * psi N / psi (nPart N) := by apply card_B' <;> assumption
+
+/-- **T3**, explicit form: for N = 2ᵃ 3ᵇ M with gcd(M, 6) = 1, |B(N)| = f₂(a) f₃(b) 2^{ω(M)}. -/
+theorem card_B_explicit (N : ℕ) [NeZero N] :
+    Nat.card (B N) =
+      f₂ (N.factorization 2) * f₃ (N.factorization 3) * 2 ^ (N.primeFactors \ {2, 3}).card := by apply card_B_explicit' <;> assumption
+
+/-- D⁻¹ Γ₀(n) D ⊆ Norm(Γ₀(N)), so `CN N` is literally D⁻¹ Γ₀(n) D / Γ₀(N).  (The e = 1 case of T1.) -/
+theorem conjGamma0n_le_normalizer (N : ℕ) [NeZero N] : conjGamma0n N ≤ Norm0 N := by apply conjGamma0n_le_normalizer' <;> assumption
+
+/-- |C(N)| = μ(N)/μ(n). -/
+theorem card_CN (N : ℕ) [NeZero N] : (Nat.card (CN N) : ℚ) = psi N / psi (nPart N) := by apply card_CN' <;> assumption
+
+/-- B(N)/C(N) ≅ (ℤ/2)^{ω(n)} [Nw §9], stated as: a surjection onto (ℤ/2)^{primes of n}
+with kernel C(N). -/
+theorem B_mod_CN (N : ℕ) [NeZero N] :
+    ∃ σ : B N →* ((nPart N).primeFactors → Multiplicative (ZMod 2)),
+      Function.Surjective σ ∧ σ.ker = CN N := by apply B_mod_CN' <;> assumption
+
+/-! ## T4: generation -/
+
+/-- **T4** [BA]: B(N) is generated by the classes of w_{m_p} and S_{h(m_p)}, p ∣ N. -/
+theorem closure_localGens (N : ℕ) [NeZero N] :
+    Subgroup.closure (⋃ p ∈ N.primeFactors, localGens N p) = ⊤ := by apply closure_localGens' <;> assumption
+
+/-! ## T5: local presentations -/
+
+/-- **T5** [BA, table and (4)–(7)]: for a prime power pᵃ, the local presentation is a presentation
+of B(pᵃ), with w ↦ w_{pᵃ} and s ↦ S_{h(pᵃ)}. -/
+theorem localPresentation (p a : ℕ) (hp : p.Prime) (ha : 0 < a) :
+    ∃ φ : PresentedGroup (localRels p a) ≃* B (p ^ a),
+      (φ (.of .w)).IsALClass (p ^ a) ∧ (φ (.of .s)).IsClassOf (S (hPart (p ^ a))) := by apply localPresentation' <;> assumption
+
+/-! ## T6: the prime-power embedding and the global presentation -/
+
+/-- **T6** [BA, (12)]: for p ∣ N, B_p = ⟨w_{m_p}, S_{h(m_p)}⟩ ≤ B(N) maps isomorphically onto
+B(m_p) by "forgetting the extra level": the class of g mod Γ₀(N) goes to the class of g mod Γ₀(m_p). -/
+theorem localEmbedding (N p : ℕ) [NeZero N] (hp : p ∈ N.primeFactors) :
+    ∃ φ : Bloc N p ≃* B (mPart N p),
+      ∀ (x : Bloc N p) (g : SL(2, ℝ)), (x : B N).IsClassOf g → (φ x).IsClassOf g := by apply localEmbedding' <;> assumption
+
+/-- **T6** [BA, (1)]: the global presentation is a presentation of B(N), with w_p ↦ w_{m_p} and
+s_p ↦ S_{h(m_p)}. -/
+theorem globalPresentation (N : ℕ) [NeZero N] :
+    ∃ φ : PresentedGroup (globalRels N) ≃* B N, ∀ p : N.primeFactors,
+      (φ (.of (p, .w))).IsALClass (mPart N p) ∧
+        (φ (.of (p, .s))).IsClassOf (S (hPart (mPart N p))) := by apply globalPresentation' <;> assumption
+
+/-! ## T7: the direct-product criterion -/
+
+/-- **T7** [BA, (3)]: the local subgroups B_p form an internal direct product (the product of the
+inclusions is an isomorphism ∏_p B_p ≅ B(N)) iff m_p ≡ 1 (mod h(m_q)) for all p ≠ q. -/
+theorem internalDirectProduct_iff (N : ℕ) [NeZero N] :
+    (∃ φ : ((p : N.primeFactors) → Bloc N p) ≃* B N,
+        ∀ (p : N.primeFactors) (x : Bloc N p), φ (Pi.mulSingle p x) = x) ↔
+      ∀ p ∈ N.primeFactors, ∀ q ∈ N.primeFactors, p ≠ q →
+        mPart N p ≡ 1 [MOD hPart (mPart N q)] := by apply internalDirectProduct_iff' <;> assumption
+
+/-- **T7**, example: B(18) ≅ S₄. -/
+theorem B18_equiv_perm : Nonempty (B 18 ≃* Equiv.Perm (Fin 4)) := by apply B18_equiv_perm' <;> assumption
+
+/-- **T7**, example: B(18) is not C₂ × A₄. -/
+theorem B18_not_C2_prod_A4 :
+    IsEmpty (B 18 ≃* Multiplicative (ZMod 2) × alternatingGroup (Fin 4)) := by apply B18_not_C2_prod_A4' <;> assumption
+
+/-! ## T8: the errors in the literature -/
+
+/-- **T8(a)**, matrix identity [BAu §4]: with w = w₂₅₆ and s = S₈,
+(w s² w s)(s² w s w)⁻¹ = [[5, −9/8], [−288, 65]]. -/
+theorem AS_quotient_matrix :
+    ((w256 * S 8 ^ 2 * w256 * S 8 * (S 8 ^ 2 * w256 * S 8 * w256)⁻¹ : SL(2, ℝ)) :
+      Matrix (Fin 2) (Fin 2) ℝ) = !![5, -9 / 8; -288, 65] := by apply AS_quotient_matrix' <;> assumption
+
+/-- **T8(a)**: the Akbaş–Singerman relation w s² w s = s² w s w fails in B(256). -/
+theorem AS_relation_fails :
+    ∃ x y : B 256, x.IsClassOf w256 ∧ y.IsClassOf (S 8) ∧
+      x * y ^ 2 * x * y ≠ y ^ 2 * x * y * x := by apply AS_relation_fails' <;> assumption
+
+/-- **T8(a)**, matrix identity [BAu §4]: w s w s w s³ w s³ = −[[11, 4], [−256, −93]]. -/
+theorem bars_word_matrix :
+    ((w256 * S 8 * w256 * S 8 * w256 * S 8 ^ 3 * w256 * S 8 ^ 3 : SL(2, ℝ)) :
+      Matrix (Fin 2) (Fin 2) ℝ) = -!![11, 4; -256, -93] := by apply bars_word_matrix' <;> assumption
+
+/-- **T8(a)**: Bars's relation w s w s w s³ w s³ = 1 holds in B(256). -/
+theorem bars_relation_holds :
+    ∃ x y : B 256, x.IsClassOf w256 ∧ y.IsClassOf (S 8) ∧
+      x * y * x * y * x * y ^ 3 * x * y ^ 3 = 1 := by apply bars_relation_holds' <;> assumption
+
+/-- **T8(b)**: Bars's presentation at λ = 5, Δ(2, 4, 4), is infinite. -/
+theorem bars_lambda5_infinite : Infinite (PresentedGroup (barsRels 4 4)) := by apply bars_lambda5_infinite' <;> assumption
+
+/-- **T8(b)**: Bars's presentation at λ = 6, Δ(2, 8, 3), is infinite. -/
+theorem bars_lambda6_infinite : Infinite (PresentedGroup (barsRels 8 3)) := by apply bars_lambda6_infinite' <;> assumption
+
+/-- **T8(b)**: Bars's presentation at λ = 7, Δ(2, 8, 4), is infinite. -/
+theorem bars_lambda7_infinite : Infinite (PresentedGroup (barsRels 8 4)) := by apply bars_lambda7_infinite' <;> assumption
+
+open Words in
+/-- **T8(c)**: adding (w s⁻¹ w s)² = 1 at λ = 5 gives order 32. -/
+theorem completed_lambda5_card :
+    Nat.card (PresentedGroup (barsRels 4 4 ∪ {(w * s⁻¹ * w * s) ^ 2})) = 32 := by apply completed_lambda5_card' <;> assumption
+
+open Words in
+/-- **T8(c)**, stronger: the completed λ = 5 presentation presents B(32), w ↦ w₃₂, s ↦ S₄. -/
+theorem completed_lambda5 :
+    ∃ φ : PresentedGroup (barsRels 4 4 ∪ {(w * s⁻¹ * w * s) ^ 2}) ≃* B 32,
+      (φ (.of .w)).IsALClass 32 ∧ (φ (.of .s)).IsClassOf (S 4) := by apply completed_lambda5' <;> assumption
+
+open Words in
+/-- **T8(c)**: adding (w s⁻¹ w s)³ = 1 at λ = 6 gives order 96. -/
+theorem completed_lambda6_card :
+    Nat.card (PresentedGroup (barsRels 8 3 ∪ {(w * s⁻¹ * w * s) ^ 3})) = 96 := by apply completed_lambda6_card' <;> assumption
+
+open Words in
+/-- **T8(c)**, stronger: the completed λ = 6 presentation presents B(64), w ↦ w₆₄, s ↦ S₈. -/
+theorem completed_lambda6 :
+    ∃ φ : PresentedGroup (barsRels 8 3 ∪ {(w * s⁻¹ * w * s) ^ 3}) ≃* B 64,
+      (φ (.of .w)).IsALClass 64 ∧ (φ (.of .s)).IsClassOf (S 8) := by apply completed_lambda6' <;> assumption
+
+open Words in
+/-- **T8(d)**: Bars's λ = 8 presentation ⟨w, s | w², s⁸, w s w s w s³ w s³⟩ has order 128. -/
+theorem bars_lambda8_card :
+    Nat.card (PresentedGroup ({w ^ 2, s ^ 8, w * s * w * s * w * s ^ 3 * w * s ^ 3} :
+      Set (FreeGroup LGen))) = 128 := by apply bars_lambda8_card' <;> assumption
+
+open Words in
+/-- **T8(d)**, stronger: Bars's λ = 8 presentation presents B(256), w ↦ w₂₅₆, s ↦ S₈. -/
+theorem bars_lambda8 :
+    ∃ φ : PresentedGroup ({w ^ 2, s ^ 8, w * s * w * s * w * s ^ 3 * w * s ^ 3} :
+        Set (FreeGroup LGen)) ≃* B 256,
+      (φ (.of .w)).IsALClass 256 ∧ (φ (.of .s)).IsClassOf (S 8) := by apply bars_lambda8' <;> assumption
+
+/-! ## Stage-1 milestones (relations hold; consequences of T5/T6, proved first) -/
+
+/-- The local relators hold in B(pᵃ): they evaluate into Γ₀(pᵃ) under w ↦ any Atkin–Lehner
+element w_{pᵃ} and s ↦ S_{h(pᵃ)}.  This covers the relations of the table of [BA] and (4)–(7),
+including the [r, s] = 1 cases of (14) (not the formula (14) itself). -/
+theorem localRels_mem_Gamma0 (p a : ℕ) (hp : p.Prime) (ha : 0 < a) {wg : SL(2, ℝ)}
+    (hw : IsAtkinLehner (p ^ a) (p ^ a) wg) :
+    ∀ ρ ∈ localRels p a,
+      FreeGroup.lift (fun x : LGen => match x with | .w => wg | .s => S (hPart (p ^ a))) ρ ∈
+        Gamma0R (p ^ a) := by apply localRels_mem_Gamma0' <;> assumption
+
+/-- The global relators hold in B(N), for any choice of Atkin–Lehner elements w_{m_p}.
+This covers (1) and (15) of [BA]. -/
+theorem globalRels_mem_Gamma0 (N : ℕ) [NeZero N] (wg : N.primeFactors → SL(2, ℝ))
+    (hw : ∀ p : N.primeFactors, IsAtkinLehner N (mPart N p) (wg p)) :
+    ∀ ρ ∈ globalRels N,
+      FreeGroup.lift (fun x : GGen N => match x.2 with
+        | .w => wg x.1
+        | .s => S (hPart (mPart N x.1))) ρ ∈ Gamma0R N := by apply globalRels_mem_Gamma0' <;> assumption
+
+end
+
+end NormalizerLean

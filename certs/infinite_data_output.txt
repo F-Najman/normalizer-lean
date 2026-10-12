@@ -1,0 +1,10 @@
+DATA h=4 k=4 index=4 invariants=[ 0, 0 ]
+PERM_W [ 2, 1, 4, 3 ]
+PERM_S [ 3, 4, 2, 1 ]
+DATA h=8 k=3 index=12 invariants=[ 0, 0 ]
+PERM_W [ 2, 1, 7, 9, 10, 11, 3, 12, 4, 5, 6, 8 ]
+PERM_S [ 3, 5, 8, 1, 7, 2, 11, 4, 6, 9, 12, 10 ]
+DATA h=8 k=4 index=4 invariants=[ 0, 0 ]
+PERM_W [ 2, 1, 4, 3 ]
+PERM_S [ 3, 4, 2, 1 ]
+DONE
