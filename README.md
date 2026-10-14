@@ -8,9 +8,10 @@ Cartan modular curves, and general modular curves X_H.
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* [`Challenge.lean`](Challenge.lean) states all 136 theorems in one file, with `sorry` as proofs, over Mathlib and the
-  definitions files. [Comparator](https://github.com/leanprover/comparator) checks that the repository proves
-  exactly these statements (see [Checking with Comparator](#checking-with-comparator)).
+* [`Challenge.lean`](Challenge.lean) states all 136 theorems in one file, with `sorry` as proofs, together with every
+  definition they use, over Mathlib alone. [Comparator](https://github.com/leanprover/comparator) checks that the
+  repository proves exactly these statements about exactly these definitions (see
+  [Checking with Comparator](#checking-with-comparator)).
 * About 17,000 lines of Lean, on Lean v4.34.1 and Mathlib v4.34.1.
 
 Author: Filip Najman.
@@ -88,7 +89,9 @@ not formalized here.
 
 ## How to read the statements
 
-Each part consists of a definitions file `Defs*.lean`, a statements file `Statements*.lean`, and proof files.
+Each part consists of definitions, a statements file `Statements*.lean`, and proof files. The definitions of all six
+parts are in one file, [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean), part by part; the files
+`NormalizerDelta/Defs*.lean` only import it.
 
 * Every theorem in a statements file is proved by one line, `:= by apply X' <;> assumption`, where `X'` is proved
   in the proof files. Lean checks that `X'` gives exactly the stated type.
@@ -101,7 +104,7 @@ The tables below paraphrase each statement; each Lean name links to the statemen
 <a id="part-1"></a>
 ## Part 1. B(N) = Nor(Γ₀(N))/Γ₀(N)
 
-Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean), [`NormalizerLean/Statements.lean`](NormalizerLean/Statements.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 1), [`NormalizerLean/Statements.lean`](NormalizerLean/Statements.lean).
 
 Notation:
 
@@ -157,7 +160,7 @@ certificates were generated with Magma and Python. Lean checks them; it does not
 <a id="part-2"></a>
 ## Part 2. Γ_Δ(N), Γ(N) and ±Γ₁(N)
 
-Files: [`NormalizerDelta/Defs.lean`](NormalizerDelta/Defs.lean), [`NormalizerDelta/Statements.lean`](NormalizerDelta/Statements.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 2), [`NormalizerDelta/Statements.lean`](NormalizerDelta/Statements.lean).
 
 Notation:
 
@@ -205,7 +208,7 @@ Notation:
 <a id="part-3"></a>
 ## Part 3. More on Γ_Δ(N), and B₀(N)
 
-Files: [`NormalizerDelta/DefsExtra.lean`](NormalizerDelta/DefsExtra.lean), [`NormalizerDelta/StatementsExtra.lean`](NormalizerDelta/StatementsExtra.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 3), [`NormalizerDelta/StatementsExtra.lean`](NormalizerDelta/StatementsExtra.lean).
 
 | | Lean | statement |
 |---|---|---|
@@ -227,7 +230,7 @@ Files: [`NormalizerDelta/DefsExtra.lean`](NormalizerDelta/DefsExtra.lean), [`Nor
 <a id="part-4"></a>
 ## Part 4. The order for X(N)
 
-Files: [`NormalizerDelta/DefsXN.lean`](NormalizerDelta/DefsXN.lean), [`NormalizerDelta/StatementsXN.lean`](NormalizerDelta/StatementsXN.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 4), [`NormalizerDelta/StatementsXN.lean`](NormalizerDelta/StatementsXN.lean).
 
 | | Lean | statement |
 |---|---|---|
@@ -249,7 +252,7 @@ Files: [`NormalizerDelta/DefsXN.lean`](NormalizerDelta/DefsXN.lean), [`Normalize
 <a id="part-5"></a>
 ## Part 5. Cartan modular curves
 
-Files: [`NormalizerDelta/DefsCartan.lean`](NormalizerDelta/DefsCartan.lean), [`NormalizerDelta/StatementsCartan.lean`](NormalizerDelta/StatementsCartan.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 5), [`NormalizerDelta/StatementsCartan.lean`](NormalizerDelta/StatementsCartan.lean).
 
 The groups are defined by congruences in SL₂(ℤ):
 
@@ -279,7 +282,7 @@ The groups are defined by congruences in SL₂(ℤ):
 <a id="part-6"></a>
 ## Part 6. General modular curves X_H
 
-Files: [`NormalizerDelta/DefsGeneral.lean`](NormalizerDelta/DefsGeneral.lean), [`NormalizerDelta/StatementsGeneral.lean`](NormalizerDelta/StatementsGeneral.lean).
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 6), [`NormalizerDelta/StatementsGeneral.lean`](NormalizerDelta/StatementsGeneral.lean).
 Proposition numbers refer to [DLM26].
 
 Notation and the −1 convention:
@@ -342,9 +345,9 @@ lake env lean scripts/check_axioms_general.lean  # Part 6
 A theorem that used `sorry` anywhere would show the axiom `sorryAx` here.
 
 **Frozen statements.** [`frozen/`](frozen) holds each definitions and statements file as it was frozen, named by
-the commit of the development repository. The scripts check that the current file is the frozen one with each
-`sorry` replaced by `by apply X' <;> assumption`. For Part 1, they also check that the definitions were moved
-verbatim to `Defs.lean`.
+the commit of the development repository. The scripts check that each statements file is the frozen one with each
+`sorry` replaced by `by apply X' <;> assumption`, and that the frozen definitions of each part occur verbatim in
+`NormalizerLean/Defs.lean` (for Part 1, the definitions region of the frozen `Statements.lean`).
 
 ```sh
 for s in restructure delta_frozen extra_frozen xn_frozen cartan_frozen general_frozen; do
@@ -363,12 +366,12 @@ Each script prints `OK`.
 
 <a id="checking-with-comparator"></a>
 **Checking with Comparator.** [`Challenge.lean`](Challenge.lean) contains all 136 statements, copied from the statements
-files with every proof replaced by `sorry`. It imports only Mathlib and the six definitions files
-([`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) and `NormalizerDelta/Defs*.lean`), so these seven files are
-the complete specification. [`Solution.lean`](Solution.lean) imports the statements files, where the theorems are
-proved. With the configuration [`Comparator/comparator.json`](Comparator/comparator.json),
+files with every proof replaced by `sorry`, and before them all the definitions, copied verbatim from
+[`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean). It imports only Mathlib, so this one file is the complete
+specification. [`Solution.lean`](Solution.lean) imports the statements files, where the theorems are proved. With the
+configuration [`Comparator/comparator.json`](Comparator/comparator.json),
 [Comparator](https://github.com/leanprover/comparator) checks that each of the 136 theorems in `Solution` has the same
-statement as in `Challenge` (with the same definitions), uses no axioms other than `propext`, `Classical.choice` and
+statement as in `Challenge`, about the same definitions, uses no axioms other than `propext`, `Classical.choice` and
 `Quot.sound`, and is accepted by the Lean kernel. Comparator builds both modules itself, in a
 [landrun](https://github.com/Zouuup/landrun) sandbox, so run it in a fresh clone in which only the Mathlib cache has
 been downloaded:
@@ -383,13 +386,15 @@ This needs `comparator`, `landrun` and `lean4export` on `PATH`. Lean v4.34.1 pre
 so use the standalone Comparator at commit `d03acab` and lean4export `v4.34.0`, both built with Lean v4.34.1. The
 repository passes this check: Comparator prints `Your solution is okay!`.
 
-* Comparator compares the statements, not the definitions: the definitions files are imported by both sides, so
-  they have to be read. They contain no theorems apart from small lemmas used inside the definitions.
-* The definitions are imported rather than copied into `Challenge.lean`. Lean shares the auxiliary `_proof_n`
-  lemmas of a file between its declarations, so a single file with all the definitions would produce constants
-  that differ from the library's.
+* Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
+  constant in `Challenge` and in the library, including the auxiliary lemmas inside it. The definitions contain no
+  theorems apart from small lemmas used inside the definitions.
+* Lean shares the auxiliary `_proof_n` lemmas of a file between its declarations, so the copy in `Challenge.lean`
+  produces the library's constants only if the library also has every definition in one file, in the same order.
+  That is why all the definitions are in `NormalizerLean/Defs.lean`.
 * [`scripts/make_challenge.py`](scripts/make_challenge.py) generates `Challenge.lean`, `Solution.lean` and the
-  configuration from the statements files; `python3 scripts/make_challenge.py --check` checks that they are up to date.
+  configuration from `NormalizerLean/Defs.lean` and the statements files; `python3 scripts/make_challenge.py --check`
+  checks that they are up to date.
 
 **Numerical checks.** Before freezing, the statements were tested by brute force over ranges of N. The scripts
 need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are saved next to them.
@@ -409,13 +414,13 @@ need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are save
 ## Repository layout
 
 ```
-NormalizerLean/          Part 1: Defs.lean, Statements.lean and the proofs
-NormalizerDelta/         Parts 2–6: Defs*.lean, Statements*.lean and the proofs
+NormalizerLean/          Part 1: Statements.lean and the proofs; Defs.lean, the definitions of all six parts
+NormalizerDelta/         Parts 2–6: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
 NormalizerLean.lean      root of Part 1
 NormalizerDelta.lean     root of Parts 2–6
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen
-Challenge.lean           all 136 statements with `sorry`, for Comparator
+Challenge.lean           all the definitions and the 136 statements with `sorry`, for Comparator
 Solution.lean            imports the statements files, for Comparator
 Comparator/              the Comparator configuration comparator.json
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs

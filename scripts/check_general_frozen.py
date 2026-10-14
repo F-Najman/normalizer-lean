@@ -1,6 +1,7 @@
 """Check that the definitions and statements of the general modular curves are unchanged since their Stage-0 commit.
 
-* NormalizerDelta/DefsGeneral.lean must equal its version at FROZEN verbatim.
+* NormalizerDelta/DefsGeneral.lean at FROZEN, without its import line, must occur verbatim in
+  NormalizerLean/Defs.lean, which holds the definitions of all six parts.
 * NormalizerDelta/StatementsGeneral.lean, with each proof `:= by apply X' <;> assumption` put back to
   `:= by\\n  sorry` and the line `import NormalizerDelta.ProofsGeneral` removed, must equal its version at FROZEN.
 (The earlier statements are checked by scripts/check_delta_frozen.py, check_extra_frozen.py,
@@ -12,15 +13,24 @@ import subprocess
 import sys
 
 FROZEN = '28308a2'
+DEFS = 'NormalizerLean/Defs.lean'
 
 
 def frozen(path):
     return open(f'frozen/{FROZEN}/{path}').read()
 
 
+def body(text):
+    """`text` without its import lines."""
+    lines = text.split('\n')
+    while lines and (lines[0].startswith('import ') or not lines[0].strip()):
+        lines.pop(0)
+    return '\n'.join(lines)
+
+
 ok = True
-if open('NormalizerDelta/DefsGeneral.lean').read() != frozen('NormalizerDelta/DefsGeneral.lean'):
-    print('DefsGeneral.lean DIFFERS from', FROZEN)
+if body(frozen('NormalizerDelta/DefsGeneral.lean')) not in open(DEFS).read():
+    print('DefsGeneral.lean DIFFERS from', FROZEN, '(not verbatim in ' + DEFS + ')')
     ok = False
 cur = open('NormalizerDelta/StatementsGeneral.lean').read()
 n_proved = len(re.findall(r":= by apply \w+' <;> assumption", cur))
