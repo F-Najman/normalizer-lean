@@ -16,3 +16,11 @@ name = "NormalizerLean"
 
 [[lean_lib]]
 name = "NormalizerDelta"
+
+# The Comparator pair (see Comparator/comparator.json). Not in defaultTargets: `Challenge` is all `sorry`,
+# and Comparator builds both modules itself.
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

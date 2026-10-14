@@ -8,6 +8,9 @@ Cartan modular curves, and general modular curves X_H.
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
+* [`Challenge.lean`](Challenge.lean) states all 136 theorems in one file, with `sorry` as proofs, over Mathlib and the
+  definitions files. [Comparator](https://github.com/leanprover/comparator) checks that the repository proves
+  exactly these statements (see [Checking with Comparator](#checking-with-comparator)).
 * About 17,000 lines of Lean, on Lean v4.34.1 and Mathlib v4.34.1.
 
 Author: Filip Najman.
@@ -358,6 +361,36 @@ Each script prints `OK`.
 * After freezing, one definition was renamed in Part 6 (`fricke` to `frickeP`, a name clash with Part 1). The
   frozen Part 6 files are the ones after the rename.
 
+<a id="checking-with-comparator"></a>
+**Checking with Comparator.** [`Challenge.lean`](Challenge.lean) contains all 136 statements, copied from the statements
+files with every proof replaced by `sorry`. It imports only Mathlib and the six definitions files
+([`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) and `NormalizerDelta/Defs*.lean`), so these seven files are
+the complete specification. [`Solution.lean`](Solution.lean) imports the statements files, where the theorems are
+proved. With the configuration [`Comparator/comparator.json`](Comparator/comparator.json),
+[Comparator](https://github.com/leanprover/comparator) checks that each of the 136 theorems in `Solution` has the same
+statement as in `Challenge` (with the same definitions), uses no axioms other than `propext`, `Classical.choice` and
+`Quot.sound`, and is accepted by the Lean kernel. Comparator builds both modules itself, in a
+[landrun](https://github.com/Zouuup/landrun) sandbox, so run it in a fresh clone in which only the Mathlib cache has
+been downloaded:
+
+```sh
+lake exe cache get
+systemd-run --user --pty --property=RestrictAddressFamilies=~AF_UNIX -E PATH="$PATH" --working-directory "$(pwd)" \
+  -- bash -c 'lake env comparator Comparator/comparator.json'
+```
+
+This needs `comparator`, `landrun` and `lean4export` on `PATH`. Lean v4.34.1 predates `lake comparator` (Lean v4.35.0),
+so use the standalone Comparator at commit `d03acab` and lean4export `v4.34.0`, both built with Lean v4.34.1. The
+repository passes this check: Comparator prints `Your solution is okay!`.
+
+* Comparator compares the statements, not the definitions: the definitions files are imported by both sides, so
+  they have to be read. They contain no theorems apart from small lemmas used inside the definitions.
+* The definitions are imported rather than copied into `Challenge.lean`. Lean shares the auxiliary `_proof_n`
+  lemmas of a file between its declarations, so a single file with all the definitions would produce constants
+  that differ from the library's.
+* [`scripts/make_challenge.py`](scripts/make_challenge.py) generates `Challenge.lean`, `Solution.lean` and the
+  configuration from the statements files; `python3 scripts/make_challenge.py --check` checks that they are up to date.
+
 **Numerical checks.** Before freezing, the statements were tested by brute force over ranges of N. The scripts
 need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are saved next to them.
 
@@ -382,6 +415,9 @@ NormalizerLean.lean      root of Part 1
 NormalizerDelta.lean     root of Parts 2–6
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen
+Challenge.lean           all 136 statements with `sorry`, for Comparator
+Solution.lean            imports the statements files, for Comparator
+Comparator/              the Comparator configuration comparator.json
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 ```
 
