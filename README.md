@@ -16,6 +16,10 @@ Cartan modular curves, and general modular curves X_H.
 
 Author: Filip Najman.
 
+I thank David Kurniadi Angdinata for his help with Comparator, in particular for making `Challenge.lean`
+self-contained ([#1](https://github.com/F-Najman/normalizer-lean/pull/1)), so that Comparator also checks the
+definitions.
+
 ## Contents
 
 * [Overview](#overview)
