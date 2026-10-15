@@ -1,6 +1,7 @@
 """Check that the definitions and statements of the X(N) additions are unchanged since their Stage-0 commit.
 
-* NormalizerDelta/DefsXN.lean must equal its version at FROZEN verbatim.
+* NormalizerDelta/DefsXN.lean at FROZEN, without its import line, must occur verbatim in
+  NormalizerLean/Defs.lean, which holds the definitions of all six parts.
 * NormalizerDelta/StatementsXN.lean, with each proof `:= by apply X' <;> assumption` put back to
   `:= by\\n  sorry` and the line `import NormalizerDelta.ProofsXN` removed, must equal its version at FROZEN.
 (The 34 statements of Statements.lean and the 14 of StatementsExtra.lean are checked by
@@ -12,15 +13,24 @@ import subprocess
 import sys
 
 FROZEN = '1382369'
+DEFS = 'NormalizerLean/Defs.lean'
 
 
 def frozen(path):
     return open(f'frozen/{FROZEN}/{path}').read()
 
 
+def body(text):
+    """`text` without its import lines."""
+    lines = text.split('\n')
+    while lines and (lines[0].startswith('import ') or not lines[0].strip()):
+        lines.pop(0)
+    return '\n'.join(lines)
+
+
 ok = True
-if open('NormalizerDelta/DefsXN.lean').read() != frozen('NormalizerDelta/DefsXN.lean'):
-    print('DefsXN.lean DIFFERS from', FROZEN)
+if body(frozen('NormalizerDelta/DefsXN.lean')) not in open(DEFS).read():
+    print('DefsXN.lean DIFFERS from', FROZEN, '(not verbatim in ' + DEFS + ')')
     ok = False
 cur = open('NormalizerDelta/StatementsXN.lean').read()
 n_proved = len(re.findall(r":= by apply \w+' <;> assumption", cur))
