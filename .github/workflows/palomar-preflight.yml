@@ -1,7 +1,7 @@
 # Palomar's mechanical preflight (https://github.com/PalomarRegistry/PalomarSubmission), run before submitting.
 # It checks the submitted commit of main, not this branch, once per entry, with the reusable workflow pinned to a
 # full commit (`uses` and `pipeline_commit` must be the same). It runs on GitHub-hosted runners
-# (profile palomar-standard-v1). The report is the artifact `mechanical-report-<request_id>` of each job.
+# (profile palomar-standard-v1). The report is the artifact `mechanical-report-<id>` of each job.
 name: Palomar preflight
 
 on:
@@ -17,13 +17,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        entry: [part1, part2, part3_4, part5, part6]
+        # request_id must be twelve lowercase letters or digits
+        include:
+          - {entry: part1, id: nlpart1prefl}
+          - {entry: part2, id: nlpart2prefl}
+          - {entry: part3_4, id: nlpart34pref}
+          - {entry: part5, id: nlpart5prefl}
+          - {entry: part6, id: nlpart6prefl}
     uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
     with:
       repository: F-Najman/normalizer-lean
       commit: 2ac2c3b0200581b5ec4b22acb48b37bea2bb1a9f
       pipeline_commit: d4e41c1d5b0d114c4859e6e5831dc6d3ad1d0d44
-      request_id: normalizer-${{ matrix.entry }}
+      request_id: ${{ matrix.id }}
       mode: full
       execution_profile: palomar-standard-v1
       options: >-
