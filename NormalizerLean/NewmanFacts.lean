@@ -1,4 +1,8 @@
-import NormalizerLean.NewmanVal
+module
+
+public import NormalizerLean.NewmanVal
+
+@[expose] public section
 
 /-!
 # Newman's theorem, step 2 continued: the integer divisibilities

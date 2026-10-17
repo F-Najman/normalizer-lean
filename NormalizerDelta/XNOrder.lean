@@ -1,5 +1,9 @@
-import NormalizerDelta.SigmaHCount
-import NormalizerDelta.DefsXN
+module
+
+public import NormalizerDelta.SigmaHCount
+public import NormalizerDelta.DefsXN
+
+@[expose] public section
 
 /-!
 # X(N): the order of the modular automorphism group

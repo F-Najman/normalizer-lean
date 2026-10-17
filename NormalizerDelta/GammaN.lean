@@ -1,4 +1,8 @@
-import NormalizerDelta.GammaConj
+module
+
+public import NormalizerDelta.GammaConj
+
+@[expose] public section
 
 /-!
 # §G: Nor(±Γ(N)) = Nor(Γ(N)) = SL₂(ℤ); the S₇ example at level 49

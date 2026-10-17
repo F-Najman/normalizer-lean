@@ -1,5 +1,9 @@
-import NormalizerLean.NewmanMain
-import NormalizerDelta.Defs
+module
+
+public import NormalizerLean.NewmanMain
+public import NormalizerDelta.Defs
+
+@[expose] public section
 
 /-!
 # The generalized Newman bound, generic part: Newman's argument for a subgroup Γ ≤ Γ₀(N)

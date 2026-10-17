@@ -1,4 +1,8 @@
-import NormalizerLean.Global
+module
+
+public import NormalizerLean.Global
+
+@[expose] public section
 
 /-!
 # T7: the direct-product criterion

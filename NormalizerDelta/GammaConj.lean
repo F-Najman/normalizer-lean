@@ -1,4 +1,8 @@
-import NormalizerDelta.SIota
+module
+
+public import NormalizerDelta.SIota
+
+@[expose] public section
 
 /-!
 # §G: conjugation by diag(M, 1): X_Δ(N) ≅ X₁(M, N/M) and X_Δ(M²) ≅ X(M)

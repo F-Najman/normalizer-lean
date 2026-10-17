@@ -1,4 +1,8 @@
-import NormalizerLean.Basic
+module
+
+public import NormalizerLean.Basic
+
+@[expose] public section
 
 /-!
 # The index formula [SL₂(ℤ) : Γ₀(t)] = ψ(t)

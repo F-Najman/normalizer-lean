@@ -1,6 +1,10 @@
-import NormalizerLean.NewmanMain
-import NormalizerLean.NewmanAlg
-import NormalizerLean.CardC
+module
+
+public import NormalizerLean.NewmanMain
+public import NormalizerLean.NewmanAlg
+public import NormalizerLean.CardC
+
+@[expose] public section
 
 /-!
 # T3: B(N)/C(N) ≅ (ℤ/2)^{ω(n)}, |B(N)| and finiteness

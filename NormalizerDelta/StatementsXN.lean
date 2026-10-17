@@ -1,5 +1,9 @@
-import NormalizerDelta.DefsXN
-import NormalizerDelta.ProofsXN
+module
+
+public import NormalizerDelta.DefsXN
+public import NormalizerDelta.ProofsXN
+
+@[expose] public section
 
 /-!
 # X(N) additions (2026-10-10): statements (Stage 0, all `sorry`)

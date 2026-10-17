@@ -1,6 +1,10 @@
-import NormalizerLean.LocalCerts
-import NormalizerLean.LocalRels
-import NormalizerLean.Gen
+module
+
+public import NormalizerLean.LocalCerts
+public import NormalizerLean.LocalRels
+public import NormalizerLean.Gen
+
+@[expose] public section
 
 /-!
 # T5: the local presentations

@@ -1,5 +1,9 @@
-import NormalizerDelta.DefsExtra
-import NormalizerDelta.ProofsExtra
+module
+
+public import NormalizerDelta.DefsExtra
+public import NormalizerDelta.ProofsExtra
+
+@[expose] public section
 
 /-!
 # Additions (2026-10-09): statements (Stage 0, all `sorry`)

@@ -1,2 +1,4 @@
-import NormalizerDelta.B0
-import NormalizerDelta.HDeltaCases
+module
+
+public import NormalizerDelta.B0
+public import NormalizerDelta.HDeltaCases

@@ -1,5 +1,9 @@
-import NormalizerLean.Local
-import NormalizerLean.T8cd
+module
+
+public import NormalizerLean.Local
+public import NormalizerLean.T8cd
+
+@[expose] public section
 
 /-!
 # T8(c, d), isomorphisms: the completed λ = 5, 6 presentations present B(32), B(64), and Bars's

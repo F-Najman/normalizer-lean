@@ -1,5 +1,9 @@
-import NormalizerDelta.DefsCartan
-import NormalizerDelta.ProofsCartan
+module
+
+public import NormalizerDelta.DefsCartan
+public import NormalizerDelta.ProofsCartan
+
+@[expose] public section
 
 /-!
 # Cartan modular curves (2026-10-10): statements (Stage 0, all `sorry`)

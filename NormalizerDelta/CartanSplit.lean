@@ -1,4 +1,8 @@
-import NormalizerDelta.CartanLevel
+module
+
+public import NormalizerDelta.CartanLevel
+
+@[expose] public section
 
 /-!
 # §S: split Cartan curves

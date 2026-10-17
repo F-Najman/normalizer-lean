@@ -1,4 +1,8 @@
-import NormalizerLean.LocalRels
+module
+
+public import NormalizerLean.LocalRels
+
+@[expose] public section
 
 /-!
 # The global relations hold: `globalRels_mem_Gamma0`

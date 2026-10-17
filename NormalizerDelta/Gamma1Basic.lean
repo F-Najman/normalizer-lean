@@ -1,4 +1,8 @@
-import NormalizerDelta.GammaIso
+module
+
+public import NormalizerDelta.GammaIso
+
+@[expose] public section
 
 /-!
 # §K, easy part: Γ₀(N) and the w_Q normalize ±Γ₁(N); the case Q = 1; the exception N = 4

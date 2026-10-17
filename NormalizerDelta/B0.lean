@@ -1,4 +1,8 @@
-import NormalizerDelta.SigmaHCount
+module
+
+public import NormalizerDelta.SigmaHCount
+
+@[expose] public section
 
 /-!
 # §B: B₀(N) of the sporadic-points paper

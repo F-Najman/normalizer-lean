@@ -1,1 +1,3 @@
-import NormalizerLean.Statements
+module
+
+public import NormalizerLean.Statements

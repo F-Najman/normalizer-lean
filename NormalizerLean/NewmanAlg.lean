@@ -1,4 +1,8 @@
-import NormalizerLean.T1General
+module
+
+public import NormalizerLean.T1General
+
+@[expose] public section
 
 /-!
 # The algebra of Newman's form (8′)

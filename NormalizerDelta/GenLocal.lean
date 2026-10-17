@@ -1,4 +1,8 @@
-import NormalizerDelta.GenBasic
+module
+
+public import NormalizerDelta.GenBasic
+
+@[expose] public section
 
 /-!
 # General modular curves: §B, local restrictions on the determinant (DLM26, Prop. 4.5)

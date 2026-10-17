@@ -1,4 +1,8 @@
-import NormalizerLean.CosetCert
+module
+
+public import NormalizerLean.CosetCert
+
+@[expose] public section
 
 /-!
 # T8(c, d): orders of the completed presentations (32, 96) and of Bars's λ = 8 presentation (128)

@@ -1,4 +1,8 @@
-import NormalizerLean.NewmanRat
+module
+
+public import NormalizerLean.NewmanRat
+
+@[expose] public section
 
 /-!
 # Newman's theorem, step 2: the integrality conditions ([Nw §3])

@@ -1,5 +1,9 @@
-import NormalizerDelta.Defs
-import NormalizerDelta.Proofs
+module
+
+public import NormalizerDelta.Defs
+public import NormalizerDelta.Proofs
+
+@[expose] public section
 
 /-!
 # Normalizers of Γ_Δ(N), Γ(N) and ±Γ₁(N): statements (Stage 0, all `sorry`)

@@ -1,4 +1,8 @@
-import NormalizerLean.Defs
+module
+
+public import NormalizerLean.Defs
+
+@[expose] public section
 
 /-!
 # Basic API for Γ₀(N) ≤ SL₂(ℝ), its normalizer, B(N), S_k and h(N)

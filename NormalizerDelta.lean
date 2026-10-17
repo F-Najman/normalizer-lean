@@ -1,5 +1,7 @@
-import NormalizerDelta.Statements
-import NormalizerDelta.StatementsExtra
-import NormalizerDelta.StatementsXN
-import NormalizerDelta.StatementsCartan
-import NormalizerDelta.StatementsGeneral
+module
+
+public import NormalizerDelta.Statements
+public import NormalizerDelta.StatementsExtra
+public import NormalizerDelta.StatementsXN
+public import NormalizerDelta.StatementsCartan
+public import NormalizerDelta.StatementsGeneral

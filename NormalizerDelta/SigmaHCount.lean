@@ -1,4 +1,8 @@
-import NormalizerDelta.SigmaH
+module
+
+public import NormalizerDelta.SigmaH
+
+@[expose] public section
 
 /-!
 # §M: [K : Γ₀(N)] = #{(σ, H) : σH ∈ K} for Γ₀(N) ≤ K ≤ M_Δ, finiteness, and the index i_Δ·[Nor : Γ₀]

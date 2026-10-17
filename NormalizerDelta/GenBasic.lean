@@ -1,5 +1,9 @@
-import NormalizerDelta.CartanIndex
-import NormalizerDelta.DefsGeneral
+module
+
+public import NormalizerDelta.CartanIndex
+public import NormalizerDelta.DefsGeneral
+
+@[expose] public section
 
 /-!
 # General modular curves: basics, §H and §R

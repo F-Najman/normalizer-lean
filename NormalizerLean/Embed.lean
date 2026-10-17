@@ -1,4 +1,8 @@
-import NormalizerLean.Local
+module
+
+public import NormalizerLean.Local
+
+@[expose] public section
 
 /-!
 # T6, part 1: B_p ≅ B(m_p) ((12) of [BA])

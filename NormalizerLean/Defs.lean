@@ -1,4 +1,8 @@
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
 
 /-!
 # B(N) = Norm_{SL₂(ℝ)}(Γ₀(N)) / Γ₀(N): definitions

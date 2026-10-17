@@ -1,4 +1,8 @@
-import NormalizerLean.Defs
+module
+
+public import NormalizerLean.Defs
+
+@[expose] public section
 
 /-!
 # Verified coset-enumeration certificates: `Nat.card (PresentedGroup R) = n`

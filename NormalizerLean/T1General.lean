@@ -1,4 +1,8 @@
-import NormalizerLean.AtkinLehner
+module
+
+public import NormalizerLean.AtkinLehner
+
+@[expose] public section
 
 /-!
 # T1 in general: matrices of Newman's form (8′) normalize Γ₀(N) ([Nw §1])

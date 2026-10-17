@@ -1,4 +1,8 @@
-import NormalizerDelta.NewmanDelta
+module
+
+public import NormalizerDelta.NewmanDelta
+
+@[expose] public section
 
 /-!
 # §D: the sanity statements for Γ_Δ(N), ε_Δ, h_Δ

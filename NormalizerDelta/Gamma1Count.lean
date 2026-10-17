@@ -1,4 +1,8 @@
-import NormalizerDelta.Gamma1KK
+module
+
+public import NormalizerDelta.Gamma1KK
+
+@[expose] public section
 
 /-!
 # §K: the diamonds, the quotient (ℤ/2)^{ω(N)}, and the order 2^{ω(N)} φ(N)/2

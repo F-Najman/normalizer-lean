@@ -1,4 +1,8 @@
-import NormalizerDelta.NewmanGen
+module
+
+public import NormalizerDelta.NewmanGen
+
+@[expose] public section
 
 /-!
 # Γ_Δ(N), ε_Δ, h_Δ: basic facts

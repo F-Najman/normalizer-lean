@@ -1,1 +1,3 @@
-import NormalizerDelta.XNGLQ
+module
+
+public import NormalizerDelta.XNGLQ

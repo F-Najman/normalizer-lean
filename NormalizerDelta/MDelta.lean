@@ -1,5 +1,9 @@
-import NormalizerDelta.Proofs
-import NormalizerDelta.DefsExtra
+module
+
+public import NormalizerDelta.Proofs
+public import NormalizerDelta.DefsExtra
+
+@[expose] public section
 
 /-!
 # §M: M_Δ = D⁻¹ Γ₀(n_Δ)⁺ D is the set of matrices of the generalized Newman bound

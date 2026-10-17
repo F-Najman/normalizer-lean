@@ -1,5 +1,9 @@
-import NormalizerLean.T1General
-import NormalizerLean.Index
+module
+
+public import NormalizerLean.T1General
+public import NormalizerLean.Index
+
+@[expose] public section
 
 /-!
 # |C(N)| = ψ(N)/ψ(n)

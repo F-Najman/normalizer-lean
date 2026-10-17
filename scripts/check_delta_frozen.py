@@ -6,16 +6,25 @@
   `:= by\\n  sorry` and the line `import NormalizerDelta.Proofs` removed, must equal its version at FROZEN.
 Run: python3 scripts/check_delta_frozen.py
 """
+import os
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from module_header import unport  # noqa: E402
+
+
+def current(path):
+    """The file without its module-system header, which `module_header.py` adds and removes exactly."""
+    return unport(open(path).read())
 
 FROZEN = '021bb2f'
 DEFS = 'NormalizerLean/Defs.lean'
 
 
 def frozen(path):
-    return open(f'frozen/{FROZEN}/{path}').read()
+    return open(f'frozen/{FROZEN}/{path}.txt').read()
 
 
 def body(text):
@@ -27,10 +36,10 @@ def body(text):
 
 
 ok = True
-if body(frozen('NormalizerDelta/Defs.lean')) not in open(DEFS).read():
+if body(frozen('NormalizerDelta/Defs.lean')) not in current(DEFS):
     print('Defs.lean DIFFERS from', FROZEN, '(not verbatim in ' + DEFS + ')')
     ok = False
-cur = open('NormalizerDelta/Statements.lean').read()
+cur = current('NormalizerDelta/Statements.lean')
 n_proved = len(re.findall(r":= by apply \w+' <;> assumption", cur))
 back = re.sub(r":= by apply \w+' <;> assumption", ':= by\n  sorry', cur)
 back = back.replace('import NormalizerDelta.Proofs\n', '')

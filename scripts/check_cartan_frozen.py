@@ -8,16 +8,25 @@
 check_xn_frozen.py.)
 Run: python3 scripts/check_cartan_frozen.py
 """
+import os
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from module_header import unport  # noqa: E402
+
+
+def current(path):
+    """The file without its module-system header, which `module_header.py` adds and removes exactly."""
+    return unport(open(path).read())
 
 FROZEN = '7c6c7de'
 DEFS = 'NormalizerLean/Defs.lean'
 
 
 def frozen(path):
-    return open(f'frozen/{FROZEN}/{path}').read()
+    return open(f'frozen/{FROZEN}/{path}.txt').read()
 
 
 def body(text):
@@ -29,10 +38,10 @@ def body(text):
 
 
 ok = True
-if body(frozen('NormalizerDelta/DefsCartan.lean')) not in open(DEFS).read():
+if body(frozen('NormalizerDelta/DefsCartan.lean')) not in current(DEFS):
     print('DefsCartan.lean DIFFERS from', FROZEN, '(not verbatim in ' + DEFS + ')')
     ok = False
-cur = open('NormalizerDelta/StatementsCartan.lean').read()
+cur = current('NormalizerDelta/StatementsCartan.lean')
 n_proved = len(re.findall(r":= by apply \w+' <;> assumption", cur))
 back = re.sub(r":= by apply \w+' <;> assumption", ':= by\n  sorry', cur)
 back = back.replace('import NormalizerDelta.ProofsCartan\n', '')

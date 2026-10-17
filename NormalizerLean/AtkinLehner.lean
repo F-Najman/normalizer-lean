@@ -1,4 +1,8 @@
-import NormalizerLean.Basic
+module
+
+public import NormalizerLean.Basic
+
+@[expose] public section
 
 /-!
 # T1 for Atkin–Lehner elements and translations

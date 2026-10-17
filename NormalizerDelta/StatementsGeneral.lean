@@ -1,5 +1,9 @@
-import NormalizerDelta.DefsGeneral
-import NormalizerDelta.ProofsGeneral
+module
+
+public import NormalizerDelta.DefsGeneral
+public import NormalizerDelta.ProofsGeneral
+
+@[expose] public section
 
 /-!
 # General modular curves (2026-10-10): statements (Stage 0, all `sorry`)

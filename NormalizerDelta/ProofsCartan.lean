@@ -1,1 +1,3 @@
-import NormalizerDelta.CartanIndex
+module
+
+public import NormalizerDelta.CartanIndex

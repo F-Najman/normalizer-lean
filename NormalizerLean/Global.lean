@@ -1,4 +1,8 @@
-import NormalizerLean.Embed
+module
+
+public import NormalizerLean.Embed
+
+@[expose] public section
 
 /-!
 # T6, part 2: the global presentation

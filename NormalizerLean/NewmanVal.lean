@@ -1,5 +1,9 @@
-import NormalizerLean.NewmanCond
-import NormalizerLean.RelBasic
+module
+
+public import NormalizerLean.NewmanCond
+public import NormalizerLean.RelBasic
+
+@[expose] public section
 
 /-!
 # Newman's theorem: valuations, the local constants, and the element γ_p of Lemma 3

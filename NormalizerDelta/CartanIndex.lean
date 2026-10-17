@@ -1,4 +1,8 @@
-import NormalizerDelta.CartanNonsplit
+module
+
+public import NormalizerDelta.CartanNonsplit
+
+@[expose] public section
 
 /-!
 # §N: [SL₂(ℤ) : Γ_ns(p)] = p(p − 1)

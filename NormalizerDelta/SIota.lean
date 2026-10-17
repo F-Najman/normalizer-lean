@@ -1,4 +1,8 @@
-import NormalizerDelta.Iota
+module
+
+public import NormalizerDelta.Iota
+
+@[expose] public section
 
 /-!
 # s_Δ = #{Q ∥ N : ι_Q(Δ) = Δ}: `sDelta_eq_sIota'`

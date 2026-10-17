@@ -1,4 +1,8 @@
-import NormalizerDelta.MDelta
+module
+
+public import NormalizerDelta.MDelta
+
+@[expose] public section
 
 /-!
 # §H: h_Δ = h(N) unless one of the cases i)–iii) of `hDelta_eq_hPart_iff`, and conversely

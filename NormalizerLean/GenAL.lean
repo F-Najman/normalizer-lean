@@ -1,4 +1,8 @@
-import NormalizerLean.GenC
+module
+
+public import NormalizerLean.GenC
+
+@[expose] public section
 
 /-!
 # T4, part 2: the invariant e of w_{m_p}, and the relation R = w_N S_h⁻¹ w_N⁻¹

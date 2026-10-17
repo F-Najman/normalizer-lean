@@ -1,4 +1,8 @@
-import NormalizerDelta.GenLocal
+module
+
+public import NormalizerDelta.GenLocal
+
+@[expose] public section
 
 /-!
 # General modular curves: §G, §Q, §S

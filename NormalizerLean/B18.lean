@@ -1,4 +1,8 @@
-import NormalizerLean.Global
+module
+
+public import NormalizerLean.Global
+
+@[expose] public section
 
 /-!
 # T7, examples: B(18) ≅ S₄, and B(18) ≇ C₂ × A₄

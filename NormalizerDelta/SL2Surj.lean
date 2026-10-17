@@ -1,4 +1,8 @@
-import NormalizerDelta.Basic
+module
+
+public import NormalizerDelta.Basic
+
+@[expose] public section
 
 /-!
 # SL₂(ℤ) → SL₂(ℤ/N) is surjective (not in the pinned Mathlib)

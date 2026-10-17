@@ -6,11 +6,14 @@ Compares the frozen Statements.lean (commit 11358c3) with Defs.lean + Statements
   `:= by apply X' <;> assumption` by `:= sorry`, where X is the theorem being proved.
 Run from the repository root: python3 scripts/check_restructure.py
 """
-import re, subprocess, sys
+import os, re, subprocess, sys
 
-old = open('frozen/11358c3/NormalizerLean/Statements.lean').read()
-defs = open('NormalizerLean/Defs.lean').read()
-new = open('NormalizerLean/Statements.lean').read()
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from module_header import unport  # the module-system header is added and removed exactly
+
+old = open('frozen/11358c3/NormalizerLean/Statements.lean.txt').read()
+defs = unport(open('NormalizerLean/Defs.lean').read())
+new = unport(open('NormalizerLean/Statements.lean').read())
 
 def regions(txt):
     L = txt.split('\n')

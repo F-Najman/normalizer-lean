@@ -1,4 +1,8 @@
-import NormalizerDelta.IndexDelta
+module
+
+public import NormalizerDelta.IndexDelta
+
+@[expose] public section
 
 /-!
 # s_Δ = #{Q ∥ N : ι_Q(Δ) = Δ} for 4 ∤ N, 9 ∤ N

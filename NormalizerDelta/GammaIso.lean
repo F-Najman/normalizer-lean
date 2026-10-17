@@ -1,5 +1,9 @@
-import NormalizerDelta.GammaN
-import NormalizerDelta.SL2Surj
+module
+
+public import NormalizerDelta.GammaN
+public import NormalizerDelta.SL2Surj
+
+@[expose] public section
 
 /-!
 # §G: Nor(Γ(N))/Γ(N) ≅ SL₂(ℤ/N) and Nor(±Γ(N))/±Γ(N) ≅ SL₂(ℤ/N)/{±1}

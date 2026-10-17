@@ -1,4 +1,8 @@
-import NormalizerDelta.MDelta
+module
+
+public import NormalizerDelta.MDelta
+
+@[expose] public section
 
 /-!
 # §M: the σH coset description, finiteness, and the count of `aut_orders.py`

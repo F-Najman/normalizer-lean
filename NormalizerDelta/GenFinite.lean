@@ -1,4 +1,8 @@
-import NormalizerDelta.GenLocal
+module
+
+public import NormalizerDelta.GenLocal
+
+@[expose] public section
 
 /-!
 # General modular curves: §F, finiteness (DLM26, Prop. 4.3(3), (4))

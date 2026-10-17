@@ -1,4 +1,8 @@
-import NormalizerLean.AtkinLehner
+module
+
+public import NormalizerLean.AtkinLehner
+
+@[expose] public section
 
 /-!
 # Infrastructure for the relations: Fricke elements, transfer between representatives, (14)

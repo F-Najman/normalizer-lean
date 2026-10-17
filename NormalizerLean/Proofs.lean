@@ -1,20 +1,24 @@
-import NormalizerLean.T8a
-import NormalizerLean.T8b
-import NormalizerLean.T8cd
-import NormalizerLean.T1General
-import NormalizerLean.Index
-import NormalizerLean.CardC
-import NormalizerLean.NewmanAlg
-import NormalizerLean.NewmanMain
-import NormalizerLean.CardB
-import NormalizerLean.ExplicitFormula
-import NormalizerLean.Gen
-import NormalizerLean.Local
-import NormalizerLean.T8iso
-import NormalizerLean.Embed
-import NormalizerLean.Global
-import NormalizerLean.DirectProduct
-import NormalizerLean.B18
+module
+
+public import NormalizerLean.T8a
+public import NormalizerLean.T8b
+public import NormalizerLean.T8cd
+public import NormalizerLean.T1General
+public import NormalizerLean.Index
+public import NormalizerLean.CardC
+public import NormalizerLean.NewmanAlg
+public import NormalizerLean.NewmanMain
+public import NormalizerLean.CardB
+public import NormalizerLean.ExplicitFormula
+public import NormalizerLean.Gen
+public import NormalizerLean.Local
+public import NormalizerLean.T8iso
+public import NormalizerLean.Embed
+public import NormalizerLean.Global
+public import NormalizerLean.DirectProduct
+public import NormalizerLean.B18
+
+@[expose] public section
 
 /-!
 # All proof files

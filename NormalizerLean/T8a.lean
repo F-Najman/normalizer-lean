@@ -1,4 +1,8 @@
-import NormalizerLean.GlobalRels
+module
+
+public import NormalizerLean.GlobalRels
+
+@[expose] public section
 
 /-!
 # T8(a): the relations at N = 256

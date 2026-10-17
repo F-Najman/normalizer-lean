@@ -1,4 +1,8 @@
-import NormalizerDelta.Gamma1Basic
+module
+
+public import NormalizerDelta.Gamma1Basic
+
+@[expose] public section
 
 /-!
 # §K: Kim–Koo / Lang: for N ≠ 4, Nor(±Γ₁(N)) is the union of the Atkin–Lehner cosets

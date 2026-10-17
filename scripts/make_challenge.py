@@ -7,13 +7,19 @@
   produces the same constants as the library only because the library also has all the definitions in one file.
 * Solution.lean: imports the six statements files, which prove the same theorems.
 * Comparator/comparator.json: the 136 theorem names and the three standard axioms.
+Both Lean files get the module-system header of every source file (`module_header.py`), and the copied files are
+read without theirs, so the copy and the library elaborate the definitions in the same setting.
 
 Run from the repository root: python3 scripts/make_challenge.py
 With --check it only verifies that the three files are up to date (exit code 1 if not).
 """
 import json
+import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from module_header import port, unport  # noqa: E402
 
 DEFS = 'NormalizerLean/Defs.lean'
 STATEMENTS = ['NormalizerLean/Statements.lean', 'NormalizerDelta/Statements.lean',
@@ -43,7 +49,7 @@ statements use must be the same constant in both), uses no axioms other than `pr
 
 
 def body(path):
-    lines = open(path).read().split('\n')
+    lines = unport(open(path).read()).split('\n')
     assert lines[0].startswith('import '), path
     while lines and (lines[0].startswith('import ') or not lines[0].strip()):
         lines.pop(0)
@@ -70,7 +76,7 @@ def generate():
         'theorem_names': names,
         'permitted_axioms': ['propext', 'Quot.sound', 'Classical.choice'],
     }, indent=4, ensure_ascii=False) + '\n'
-    return {'Challenge.lean': challenge, 'Solution.lean': solution, 'Comparator/comparator.json': config}
+    return {'Challenge.lean': port(challenge), 'Solution.lean': port(solution), 'Comparator/comparator.json': config}
 
 
 if __name__ == '__main__':

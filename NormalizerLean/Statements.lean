@@ -1,5 +1,9 @@
-import NormalizerLean.Defs
-import NormalizerLean.Proofs
+module
+
+public import NormalizerLean.Defs
+public import NormalizerLean.Proofs
+
+@[expose] public section
 
 /-!
 # B(N) = Norm_{SL₂(ℝ)}(Γ₀(N)) / Γ₀(N): definitions and main statements

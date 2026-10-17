@@ -1,4 +1,8 @@
-import NormalizerDelta.GenMain
+module
+
+public import NormalizerDelta.GenMain
+
+@[expose] public section
 
 /-!
 # General modular curves: §P, prime level

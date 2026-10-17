@@ -7,16 +7,25 @@
 (The 34 statements of Statements.lean are checked by scripts/check_delta_frozen.py.)
 Run: python3 scripts/check_extra_frozen.py
 """
+import os
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from module_header import unport  # noqa: E402
+
+
+def current(path):
+    """The file without its module-system header, which `module_header.py` adds and removes exactly."""
+    return unport(open(path).read())
 
 FROZEN = '38cc176'
 DEFS = 'NormalizerLean/Defs.lean'
 
 
 def frozen(path):
-    return open(f'frozen/{FROZEN}/{path}').read()
+    return open(f'frozen/{FROZEN}/{path}.txt').read()
 
 
 def body(text):
@@ -28,10 +37,10 @@ def body(text):
 
 
 ok = True
-if body(frozen('NormalizerDelta/DefsExtra.lean')) not in open(DEFS).read():
+if body(frozen('NormalizerDelta/DefsExtra.lean')) not in current(DEFS):
     print('DefsExtra.lean DIFFERS from', FROZEN, '(not verbatim in ' + DEFS + ')')
     ok = False
-cur = open('NormalizerDelta/StatementsExtra.lean').read()
+cur = current('NormalizerDelta/StatementsExtra.lean')
 n_proved = len(re.findall(r":= by apply \w+' <;> assumption", cur))
 back = re.sub(r":= by apply \w+' <;> assumption", ':= by\n  sorry', cur)
 back = back.replace('import NormalizerDelta.ProofsExtra\n', '')

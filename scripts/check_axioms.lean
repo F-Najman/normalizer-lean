@@ -1,3 +1,5 @@
+module
+
 import NormalizerLean.Statements
 #print axioms NormalizerLean.hPart_isGreatest
 #print axioms NormalizerLean.isAtkinLehner_mem_normalizer

@@ -1,5 +1,9 @@
-import NormalizerLean.CardB
-import NormalizerLean.NewmanVal
+module
+
+public import NormalizerLean.CardB
+public import NormalizerLean.NewmanVal
+
+@[expose] public section
 
 /-!
 # T3, explicit form: 2^{ω(n)} ψ(N)/ψ(n) = f₂(v₂ N) f₃(v₃ N) 2^{#{p ∣ N, p ≥ 5}}

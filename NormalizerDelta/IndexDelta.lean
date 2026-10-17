@@ -1,5 +1,9 @@
-import NormalizerDelta.SanityD
-import NormalizerLean.Proofs
+module
+
+public import NormalizerDelta.SanityD
+public import NormalizerLean.Proofs
+
+@[expose] public section
 
 /-!
 # §D (rest) and §C: Γ₀(N) normalizes Γ_Δ(N); the index i_Δ; Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) and the index

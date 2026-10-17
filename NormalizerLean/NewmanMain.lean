@@ -1,5 +1,9 @@
-import NormalizerLean.NewmanFacts
-import NormalizerLean.NewmanLocal
+module
+
+public import NormalizerLean.NewmanFacts
+public import NormalizerLean.NewmanLocal
+
+@[expose] public section
 
 /-!
 # T2: Newman's theorem

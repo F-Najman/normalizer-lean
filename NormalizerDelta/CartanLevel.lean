@@ -1,5 +1,9 @@
-import NormalizerDelta.XNGLQ
-import NormalizerDelta.DefsCartan
+module
+
+public import NormalizerDelta.XNGLQ
+public import NormalizerDelta.DefsCartan
+
+@[expose] public section
 
 /-!
 # §L: normalizers of groups of level N (DLM26, Prop. 4.3(2) and Prop. 4.5(1))

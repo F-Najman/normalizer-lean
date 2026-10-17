@@ -1,4 +1,8 @@
-import NormalizerLean.T1General
+module
+
+public import NormalizerLean.T1General
+
+@[expose] public section
 
 /-!
 # Newman's theorem, step 1: normalizing elements are rational up to a scalar ([Nw §2])

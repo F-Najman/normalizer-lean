@@ -1,5 +1,9 @@
-import NormalizerDelta.GenPrime
-import NormalizerDelta.GenFinite
+module
+
+public import NormalizerDelta.GenPrime
+public import NormalizerDelta.GenFinite
+
+@[expose] public section
 
 /-!
 # General modular curves: proofs

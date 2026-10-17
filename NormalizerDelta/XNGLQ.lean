@@ -1,5 +1,9 @@
-import NormalizerDelta.B0
-import NormalizerDelta.XNOrder
+module
+
+public import NormalizerDelta.B0
+public import NormalizerDelta.XNOrder
+
+@[expose] public section
 
 /-!
 # X(N): the modular automorphism group computed in GL₂⁺(ℚ)

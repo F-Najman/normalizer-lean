@@ -1,4 +1,8 @@
-import NormalizerLean.Defs
+module
+
+public import NormalizerLean.Defs
+
+@[expose] public section
 
 /-!
 # Infinite presented groups via affine (wreath) actions — T8(b)

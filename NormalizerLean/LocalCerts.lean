@@ -1,4 +1,8 @@
-import NormalizerLean.CosetCert
+module
+
+public import NormalizerLean.CosetCert
+
+@[expose] public section
 
 /-!
 # Coset certificates for the local presentations (T5)

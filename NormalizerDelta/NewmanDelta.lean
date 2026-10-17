@@ -1,4 +1,8 @@
-import NormalizerDelta.Basic
+module
+
+public import NormalizerDelta.Basic
+
+@[expose] public section
 
 /-!
 # The generalized Newman bound (`newman_delta'`)

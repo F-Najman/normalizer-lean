@@ -1,4 +1,8 @@
-import NormalizerLean.Infinite
+module
+
+public import NormalizerLean.Infinite
+
+@[expose] public section
 
 /-!
 # T8(b): Bars's presentations at λ = 5, 6, 7 are infinite

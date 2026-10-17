@@ -1,4 +1,8 @@
-import NormalizerDelta.CartanSplit
+module
+
+public import NormalizerDelta.CartanSplit
+
+@[expose] public section
 
 /-!
 # §N: non-split Cartan curves of prime level
