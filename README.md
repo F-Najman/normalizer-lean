@@ -35,6 +35,7 @@ definitions.
 * [Repository layout](#repository-layout)
 * [Notes on the sources](#notes-on-the-sources)
 * [References](#references)
+* [License](#license)
 
 ## Overview
 
@@ -428,6 +429,7 @@ Challenge.lean           all the definitions and the 136 statements with `sorry`
 Solution.lean            imports the statements files, for Comparator
 Comparator/              the Comparator configuration comparator.json
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
+LICENSE                  Apache License 2.0
 ```
 
 ## Notes on the sources
@@ -453,3 +455,7 @@ scripts/                 axiom checks, frozen-statement checks, numerical checks
 * [KK] C. H. Kim, J. K. Koo, *The normalizer of Γ₁(N) in PSL₂(ℝ)*, Comm. Algebra 28 (2000), 5303–5310.
 * [L] M.-L. Lang, *Normalizer of Γ₁(m)*, J. Number Theory 86 (2001), 50–60.
 * [Ne] M. Newman, *Conjugacy, genus, and class numbers*, Math. Ann. 196 (1972), 198–217.
+
+## License
+
+Released under the [Apache License 2.0](LICENSE), the license of Mathlib.
