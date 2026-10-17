@@ -17,7 +17,7 @@ open Finset
 /-- t = ∏_{p ∣ t} p^{v_p(t)} (in ℚ). -/
 theorem cast_eq_prod_pow {t : ℕ} (ht : t ≠ 0) :
     (t : ℚ) = ∏ p ∈ t.primeFactors, (p : ℚ) ^ t.factorization p := by
-  conv_lhs => rw [← Nat.factorization_prod_pow_eq_self ht]
+  conv_lhs => rw [← Nat.prod_factorization_pow_eq_self ht]
   rw [Nat.prod_factorization_eq_prod_primeFactors]
   push_cast
   rfl

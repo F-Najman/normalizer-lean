@@ -12,7 +12,7 @@ Cartan modular curves, and general modular curves X_H.
   definition they use, over Mathlib alone. [Comparator](https://github.com/leanprover/comparator) checks that the
   repository proves exactly these statements about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
-* About 17,000 lines of Lean, on Lean v4.34.1 and Mathlib v4.34.1.
+* About 17,000 lines of Lean, on Lean v4.35.0 and Mathlib v4.35.0.
 
 Author: Filip Najman.
 
@@ -327,7 +327,7 @@ case of Cartan groups is [DLM22, Prop. 5.6].
 
 ## Building and checking
 
-You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.34.1) and Mathlib (v4.34.1) are
+You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0) and Mathlib (v4.35.0) are
 pinned in `lean-toolchain` and `lake-manifest.json`.
 
 ```sh
