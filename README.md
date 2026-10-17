@@ -8,15 +8,16 @@ Cartan modular curves, and general modular curves X_H.
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* [`Challenge.lean`](Challenge.lean) states all 136 theorems in one file, with `sorry` as proofs, together with every
-  definition they use, over Mathlib alone. [Comparator](https://github.com/leanprover/comparator) checks that the
+* The five files in [`Challenge/`](Challenge) state the 136 theorems, with `sorry` as proofs, together with every
+  definition they use, over Mathlib alone: one file per entry for the [Palomar](https://palomar-registry.org) registry
+  (Part 1, Part 2, Parts 3–4, Part 5, Part 6). [Comparator](https://github.com/leanprover/comparator) checks that the
   repository proves exactly these statements about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
 * About 17,000 lines of Lean, on Lean v4.35.0 and Mathlib v4.35.0, using Lean's module system.
 
 Author: Filip Najman.
 
-I thank David Kurniadi Angdinata for his help with Comparator, in particular for making `Challenge.lean`
+I thank David Kurniadi Angdinata for his help with Comparator, in particular for making the challenge
 self-contained ([#1](https://github.com/F-Najman/normalizer-lean/pull/1)), so that Comparator also checks the
 definitions.
 
@@ -376,36 +377,50 @@ Each script prints `OK`.
   frozen Part 6 files are the ones after the rename.
 
 <a id="checking-with-comparator"></a>
-**Checking with Comparator.** [`Challenge.lean`](Challenge.lean) contains all 136 statements, copied from the statements
-files with every proof replaced by `sorry`, and before them all the definitions, copied verbatim from
-[`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean). It imports only Mathlib, so this one file is the complete
-specification. [`Solution.lean`](Solution.lean) imports the statements files, where the theorems are proved. With the
-configuration [`Comparator/comparator.json`](Comparator/comparator.json),
-[Comparator](https://github.com/leanprover/comparator) checks that each of the 136 theorems in `Solution` has the same
-statement as in `Challenge`, about the same definitions, uses no axioms other than `propext`, `Classical.choice` and
-`Quot.sound`, and is accepted by the Lean kernel. Comparator builds both modules itself, in a
-[landrun](https://github.com/Zouuup/landrun) sandbox, so run it in a fresh clone in which only the Mathlib cache has
-been downloaded:
+**Checking with Comparator.** The statements form five entries, one for each Palomar submission:
+
+| entry | challenge | solution | configuration and metadata | theorems |
+|---|---|---|---|---|
+| Part 1 | [`Challenge/Part1.lean`](Challenge/Part1.lean) | [`Solution/Part1.lean`](Solution/Part1.lean) | [`palomar/part1/`](palomar/part1) | 36 |
+| Part 2 | [`Challenge/Part2.lean`](Challenge/Part2.lean) | [`Solution/Part2.lean`](Solution/Part2.lean) | [`palomar/part2/`](palomar/part2) | 34 |
+| Parts 3–4 | [`Challenge/Part3_4.lean`](Challenge/Part3_4.lean) | [`Solution/Part3_4.lean`](Solution/Part3_4.lean) | [`palomar/part3_4/`](palomar/part3_4) | 28 |
+| Part 5 | [`Challenge/Part5.lean`](Challenge/Part5.lean) | [`Solution/Part5.lean`](Solution/Part5.lean) | [`palomar/part5/`](palomar/part5) | 17 |
+| Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
+
+Each challenge imports only Mathlib, so it is the complete specification of its entry. It copies verbatim the parts
+of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,
+copied from the statements files with every proof replaced by `sorry`. The solution imports the statements files,
+where the theorems are proved. With the entry's `comparator.json`,
+[Comparator](https://github.com/leanprover/comparator) checks that each theorem has the same statement in the
+challenge and in the solution, about the same definitions, uses no axioms other than `propext`, `Classical.choice`
+and `Quot.sound`, and is accepted by the Lean kernel. Since Lean v4.35.0, Comparator is part of Lake. It builds both
+modules itself, inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox, so `bwrap` must be
+installed:
 
 ```sh
 lake exe cache get
-systemd-run --user --pty --property=RestrictAddressFamilies=~AF_UNIX -E PATH="$PATH" --working-directory "$(pwd)" \
-  -- bash -c 'lake env comparator Comparator/comparator.json'
+for e in part1 part2 part3_4 part5 part6; do
+  lake comparator --config palomar/$e/comparator.json
+done
 ```
 
-This needs `comparator`, `landrun` and `lean4export` on `PATH`. Lean v4.34.1 predates `lake comparator` (Lean v4.35.0),
-so use the standalone Comparator at commit `d03acab` and lean4export `v4.34.0`, both built with Lean v4.34.1. The
-repository passes this check: Comparator prints `Your solution is okay!`.
+With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
+`lean4lean`, `con-leche`, `con-ron`). All five entries pass with `--paranoid`: every checker accepts, and
+Comparator prints `Your solution is okay!`.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
-  constant in `Challenge` and in the library, including the auxiliary lemmas inside it. The definitions contain no
+  constant in the challenge and in the library, including the auxiliary lemmas inside it. The definitions contain no
   theorems apart from small lemmas used inside the definitions.
-* Lean shares the auxiliary `_proof_n` lemmas of a file between its declarations, so the copy in `Challenge.lean`
-  produces the library's constants only if the library also has every definition in one file, in the same order.
-  That is why all the definitions are in `NormalizerLean/Defs.lean`.
-* [`scripts/make_challenge.py`](scripts/make_challenge.py) generates `Challenge.lean`, `Solution.lean` and the
-  configuration from `NormalizerLean/Defs.lean` and the statements files; `python3 scripts/make_challenge.py --check`
-  checks that they are up to date.
+* Lean shares the auxiliary `_proof_n` lemmas of a file between its declarations, so a copy produces the library's
+  constants only if it repeats the library's order. That is why all the definitions are in one file,
+  `NormalizerLean/Defs.lean`, part by part, and each challenge copies whole parts of it, in order. The only
+  auxiliary lemma used outside its own definition is `GammaDelta._proof_4` (Part 2), used in Parts 5 and 6, whose
+  challenges therefore copy Part 2 as well. Two statements, in Parts 2 and 4, contain a proof of 7 ∣ 49; they are in
+  different entries, so that, as in the library, each gets its own lemma.
+* [`scripts/make_challenge.py`](scripts/make_challenge.py) generates the challenges, the solutions and the
+  configurations from `NormalizerLean/Defs.lean` and the statements files, and
+  [`scripts/make_formalization.py`](scripts/make_formalization.py) generates each entry's `formalization.yaml` (the
+  Palomar metadata) from the tables of this README. With `--check`, both check that their files are up to date.
 
 **Numerical checks.** Before freezing, the statements were tested by brute force over ranges of N. The scripts
 need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are saved next to them.
@@ -431,9 +446,9 @@ NormalizerLean.lean      root of Part 1
 NormalizerDelta.lean     root of Parts 2–6
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
-Challenge.lean           all the definitions and the 136 statements with `sorry`, for Comparator
-Solution.lean            imports the statements files, for Comparator
-Comparator/              the Comparator configuration comparator.json
+Challenge/               the five challenges: definitions and statements with `sorry`, for Comparator
+Solution/                the five solutions: they import the statements files
+palomar/<entry>/         comparator.json and formalization.yaml (Palomar metadata) of each entry
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0
 ```

@@ -14,9 +14,10 @@ approval.  The conventions are explained in `Statements.lean`.
 
 This file holds the definitions of all six parts: those of Parts 2–6 follow, moved verbatim from
 `NormalizerDelta/Defs.lean`, `DefsExtra.lean`, `DefsXN.lean`, `DefsCartan.lean` and `DefsGeneral.lean`, which
-now only import this file.  They are in one file because `Challenge.lean` copies them: Lean shares the
-auxiliary `_proof_n` lemmas of a file between its declarations, so the copy compiles to the same constants as
-the library only if the library also has every definition in one file, in the same order.
+now only import this file.  They are in one file because the Comparator challenges (`Challenge/*.lean`) copy
+them: Lean shares the auxiliary `_proof_n` lemmas of a file between its declarations, so a copy compiles to the
+same constants as the library only if it keeps the library's order; each challenge copies whole parts of this
+file, in order.
 -/
 
 open Matrix MatrixGroups

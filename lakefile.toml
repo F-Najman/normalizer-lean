@@ -17,10 +17,12 @@ name = "NormalizerLean"
 [[lean_lib]]
 name = "NormalizerDelta"
 
-# The Comparator pair (see Comparator/comparator.json). Not in defaultTargets: `Challenge` is all `sorry`,
-# and Comparator builds both modules itself.
+# The Comparator pairs Challenge.<Entry> / Solution.<Entry>, one per Palomar entry (see palomar/<entry>/comparator.json).
+# Not in defaultTargets: the challenges are all `sorry`, and Comparator builds both modules itself.
 [[lean_lib]]
 name = "Challenge"
+globs = ["Challenge.+"]
 
 [[lean_lib]]
 name = "Solution"
+globs = ["Solution.+"]

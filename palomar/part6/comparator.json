@@ -1,0 +1,32 @@
+{
+    "challenge_module": "Challenge.Part6",
+    "solution_module": "Solution.Part6",
+    "theorem_names": [
+        "NormalizerLean.GammaH_map",
+        "NormalizerLean.index_GammaH",
+        "NormalizerLean.ofZ_mem_normG_GammaH_iff",
+        "NormalizerLean.normG_GammaH_inf_SL2ZR",
+        "NormalizerLean.relIndex_normG_inf_SL2ZR",
+        "NormalizerLean.projSL_inv_mul_mem_GammaR",
+        "NormalizerLean.mem_normG_iff_of_reps",
+        "NormalizerLean.finite_BG",
+        "NormalizerLean.card_BG_le",
+        "NormalizerLean.isBorelMod_of_dvd_det",
+        "NormalizerLean.borel_shape",
+        "NormalizerLean.le_of_isSplitMod",
+        "NormalizerLean.normG_GammaH",
+        "NormalizerLean.BG_GammaH_equiv",
+        "NormalizerLean.card_BG_GammaH",
+        "NormalizerLean.fixesUniqueLine_iff",
+        "NormalizerLean.card_BG_GammaH_prime",
+        "NormalizerLean.card_BG_GammaH_prime_unique",
+        "NormalizerLean.normG_GammaH_prime_unique",
+        "NormalizerLean.BQ_equiv_BG",
+        "NormalizerLean.card_BG_GammaH_pmOne"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

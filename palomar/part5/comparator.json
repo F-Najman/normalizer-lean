@@ -1,0 +1,28 @@
+{
+    "challenge_module": "Challenge.Part5",
+    "solution_module": "Solution.Part5",
+    "theorem_names": [
+        "NormalizerLean.normG_level_form",
+        "NormalizerLean.normG_level_le_SL2ZR",
+        "NormalizerLean.index_GammaSp",
+        "NormalizerLean.conj_GammaSp",
+        "NormalizerLean.card_BG_GammaSp",
+        "NormalizerLean.card_BG_GammaSp_two_three",
+        "NormalizerLean.normG_GammaSp",
+        "NormalizerLean.card_BG_GammaSp_prime",
+        "NormalizerLean.normG_GammaSpPlus",
+        "NormalizerLean.card_BG_GammaSpPlus",
+        "NormalizerLean.GammaSpPlus_five_lt",
+        "NormalizerLean.index_GammaNs",
+        "NormalizerLean.normG_GammaNs",
+        "NormalizerLean.card_BG_GammaNs",
+        "NormalizerLean.normG_GammaNsPlus",
+        "NormalizerLean.card_BG_GammaNsPlus",
+        "NormalizerLean.GammaNsPlus_three_lt"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

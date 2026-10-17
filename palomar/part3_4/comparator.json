@@ -1,0 +1,39 @@
+{
+    "challenge_module": "Challenge.Part3_4",
+    "solution_module": "Solution.Part3_4",
+    "theorem_names": [
+        "NormalizerLean.coe_MDelta",
+        "NormalizerLean.Gamma0R_le_MDelta",
+        "NormalizerLean.relIndex_Gamma0R_MDelta_ne_zero",
+        "NormalizerLean.normG_GammaDeltaR_le_MDelta",
+        "NormalizerLean.finite_BG_GammaDeltaR",
+        "NormalizerLean.card_BG_GammaDeltaR_eq",
+        "NormalizerLean.exists_sigmaH",
+        "NormalizerLean.sigmaH_unique",
+        "NormalizerLean.exists_Gamma0Reps",
+        "NormalizerLean.relIndex_normG_eq_card_sigmaH",
+        "NormalizerLean.hDelta_eq_hPart_iff",
+        "NormalizerLean.mem_center_GLPos_iff",
+        "NormalizerLean.B0_equiv",
+        "NormalizerLean.infinite_B0lit",
+        "NormalizerLean.relIndex_Gamma1_Gamma0",
+        "NormalizerLean.relIndex_Gamma_Gamma1",
+        "NormalizerLean.index_Gamma",
+        "NormalizerLean.card_SL2_ZMod",
+        "NormalizerLean.card_BG_GammaR",
+        "NormalizerLean.card_PSL2_ZMod",
+        "NormalizerLean.card_BG_pmGammaR",
+        "NormalizerLean.card_BG_pmGammaR_le_two",
+        "NormalizerLean.card_BG_pmGammaR_seven",
+        "NormalizerLean.card_BG_GammaDeltaR_sq",
+        "NormalizerLean.card_BG_GammaDeltaR_49",
+        "NormalizerLean.normGQ_GammaQ",
+        "NormalizerLean.BQ_GammaQ_equiv_BG",
+        "NormalizerLean.BQ_GammaQ_equiv"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}
