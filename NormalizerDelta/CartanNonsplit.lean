@@ -20,6 +20,11 @@ p is an odd prime and ε is not a square mod p.
 
 open Matrix MatrixGroups
 
+-- In Mathlib v4.35.0-rc3 every simple nilpotent additive group, such as `ZMod p`, is an `AddCommGroup` by an
+-- instance whose `Neg` is not reducibly the ring's (Mathlib v4.35.0 fixes this with `fast_instance%`), and then
+-- `ring` fails on negations. This file does not use that instance.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 namespace NormalizerLean
 
 noncomputable section

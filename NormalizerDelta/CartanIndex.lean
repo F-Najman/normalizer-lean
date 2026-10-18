@@ -15,6 +15,10 @@ public import NormalizerDelta.CartanNonsplit
 
 open Matrix MatrixGroups
 
+-- As in `CartanNonsplit.lean`: Mathlib v4.35.0-rc3's instance making `ZMod p` an `AddCommGroup` breaks `ring` on
+-- negations.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 namespace NormalizerLean
 
 noncomputable section

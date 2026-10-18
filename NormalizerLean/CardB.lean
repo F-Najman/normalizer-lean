@@ -129,8 +129,8 @@ theorem sigmaB_ker (N : ℕ) [NeZero N] : (sigmaB N).ker = CN N := by
         simpa [Subgroup.mem_subgroupOf] using this
       have hσ : sigmaN N g = sigmaN N y := by
         have : sigmaN N (y⁻¹ * g) = 1 := (sigmaN_eq_one_iff _).2 (eOf_of_mem_Gamma0R hgy)
-        rw [map_mul, map_inv, inv_mul_eq_one] at this
-        exact this.symm
+        rw [map_mul, map_inv] at this
+        exact (inv_mul_eq_one.1 this).symm
       have hy1 : sigmaN N y = 1 := (sigmaN_eq_one_iff y).2 h1
       exact (sigmaN_eq_one_iff g).1 (hσ.trans hy1)
 

@@ -316,8 +316,8 @@ theorem normG_GammaSpPlus' {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) :
       have := congrFun hc 0
       simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, redSL_apply, Pi.smul_apply,
         smul_eq_mul] at this
-      simp [matS, mkSL, hv0] at this
-      exact h1 this
+      simp [matS, mkSL, hv0, -neg_eq_zero] at this
+      exact h1 (neg_eq_zero.1 this)
     by_cases hv1 : v 1 = 0
     · refine ⟨matS, hS, fun c hc => ?_⟩
       have := congrFun hc 1
@@ -399,7 +399,7 @@ theorem normG_GammaSpPlus' {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) :
     exfalso
     rw [ta, td] at htr
     apply h5
-    linear_combination (-2 : ZMod p) * htr - hinv
+    linear_combination 2 * htr.symm - hinv
 
 theorem card_BG_GammaSpPlus' {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) :
     Nat.card (BG (toR (GammaSpPlus p))) = 1 :=

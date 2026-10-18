@@ -19,6 +19,10 @@ Let m be an integer matrix with det m > 0, not divisible by p, such that projSL 
 
 open Matrix MatrixGroups
 
+-- As in `CartanNonsplit.lean`: Mathlib v4.35.0-rc3's instance making `ZMod p` an `AddCommGroup` breaks `simp` on
+-- subtractions.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 namespace NormalizerLean
 
 noncomputable section

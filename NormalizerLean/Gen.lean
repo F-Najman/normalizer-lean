@@ -271,7 +271,8 @@ theorem closure_localGens' (N : ℕ) [NeZero N] :
   intro x _
   obtain ⟨y, hy, hσ⟩ := exists_sigmaB_eq N (sigmaB N x)
   have hk : y⁻¹ * x ∈ CN N := by
-    rw [← sigmaB_ker, MonoidHom.mem_ker, map_mul, map_inv, hσ, inv_mul_cancel]
+    rw [← sigmaB_ker, MonoidHom.mem_ker, map_mul, map_inv, hσ]
+    exact inv_mul_cancel _
   have := mul_mem hy (CN_le_Hloc N hk)
   rwa [mul_inv_cancel_left] at this
 

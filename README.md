@@ -13,7 +13,7 @@ Cartan modular curves, and general modular curves X_H.
   (Part 1, Part 2, Parts 3–4, Part 5, Part 6). [Comparator](https://github.com/leanprover/comparator) checks that the
   repository proves exactly these statements about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
-* About 17,000 lines of Lean, on Lean v4.35.0 and Mathlib v4.35.0, using Lean's module system.
+* About 17,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
 
 Author: Filip Najman.
 
@@ -328,8 +328,10 @@ case of Cartan groups is [DLM22, Prop. 5.6].
 
 ## Building and checking
 
-You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0) and Mathlib (v4.35.0) are
-pinned in `lean-toolchain` and `lake-manifest.json`.
+You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0-rc3) and Mathlib (v4.35.0-rc3) are
+pinned in `lean-toolchain` and `lake-manifest.json`. The pin is the release candidate rather than v4.35.0 because
+Palomar cannot yet render challenges on v4.35.0
+([PalomarSubmission#161](https://github.com/PalomarRegistry/PalomarSubmission/issues/161)).
 
 Every Lean file uses Lean's [module system](https://lean-lang.org/doc/reference/latest/Source-Files-and-Modules/):
 it starts with `module`, its imports are `public import`, and its declarations follow `@[expose] public section`,
@@ -393,9 +395,9 @@ copied from the statements files with every proof replaced by `sorry`. The solut
 where the theorems are proved. With the entry's `comparator.json`,
 [Comparator](https://github.com/leanprover/comparator) checks that each theorem has the same statement in the
 challenge and in the solution, about the same definitions, uses no axioms other than `propext`, `Classical.choice`
-and `Quot.sound`, and is accepted by the Lean kernel. Since Lean v4.35.0, Comparator is part of Lake. It builds both
-modules itself, inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox, so `bwrap` must be
-installed:
+and `Quot.sound`, and is accepted by the Lean kernel. In the pinned Lean version, Comparator is part of Lake. It
+builds both modules itself, inside a [bubblewrap](https://github.com/containers/bubblewrap) sandbox, so `bwrap`
+must be installed:
 
 ```sh
 lake exe cache get

@@ -23,6 +23,10 @@ H ≤ SL₂(F_p).
 
 open Matrix MatrixGroups
 
+-- As in `CartanNonsplit.lean`: Mathlib v4.35.0-rc3's instance making `ZMod p` an `AddCommGroup` breaks rewriting
+-- with `sub_zero`.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 namespace NormalizerLean
 
 noncomputable section
