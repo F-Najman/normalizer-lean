@@ -1,8 +1,9 @@
 """Write palomar/<entry>/formalization.yaml, the Palomar metadata (formalization.yaml v0.4) of each entry.
 
-The entries are those of `make_challenge.py`. The fields are below. The `alignment` section, a plain-language
-account of every compared theorem, is generated from the tables in README.md, so the two cannot drift apart; its
-theorem names must be exactly those of the entry's Comparator configuration.
+The entries are the challenges of `make_challenge.py` except Part 4, which is not a Palomar entry. The fields are
+below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
+README.md, so the two cannot drift apart; its theorem names must be exactly those of the entry's Comparator
+configuration.
 Run: python3 scripts/make_formalization.py            (writes the files)
      python3 scripts/make_formalization.py --check    (checks that they are up to date and valid)
 """
@@ -31,8 +32,8 @@ SOURCES = {
               'location': 'Algebra Number Theory 16 (2022), 1423–1461'},
     'DLM26': {'title': 'Automorphisms of general modular curves', 'authors': ['V. Dose', 'G. M. Lido', 'P. Mercuri'],
               'id': 'arXiv:2610.08998v1', 'type': 'preprint', 'location': 'https://arxiv.org/abs/2610.08998v1'},
-    'ORIG34': {'title': 'Normalizers of Γ_Δ(N): results first presented with this formalization',
-               'type': 'original-proof'},
+    'ORIG3': {'title': 'Normalizers of Γ_Δ(N): results first presented with this formalization',
+              'type': 'original-proof'},
     'DN': {'title': 'Sporadic points on X₀(N)', 'authors': ['M. Derickx', 'F. Najman'], 'id': 'arXiv:2511.09015',
            'type': 'preprint', 'location': 'https://arxiv.org/abs/2511.09015'},
 }
@@ -45,6 +46,11 @@ NEWMAN_PROOF = ('The formal proof is a new, self-contained one: conjugation by a
 SCOPE = ('Only modular automorphisms are treated: the quotient Nor(Γ)/Γ of the normalizer in SL₂(ℝ). Results saying '
          'that every automorphism of a given modular curve is modular need algebraic geometry that Mathlib does not '
          'have, and are not formalized.')
+
+PRIORITY_NOTE = ('The results on M_Δ, the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N), the coset count and h_Δ are first '
+                 'presented with this formalization, by its author. No systematic literature search has been made, '
+                 'so whether these results, or equivalent ones, appear earlier in the literature is unknown. The '
+                 'description of the centre of GL₂⁺(ℚ), used for B₀(N), is standard.')
 
 # folder -> (project name, description, README parts, MSC 2020, extra scope, [(source, relationship, note)])
 ENTRIES = {
@@ -85,18 +91,22 @@ ENTRIES = {
          ('AL', 'background', 'The Atkin–Lehner elements.'),
          ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), which Part 2 generalizes to "
           'Γ_Δ(N).')]),
-    'part3_4': (
-        'Normalizers of Γ_Δ(N): finiteness, the group B₀(N), and the order for X(N)',
+    'part3': (
+        'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, a coset count, and B₀(N)',
         ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups '
-         'Γ_Δ(N) between Γ₁(N) and Γ₀(N): the group M_Δ containing Nor(Γ_Δ(N)), finiteness of Nor(Γ_Δ(N))/Γ_Δ(N) '
-         'for every Δ and a coset count for its order; the levels where the generalized Newman bound h_Δ equals '
-         'h(N); the group B₀(N) of Derickx–Najman, isomorphic to B(N); the order N³/2 ∏_{p ∣ N}(1 − 1/p²) of the '
-         'modular automorphism group of X(N) for N ≥ 3, and the same order for X_Δ(M²), Δ = {±1 mod M}, M ≥ 3; and the same groups computed in '
-         'GL₂⁺(ℚ) modulo scalars. 28 theorems, no sorry, only the axioms propext, Classical.choice and '
-         'Quot.sound.'),
-        [3, 4], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
-        [('ORIG34', 'other', 'The results on M_Δ, the coset count, h_Δ, and the order for X_Δ(M²) are first '
-          'presented here. The indices, |SL₂(ℤ/N)| and the order for X(N) are classical.'),
+         'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), the modular automorphism groups of '
+         'the curves X_Δ(N): the matrices allowed by the generalized Newman bound h_Δ form a group '
+         'M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so '
+         'Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), '
+         'with σ in a fixed set of representatives of Γ₀(N)\\SL₂(ℤ) and H a Hermite normal form, such that σH '
+         'normalizes Γ_Δ(N); h_Δ = h(N) except under three explicit conditions on N and Δ; and the group B₀(N) of '
+         'Derickx–Najman, the normalizer of Γ₀(N) in GL₂⁺(ℚ) modulo Γ₀(N)·ℚ^×, is isomorphic to '
+         'B(N) = Nor(Γ₀(N))/Γ₀(N), while without the scalars the quotient is infinite. 14 theorems, no sorry, only '
+         'the axioms propext, Classical.choice and Quot.sound.'),
+        [3], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
+        [('ORIG3', 'other', PRIORITY_NOTE),
+         ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), with the bound h(N) that the "
+          'generalized bound h_Δ extends to Γ_Δ(N).'),
          ('DN', 'background', 'The group B₀(N), which the formalization proves isomorphic to B(N).')]),
     'part5': (
         'Modular automorphisms of Cartan modular curves of prime level',

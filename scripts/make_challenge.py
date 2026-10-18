@@ -1,6 +1,7 @@
-"""Generate the Comparator challenges (https://github.com/leanprover/comparator), one per Palomar entry.
+"""Generate the Comparator challenges (https://github.com/leanprover/comparator), one for each part.
 
-The 136 statements form five entries (`ENTRIES`): Part 1, Part 2, Parts 3 and 4, Part 5, Part 6. For each entry:
+The 136 statements form six challenges (`ENTRIES`), one for each part. Parts 1, 2, 3, 5 and 6 are the Palomar
+entries (`make_formalization.py` writes their metadata); Part 4 is checked in the same way. For each part:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
   definitions the statements use (each part of that file is a self-contained block, beginning at a line
@@ -12,10 +13,10 @@ The 136 statements form five entries (`ENTRIES`): Part 1, Part 2, Parts 3 and 4,
 Why the copies give the library's constants. Lean shares the auxiliary `_proof_n` lemmas of a file between its
 declarations (keyed by their type). Each challenge copies a subsequence of whole parts of `Defs.lean`, in order. In
 `Defs.lean` the only auxiliary lemma used outside its own definition is `GammaDelta._proof_4` (Part 2), used by
-definitions of Parts 5 and 6, so every entry that copies Part 5 or 6 also copies Part 2. Two statements in different
-statements files, `S7_mem_normG_GammaDeltaR_49` (Part 2) and `card_BG_GammaDeltaR_49` (Part 4), contain a proof of
-the same proposition 7 ∣ 49; they are in different entries, so each challenge gives each its own lemma, as the
-library does. Comparator checks the result.
+definitions of Parts 5 and 6, so every challenge that copies Part 5 or 6 also copies Part 2. Two statements in
+different statements files, `S7_mem_normG_GammaDeltaR_49` (Part 2) and `card_BG_GammaDeltaR_49` (Part 4), contain a
+proof of the same proposition 7 ∣ 49; they are in different challenges, so each challenge gives each its own lemma,
+as the library does. Comparator checks the result.
 
 Both Lean files get the module-system header of every source file (`module_header.py`); the copied files are read
 without theirs.
@@ -39,8 +40,8 @@ NAMESPACE = 'NormalizerLean'
 ENTRIES = [
     ('Part1', 'part1', 'B(N) = Nor(Γ₀(N))/Γ₀(N)', [1], [1], ['NormalizerLean/Statements.lean']),
     ('Part2', 'part2', 'Γ_Δ(N), Γ(N) and ±Γ₁(N)', [2], [1, 2], ['NormalizerDelta/Statements.lean']),
-    ('Part3_4', 'part3_4', 'more on Γ_Δ(N), B₀(N), and the order for X(N)', [3, 4], [1, 2, 3, 4],
-     ['NormalizerDelta/StatementsExtra.lean', 'NormalizerDelta/StatementsXN.lean']),
+    ('Part3', 'part3', 'more on Γ_Δ(N), and B₀(N)', [3], [1, 2, 3], ['NormalizerDelta/StatementsExtra.lean']),
+    ('Part4', 'part4', 'the order for X(N)', [4], [1, 2, 3, 4], ['NormalizerDelta/StatementsXN.lean']),
     ('Part5', 'part5', 'Cartan modular curves', [5], [1, 2, 5], ['NormalizerDelta/StatementsCartan.lean']),
     ('Part6', 'part6', 'general modular curves X_H', [6], [1, 2, 3, 4, 6], ['NormalizerDelta/StatementsGeneral.lean']),
 ]
@@ -129,4 +130,4 @@ if __name__ == '__main__':
     for f, s in files.items():
         os.makedirs(os.path.dirname(f), exist_ok=True)
         open(f, 'w').write(s)
-    print('wrote', len(files), 'files for', len(ENTRIES), 'entries')
+    print('wrote', len(files), 'files for', len(ENTRIES), 'challenges')
