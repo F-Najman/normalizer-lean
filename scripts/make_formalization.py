@@ -94,8 +94,9 @@ ENTRIES = {
     'part3': (
         'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, a coset count, and B₀(N)',
         ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups '
-         'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), the modular automorphism groups of '
-         'the curves X_Δ(N): the matrices allowed by the generalized Newman bound h_Δ form a group '
+         'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which are the modular automorphism '
+         'groups of the curves X_Δ(N) when −1 ∈ Δ, and twice as large otherwise: the matrices allowed by the '
+         'generalized Newman bound h_Δ form a group '
          'M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so '
          'Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), '
          'with σ in a fixed set of representatives of Γ₀(N)\\SL₂(ℤ) and H a Hermite normal form, such that σH '
