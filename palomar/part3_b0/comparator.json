@@ -1,0 +1,14 @@
+{
+    "challenge_module": "Challenge.Part3B0",
+    "solution_module": "Solution.Part3B0",
+    "theorem_names": [
+        "NormalizerLean.mem_center_GLPos_iff",
+        "NormalizerLean.B0_equiv",
+        "NormalizerLean.infinite_B0lit"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

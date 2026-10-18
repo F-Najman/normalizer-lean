@@ -2,16 +2,14 @@
 # script and the tables in README.md. Edit those, not this file.
 version: v0.4
 project:
-  name: 'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, a coset count, and B₀(N)'
+  name: 'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, and a coset count'
   description: 'Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups Γ_Δ(N)
     between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which are the modular automorphism groups of the curves
     X_Δ(N) when −1 ∈ Δ, and twice as large otherwise: the matrices allowed by the generalized Newman bound h_Δ form a group
     M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so Nor(Γ_Δ(N))/Γ_Δ(N)
     is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), with σ in a fixed set of representatives
-    of Γ₀(N)\SL₂(ℤ) and H a Hermite normal form, such that σH normalizes Γ_Δ(N); h_Δ = h(N) except under three explicit conditions
-    on N and Δ; and the group B₀(N) of Derickx–Najman, the normalizer of Γ₀(N) in GL₂⁺(ℚ) modulo Γ₀(N)·ℚ^×, is isomorphic
-    to B(N) = Nor(Γ₀(N))/Γ₀(N), while without the scalars the quotient is infinite. 14 theorems, no sorry, only the axioms
-    propext, Classical.choice and Quot.sound.'
+    of Γ₀(N)\SL₂(ℤ) and H a Hermite normal form, such that σH normalizes Γ_Δ(N); and h_Δ = h(N) except under three explicit
+    conditions on N and Δ. 11 theorems, no sorry, only the axioms propext, Classical.choice and Quot.sound.'
   authors:
   - Filip Najman
   responsible_maintainers:
@@ -33,7 +31,7 @@ sources:
   relationship: other
   note: The results on M_Δ, the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N), the coset count and h_Δ are first presented with this formalization,
     by its author. No systematic literature search has been made, so whether these results, or equivalent ones, appear earlier
-    in the literature is unknown. The description of the centre of GL₂⁺(ℚ), used for B₀(N), is standard.
+    in the literature is unknown.
 - title: Conjugacy, genus, and class numbers
   authors:
   - Morris Newman
@@ -41,15 +39,6 @@ sources:
   location: Math. Ann. 196 (1972), 198–217
   relationship: background
   note: Newman's description of the normalizer of Γ₀(N), with the bound h(N) that the generalized bound h_Δ extends to Γ_Δ(N).
-- title: Sporadic points on X₀(N)
-  authors:
-  - M. Derickx
-  - F. Najman
-  id: arXiv:2511.09015
-  type: preprint
-  location: https://arxiv.org/abs/2511.09015
-  relationship: background
-  note: The group B₀(N), which the formalization proves isomorphic to B(N).
 related_formalizations: []
 status:
   scope: 'Only modular automorphisms are treated: the quotient Nor(Γ)/Γ of the normalizer in SL₂(ℝ). Results saying that every
@@ -150,20 +139,5 @@ alignment:
     status: proved
     note: 'h_Δ = h(N) iff none of the following holds: (i) p² ∣ N and Δ ⊆ {±1 mod p} for some prime p ≥ 5; (ii) 3⁴ ∣ N and
       Δ ⊆ {±1 mod 9}; (iii) 2⁸ ∣ N and Δ ⊆ {±1 mod 8}'
-  - source: Part 3 (More on Γ_Δ(N), and B₀(N)), B₀(N)
-    lean: NormalizerLean.mem_center_GLPos_iff
-    module: NormalizerDelta.StatementsExtra
-    status: proved
-    note: the centre of GL₂⁺(ℚ) consists of the nonzero scalar matrices
-  - source: Part 3 (More on Γ_Δ(N), and B₀(N)), B₀(N); Derickx–Najman
-    lean: NormalizerLean.B0_equiv
-    module: NormalizerDelta.StatementsExtra
-    status: proved
-    note: 'the group B₀(N) of [DN]: g ↦ (det g)^{−1/2}·g induces Nor_{GL₂⁺(ℚ)}(Γ₀(N))/(Γ₀(N)·ℚ^×) ≅ B(N)'
-  - source: Part 3 (More on Γ_Δ(N), and B₀(N)), B₀(N)
-    lean: NormalizerLean.infinite_B0lit
-    module: NormalizerDelta.StatementsExtra
-    status: proved
-    note: without the scalars, Nor_{GL₂⁺(ℚ)}(Γ₀(N))/Γ₀(N) is infinite
 acknowledgements: 'Mathlib. Comparator (leanprover/comparator). David Kurniadi Angdinata made the challenge self-contained
   (pull request #1), so that Comparator also checks the definitions.'

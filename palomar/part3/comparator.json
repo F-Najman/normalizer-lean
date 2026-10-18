@@ -12,10 +12,7 @@
         "NormalizerLean.sigmaH_unique",
         "NormalizerLean.exists_Gamma0Reps",
         "NormalizerLean.relIndex_normG_eq_card_sigmaH",
-        "NormalizerLean.hDelta_eq_hPart_iff",
-        "NormalizerLean.mem_center_GLPos_iff",
-        "NormalizerLean.B0_equiv",
-        "NormalizerLean.infinite_B0lit"
+        "NormalizerLean.hDelta_eq_hPart_iff"
     ],
     "permitted_axioms": [
         "propext",

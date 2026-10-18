@@ -1,7 +1,8 @@
 """Generate the Comparator challenges (https://github.com/leanprover/comparator), one for each part.
 
-The 136 statements form six challenges (`ENTRIES`), one for each part. Parts 1, 2, 3, 5 and 6 are the Palomar
-entries (`make_formalization.py` writes their metadata); Part 4 is checked in the same way. For each part:
+The 136 statements form seven challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
+Part 3 has a challenge of its own. Parts 1, 2, 5 and 6 and Part 3 without §B are the Palomar entries
+(`make_formalization.py` writes their metadata); Part 4 and Part 3 §B are checked in the same way. For each challenge:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
   definitions the statements use (each part of that file is a self-contained block, beginning at a line
@@ -37,10 +38,12 @@ PROOF = re.compile(r":= by apply \w+' <;> assumption")
 NAMESPACE = 'NormalizerLean'
 
 # (module suffix, configuration folder, title, parts of the repository, parts of Defs.lean copied, statements files)
+# A statements file may be given as (path, '§X'), only its section §X, or (path, '-§X'), without its section §X.
 ENTRIES = [
     ('Part1', 'part1', 'B(N) = Nor(Γ₀(N))/Γ₀(N)', [1], [1], ['NormalizerLean/Statements.lean']),
     ('Part2', 'part2', 'Γ_Δ(N), Γ(N) and ±Γ₁(N)', [2], [1, 2], ['NormalizerDelta/Statements.lean']),
-    ('Part3', 'part3', 'more on Γ_Δ(N), and B₀(N)', [3], [1, 2, 3], ['NormalizerDelta/StatementsExtra.lean']),
+    ('Part3', 'part3', 'more on Γ_Δ(N)', [3], [1, 2, 3], [('NormalizerDelta/StatementsExtra.lean', '-§B')]),
+    ('Part3B0', 'part3_b0', 'B₀(N)', [3], [1, 2, 3], [('NormalizerDelta/StatementsExtra.lean', '§B')]),
     ('Part4', 'part4', 'the order for X(N)', [4], [1, 2, 3, 4], ['NormalizerDelta/StatementsXN.lean']),
     ('Part5', 'part5', 'Cartan modular curves', [5], [1, 2, 5], ['NormalizerDelta/StatementsCartan.lean']),
     ('Part6', 'part6', 'general modular curves X_H', [6], [1, 2, 3, 4, 6], ['NormalizerDelta/StatementsGeneral.lean']),
@@ -75,6 +78,20 @@ def body(path):
     return '\n'.join(lines).rstrip('\n') + '\n'
 
 
+def section(text, spec):
+    """The statements `text` with only its section `spec` = '§X', or without it, `spec` = '-§X'. A section runs from its
+    heading `/-! ## §X. …` to the next heading or to the closing `end`s; its line in the module doc goes with it."""
+    name = spec.lstrip('-')
+    start = text.index(f'/-! ## {name}. ')
+    nxt = re.compile(r'^/-! ## §', re.M).search(text, start + 1)
+    stop = nxt.start() if nxt else text.rindex('end\n\nend NormalizerLean')
+    if spec.startswith('-'):
+        text = text[:start] + text[stop:]
+        return re.sub(rf'^\* {name}:.*\n(?:  .*\n)*', '', text, count=1, flags=re.M)
+    first = re.compile(r'^/-! ## §', re.M).search(text).start()
+    return text[:first] + text[start:stop] + text[text.rindex('end\n\nend NormalizerLean'):]
+
+
 def defs_parts():
     """The six parts of `Defs.lean` (without its imports), split before each line `-- Part k, moved verbatim`."""
     text = body(DEFS)
@@ -92,22 +109,28 @@ def generate():
     files, all_names = {}, []
     for module, folder, title, part_numbers, used, statements in ENTRIES:
         chunks, names = [], []
-        for path in statements:
-            b = body(path)
+        for item in statements:
+            path, spec = item if isinstance(item, tuple) else (item, None)
+            b = section(body(path), spec) if spec else body(path)
             found = re.findall(r'^theorem (\S+)', b, re.M)
             b, k = PROOF.subn(':= sorry', b)
             assert k == len(found), (path, k, len(found))
             names += [f'{NAMESPACE}.{x}' for x in found]
-            chunks.append(f'\n/-! # From `{path}` (proofs replaced by `sorry`) -/\n\n' + b)
+            where = '' if not spec else f', without {spec[1:]}' if spec[0] == '-' else f', {spec} only'
+            chunks.append(f'\n/-! # From `{path}`{where} (proofs replaced by `sorry`) -/\n\n' + b)
         header = HEADER.format(
             title=title, n=len(names), module=module, folder=folder,
-            parts_text=('Part ' if len(part_numbers) == 1 else 'Parts ') + listing([str(k) for k in part_numbers]),
+            parts_text=('Part ' if len(part_numbers) == 1 else 'Parts ') + listing([str(k) for k in part_numbers]) +
+            ''.join(f' ({"without " + p[1][1:] if p[1][0] == "-" else "only " + p[1]})' for p in statements
+                    if isinstance(p, tuple)),
             defs_text=('Part ' if len(used) == 1 else 'Parts ') + listing([str(k) for k in used]),
-            stmts_text=listing([f'`{p}`' for p in statements]))
+            stmts_text=listing([f'`{p}`' if isinstance(p, str) else
+                                (f'`{p[0]}` without its section {p[1][1:]},' if p[1][0] == '-' else
+                                 f'section {p[1]} of `{p[0]}`,') for p in statements]))
         definitions = ''.join(f'\n/-! # From `{DEFS}`, Part {k} (verbatim) -/\n\n' + parts[k - 1] for k in used)
         files[f'Challenge/{module}.lean'] = port(header + definitions + ''.join(chunks))
         files[f'Solution/{module}.lean'] = port(
-            ''.join(f'import {p[:-5].replace("/", ".")}\n' for p in statements) +
+            ''.join(f'import {(p if isinstance(p, str) else p[0])[:-5].replace("/", ".")}\n' for p in statements) +
             f'\n/-! # The formal solution of `Challenge/{module}.lean`\n\n'
             'The statements files above prove its theorems. -/\n')
         files[f'palomar/{folder}/comparator.json'] = json.dumps({

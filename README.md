@@ -8,10 +8,11 @@ Cartan modular curves, and general modular curves X_H.
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* The six files in [`Challenge/`](Challenge), one for each part, state the 136 theorems, with `sorry` as proofs,
-  together with every definition they use, over Mathlib alone; Parts 1, 2, 3, 5 and 6 are entries of the
-  [Palomar](https://palomar-registry.org) registry. [Comparator](https://github.com/leanprover/comparator) checks
-  that the repository proves exactly these statements about exactly these definitions (see
+* The seven files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 136 theorems, with
+  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5 and 6 and Part 3
+  without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
+  [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
+  about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
 * About 17,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
 
@@ -379,14 +380,15 @@ Each script prints `OK`.
   frozen Part 6 files are the ones after the rename.
 
 <a id="checking-with-comparator"></a>
-**Checking with Comparator.** The statements form six challenges, one for each part; Parts 1, 2, 3, 5 and 6 are the
-Palomar entries:
+**Checking with Comparator.** The statements form seven challenges, one for each part, with the B₀(N) theorems of
+Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 are Palomar entries:
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
 | Part 1 | [`Challenge/Part1.lean`](Challenge/Part1.lean) | [`Solution/Part1.lean`](Solution/Part1.lean) | [`palomar/part1/`](palomar/part1) | 36 |
 | Part 2 | [`Challenge/Part2.lean`](Challenge/Part2.lean) | [`Solution/Part2.lean`](Solution/Part2.lean) | [`palomar/part2/`](palomar/part2) | 34 |
-| Part 3 | [`Challenge/Part3.lean`](Challenge/Part3.lean) | [`Solution/Part3.lean`](Solution/Part3.lean) | [`palomar/part3/`](palomar/part3) | 14 |
+| Part 3 | [`Challenge/Part3.lean`](Challenge/Part3.lean) | [`Solution/Part3.lean`](Solution/Part3.lean) | [`palomar/part3/`](palomar/part3) | 11 |
+| Part 3, B₀(N) | [`Challenge/Part3B0.lean`](Challenge/Part3B0.lean) | [`Solution/Part3B0.lean`](Solution/Part3B0.lean) | [`palomar/part3_b0/`](palomar/part3_b0) (no Palomar metadata) | 3 |
 | Part 4 | [`Challenge/Part4.lean`](Challenge/Part4.lean) | [`Solution/Part4.lean`](Solution/Part4.lean) | [`palomar/part4/`](palomar/part4) (no Palomar metadata) | 14 |
 | Part 5 | [`Challenge/Part5.lean`](Challenge/Part5.lean) | [`Solution/Part5.lean`](Solution/Part5.lean) | [`palomar/part5/`](palomar/part5) | 17 |
 | Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
@@ -403,13 +405,13 @@ must be installed:
 
 ```sh
 lake exe cache get
-for e in part1 part2 part3 part4 part5 part6; do
+for e in part1 part2 part3 part3_b0 part4 part5 part6; do
   lake comparator --config palomar/$e/comparator.json
 done
 ```
 
 With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
-`lean4lean`, `con-leche`, `con-ron`). All six challenges pass with `--paranoid`: every checker accepts, and
+`lean4lean`, `con-leche`, `con-ron`). All seven challenges pass with `--paranoid`: every checker accepts, and
 Comparator prints `Your solution is okay!`.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
@@ -450,9 +452,9 @@ NormalizerLean.lean      root of Part 1
 NormalizerDelta.lean     root of Parts 2–6
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
-Challenge/               the six challenges: definitions and statements with `sorry`, for Comparator
-Solution/                the six solutions: they import the statements files
-palomar/<part>/          comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
+Challenge/               the seven challenges: definitions and statements with `sorry`, for Comparator
+Solution/                the seven solutions: they import the statements files
+palomar/<challenge>/     comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0
 ```

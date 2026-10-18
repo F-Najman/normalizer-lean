@@ -1,7 +1,7 @@
 """Write palomar/<entry>/formalization.yaml, the Palomar metadata (formalization.yaml v0.4) of each entry.
 
-The entries are the challenges of `make_challenge.py` except Part 4, which is not a Palomar entry. The fields are
-below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
+The entries are the challenges of `make_challenge.py` except Part 4 and Part 3 §B (B₀(N)), which are not Palomar
+entries. The fields are below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
 README.md, so the two cannot drift apart; its theorem names must be exactly those of the entry's Comparator
 configuration.
 Run: python3 scripts/make_formalization.py            (writes the files)
@@ -47,10 +47,12 @@ SCOPE = ('Only modular automorphisms are treated: the quotient Nor(Γ)/Γ of the
          'that every automorphism of a given modular curve is modular need algebraic geometry that Mathlib does not '
          'have, and are not formalized.')
 
+# README table rows left out of an entry, by their tag: Part 3 §B (B₀(N)) is not part of the Palomar entry.
+SKIP_TAGS = {'part3': ('B₀(N)',)}
+
 PRIORITY_NOTE = ('The results on M_Δ, the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N), the coset count and h_Δ are first '
                  'presented with this formalization, by its author. No systematic literature search has been made, '
-                 'so whether these results, or equivalent ones, appear earlier in the literature is unknown. The '
-                 'description of the centre of GL₂⁺(ℚ), used for B₀(N), is standard.')
+                 'so whether these results, or equivalent ones, appear earlier in the literature is unknown.')
 
 # folder -> (project name, description, README parts, MSC 2020, extra scope, [(source, relationship, note)])
 ENTRIES = {
@@ -92,7 +94,7 @@ ENTRIES = {
          ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), which Part 2 generalizes to "
           'Γ_Δ(N).')]),
     'part3': (
-        'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, a coset count, and B₀(N)',
+        'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, and a coset count',
         ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups '
          'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which are the modular automorphism '
          'groups of the curves X_Δ(N) when −1 ∈ Δ, and twice as large otherwise: the matrices allowed by the '
@@ -100,15 +102,12 @@ ENTRIES = {
          'M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so '
          'Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), '
          'with σ in a fixed set of representatives of Γ₀(N)\\SL₂(ℤ) and H a Hermite normal form, such that σH '
-         'normalizes Γ_Δ(N); h_Δ = h(N) except under three explicit conditions on N and Δ; and the group B₀(N) of '
-         'Derickx–Najman, the normalizer of Γ₀(N) in GL₂⁺(ℚ) modulo Γ₀(N)·ℚ^×, is isomorphic to '
-         'B(N) = Nor(Γ₀(N))/Γ₀(N), while without the scalars the quotient is infinite. 14 theorems, no sorry, only '
-         'the axioms propext, Classical.choice and Quot.sound.'),
+         'normalizes Γ_Δ(N); and h_Δ = h(N) except under three explicit conditions on N and Δ. 11 theorems, no '
+         'sorry, only the axioms propext, Classical.choice and Quot.sound.'),
         [3], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
         [('ORIG3', 'other', PRIORITY_NOTE),
          ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), with the bound h(N) that the "
-          'generalized bound h_Δ extends to Γ_Δ(N).'),
-         ('DN', 'background', 'The group B₀(N), which the formalization proves isomorphic to B(N).')]),
+          'generalized bound h_Δ extends to Γ_Δ(N).')]),
     'part5': (
         'Modular automorphisms of Cartan modular curves of prime level',
         ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups '
@@ -202,7 +201,7 @@ def plain(md):
     return md.replace('**', '').replace('`', '')
 
 
-def alignment(parts):
+def alignment(parts, skip_tags=()):
     stmts, part, tag = [], None, ''
     for line in open('README.md'):
         m = re.match(r'^## Part (\d+)\. (.*)$', line)
@@ -216,6 +215,8 @@ def alignment(parts):
         if not (part and m and part[0] in parts):
             continue
         tag = m.group('tag') or tag
+        if tag in skip_tags:
+            continue
         refs = [REFS[r] for r in re.findall(r'\[([A-Za-z0-9]+)\]', m.group('stmt')) if r in REFS]
         source = f'Part {part[0]} ({plain(part[1])}), {tag}' if tag else f'Part {part[0]} ({plain(part[1])})'
         if refs:
@@ -237,7 +238,7 @@ def document(folder):
         'related_formalizations': [],
         'status': {'scope': SCOPE + scope_extra, 'sorry_count': 0, 'sorry_in_definitions': 0, 'axioms': []},
         **COMMON,
-        'alignment': alignment(parts),
+        'alignment': alignment(parts, SKIP_TAGS.get(folder, ())),
         'acknowledgements': ACK,
     }
 
