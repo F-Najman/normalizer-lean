@@ -6,3 +6,4 @@ public import NormalizerDelta.StatementsXN
 public import NormalizerDelta.StatementsCartan
 public import NormalizerDelta.StatementsGeneral
 public import NormalizerDelta.StatementsStar
+public import NormalizerDelta.StatementsMixed

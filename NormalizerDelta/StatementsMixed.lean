@@ -1,6 +1,7 @@
 module
 
 public import NormalizerDelta.DefsMixed
+public import NormalizerDelta.ProofsMixed
 
 @[expose] public section
 
@@ -61,15 +62,13 @@ theorem isUnit_det_of_mem_normG_inf {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂
     {m : Matrix (Fin 2) (Fin 2) ℤ} (hdet : 0 < m.det)
     (hprim : ∀ p : ℕ, p.Prime → p ∣ N₁ → ∃ i j, ¬ (p : ℤ) ∣ m i j)
     (hg : projSL (m.map (Int.cast : ℤ → ℝ)) ∈ NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂))) :
-    IsUnit ((m.det : ℤ) : ZMod N₁) := by
-  sorry
+    IsUnit ((m.det : ℤ) : ZMod N₁) := by apply isUnit_det_of_mem_normG_inf' <;> assumption
 
 /-- For H₁ of type I, Nor(Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂)) ≤ Nor(Γ_{H₂}(N₂)). -/
 theorem normG_inf_le {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.Coprime N₂)
     {H₁ : Subgroup SL(2, ZMod N₁)} (H₂ : Subgroup SL(2, ZMod N₂))
     (hloc : ∀ p : ℕ, p.Prime → p ∣ N₁ → ¬ IsBorelMod H₁ p ∨ IsSplitMod H₁ (p ^ N₁.factorization p)) :
-    NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)) ≤ NormG (toR (GammaH N₂ H₂)) := by
-  sorry
+    NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)) ≤ NormG (toR (GammaH N₂ H₂)) := by apply normG_inf_le' <;> assumption
 
 /-- For every H₁: an x = (det m)^{-1/2}·m ∈ Nor(Γ_{H₂}(N₂)) with det m prime to N₁ normalizes Γ iff m mod N₁
 normalizes H₁. -/
@@ -78,23 +77,20 @@ theorem mem_normG_inf_iff {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : 
     (hdet : 0 < m.det) (hunit : IsUnit ((m.det : ℤ) : ZMod N₁))
     (hg : projSL (m.map (Int.cast : ℤ → ℝ)) ∈ NormG (toR (GammaH N₂ H₂))) :
     projSL (m.map (Int.cast : ℤ → ℝ)) ∈ NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)) ↔
-      NormalizesMat H₁ (m.map (Int.cast : ℤ → ZMod N₁)) := by
-  sorry
+      NormalizesMat H₁ (m.map (Int.cast : ℤ → ZMod N₁)) := by apply mem_normG_inf_iff' <;> assumption
 
 /-- For every H₁: Nor(Γ) ∩ Γ_{H₂}(N₂) = Γ_{N(H₁)}(N₁) ∩ Γ_{H₂}(N₂). -/
 theorem normG_inf_inf_eq {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.Coprime N₂)
     (H₁ : Subgroup SL(2, ZMod N₁)) (H₂ : Subgroup SL(2, ZMod N₂)) :
     NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)) ⊓ toR (GammaH N₂ H₂) =
-      toR (GammaH N₁ (NormH H₁) ⊓ GammaH N₂ H₂) := by
-  sorry
+      toR (GammaH N₁ (NormH H₁) ⊓ GammaH N₂ H₂) := by apply normG_inf_inf_eq' <;> assumption
 
 /-- For every H₁: [Nor(Γ) ∩ Γ_{H₂}(N₂) : Γ] = [N(H₁) : H₁]. -/
 theorem relIndex_inf_normG {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.Coprime N₂)
     (H₁ : Subgroup SL(2, ZMod N₁)) (H₂ : Subgroup SL(2, ZMod N₂)) :
     (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)).relIndex
         (NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂)) ⊓ toR (GammaH N₂ H₂)) =
-      H₁.relIndex (NormH H₁) := by
-  sorry
+      H₁.relIndex (NormH H₁) := by apply relIndex_inf_normG' <;> assumption
 
 /-- For every H₁: the coset x·Γ_{H₂}(N₂) of x = (det m)^{-1/2}·m ∈ Nor(Γ_{H₂}(N₂)), det m prime to N₁, meets Nor(Γ)
 iff det m mod N₁ ∈ Det(H₁). -/
@@ -104,8 +100,7 @@ theorem exists_mul_mem_normG_inf_iff {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N�
     (hg : projSL (m.map (Int.cast : ℤ → ℝ)) ∈ NormG (toR (GammaH N₂ H₂))) :
     (∃ γ ∈ GammaH N₂ H₂,
         projSL (m.map (Int.cast : ℤ → ℝ)) * ofZ γ ∈ NormG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂))) ↔
-      IsNormDet H₁ ((m.det : ℤ) : ZMod N₁) := by
-  sorry
+      IsNormDet H₁ ((m.det : ℤ) : ZMod N₁) := by apply exists_mul_mem_normG_inf_iff' <;> assumption
 
 /-! ## §B. The order -/
 
@@ -116,8 +111,7 @@ theorem card_BG_inf {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.C
     (hloc : ∀ p : ℕ, p.Prime → p ∣ N₁ → ¬ IsBorelMod H₁ p ∨ IsSplitMod H₁ (p ^ N₁.factorization p)) :
     Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂))) =
       H₁.relIndex (NormH H₁) *
-        Nat.card {x : BG (toR (GammaH N₂ H₂)) // ∃ g, x.IsClassOf g ∧ HasNormDet H₁ g} := by
-  sorry
+        Nat.card {x : BG (toR (GammaH N₂ H₂)) // ∃ g, x.IsClassOf g ∧ HasNormDet H₁ g} := by apply card_BG_inf' <;> assumption
 
 /-- If moreover Det(H₁) = (ℤ/N₁)ˣ: |Nor(Γ)/Γ| = [N(H₁) : H₁] · |Nor(Γ_{H₂})/Γ_{H₂}|. -/
 theorem card_BG_inf_of_isNormDet {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.Coprime N₂)
@@ -125,8 +119,7 @@ theorem card_BG_inf_of_isNormDet {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (
     (hloc : ∀ p : ℕ, p.Prime → p ∣ N₁ → ¬ IsBorelMod H₁ p ∨ IsSplitMod H₁ (p ^ N₁.factorization p))
     (hall : ∀ u : (ZMod N₁)ˣ, IsNormDet H₁ u) :
     Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaH N₂ H₂))) =
-      H₁.relIndex (NormH H₁) * Nat.card (BG (toR (GammaH N₂ H₂))) := by
-  sorry
+      H₁.relIndex (NormH H₁) * Nat.card (BG (toR (GammaH N₂ H₂))) := by apply card_BG_inf_of_isNormDet' <;> assumption
 
 /-- **Γ_{H₁}(N₁) ∩ Γ_Δ(N₂)**, for H₁ of type I and every Δ ≤ (ℤ/N₂)ˣ: |Nor(Γ)/Γ| =
 [N(H₁) : H₁] · i_Δ · ψ(N₂)/ψ(n*) · #{Q ∥ n* : ι*_Q(Δ̄) = Δ̄, Q mod N₁ ∈ Det(H₁)}, with i_Δ = [(ℤ/N₂)ˣ : Δ]
@@ -136,8 +129,7 @@ theorem card_BG_inf_GammaDelta {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hc
     (hloc : ∀ p : ℕ, p.Prime → p ∣ N₁ → ¬ IsBorelMod H₁ p ∨ IsSplitMod H₁ (p ^ N₁.factorization p))
     (Δ : Subgroup (ZMod N₂)ˣ) :
     (Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaDelta N₂ Δ))) : ℚ) =
-      H₁.relIndex (NormH H₁) * Δ.index * (psi N₂ / psi (nStar N₂ Δ)) * wMixed H₁ N₂ Δ := by
-  sorry
+      H₁.relIndex (NormH H₁) * Δ.index * (psi N₂ / psi (nStar N₂ Δ)) * wMixed H₁ N₂ Δ := by apply card_BG_inf_GammaDelta' <;> assumption
 
 /-- **H₂ of prime level p fixing exactly one line, p mod N₁ ∈ Det(H₁)**: the Fricke involution W_p survives, and
 |Nor(Γ)/Γ| = 2 · [N(H₁) : H₁] · [N(H₂) : H₂]. -/
@@ -146,8 +138,7 @@ theorem card_BG_inf_prime_unique {N₁ p : ℕ} [NeZero N₁] (hp : p.Prime) (hc
     (hloc : ∀ q : ℕ, q.Prime → q ∣ N₁ → ¬ IsBorelMod H₁ q ∨ IsSplitMod H₁ (q ^ N₁.factorization q))
     {H₂ : Subgroup SL(2, ZMod p)} (h : FixesUniqueLine H₂) (hd : IsNormDet H₁ (p : ZMod N₁)) :
     Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaH p H₂))) =
-      2 * (H₁.relIndex (NormH H₁) * H₂.relIndex (NormH H₂)) := by
-  sorry
+      2 * (H₁.relIndex (NormH H₁) * H₂.relIndex (NormH H₂)) := by apply card_BG_inf_prime_unique' <;> assumption
 
 /-- **H₂ of prime level p fixing exactly one line, p mod N₁ ∉ Det(H₁)**: W_p does not survive, and
 |Nor(Γ)/Γ| = [N(H₁) : H₁] · [N(H₂) : H₂]. -/
@@ -155,8 +146,7 @@ theorem card_BG_inf_prime_unique_of_not {N₁ p : ℕ} [NeZero N₁] (hp : p.Pri
     {H₁ : Subgroup SL(2, ZMod N₁)}
     (hloc : ∀ q : ℕ, q.Prime → q ∣ N₁ → ¬ IsBorelMod H₁ q ∨ IsSplitMod H₁ (q ^ N₁.factorization q))
     {H₂ : Subgroup SL(2, ZMod p)} (h : FixesUniqueLine H₂) (hd : ¬ IsNormDet H₁ (p : ZMod N₁)) :
-    Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaH p H₂))) = H₁.relIndex (NormH H₁) * H₂.relIndex (NormH H₂) := by
-  sorry
+    Nat.card (BG (toR (GammaH N₁ H₁ ⊓ GammaH p H₂))) = H₁.relIndex (NormH H₁) * H₂.relIndex (NormH H₂) := by apply card_BG_inf_prime_unique_of_not' <;> assumption
 
 /-! ## §C. Corollaries -/
 
@@ -164,40 +154,33 @@ theorem card_BG_inf_prime_unique_of_not {N₁ p : ℕ} [NeZero N₁] (hp : p.Pri
 theorem card_BG_Gamma_inf {N₁ N₂ : ℕ} [NeZero N₁] [NeZero N₂] (hcop : N₁.Coprime N₂)
     (H₂ : Subgroup SL(2, ZMod N₂)) :
     Nat.card (BG (toR (CongruenceSubgroup.Gamma N₁ ⊓ GammaH N₂ H₂))) =
-      Nat.card SL(2, ZMod N₁) * Nat.card (BG (toR (GammaH N₂ H₂))) := by
-  sorry
+      Nat.card SL(2, ZMod N₁) * Nat.card (BG (toR (GammaH N₂ H₂))) := by apply card_BG_Gamma_inf' <;> assumption
 
 /-- For primes p ≥ 5 (ε a non-square mod p): Γ_ns⁺(p) ∩ Γ_{H₂}(N₂) has as many classes as Γ_{H₂}(N₂). -/
 theorem card_BG_GammaNsPlus_inf {p N₂ : ℕ} [NeZero N₂] (hp : p.Prime) (hp5 : 5 ≤ p) {ε : ZMod p}
     (hε : ¬ IsSquare ε) (hcop : p.Coprime N₂) (H₂ : Subgroup SL(2, ZMod N₂)) :
-    Nat.card (BG (toR (GammaNsPlus p ε ⊓ GammaH N₂ H₂))) = Nat.card (BG (toR (GammaH N₂ H₂))) := by
-  sorry
+    Nat.card (BG (toR (GammaNsPlus p ε ⊓ GammaH N₂ H₂))) = Nat.card (BG (toR (GammaH N₂ H₂))) := by apply card_BG_GammaNsPlus_inf' <;> assumption
 
 /-- For primes p ≥ 7: Γ_sp⁺(p) ∩ Γ_{H₂}(N₂) has as many classes as Γ_{H₂}(N₂). -/
 theorem card_BG_GammaSpPlus_inf {p N₂ : ℕ} [NeZero N₂] (hp : p.Prime) (hp7 : 7 ≤ p) (hcop : p.Coprime N₂)
     (H₂ : Subgroup SL(2, ZMod N₂)) :
-    Nat.card (BG (toR (GammaSpPlus p ⊓ GammaH N₂ H₂))) = Nat.card (BG (toR (GammaH N₂ H₂))) := by
-  sorry
+    Nat.card (BG (toR (GammaSpPlus p ⊓ GammaH N₂ H₂))) = Nat.card (BG (toR (GammaH N₂ H₂))) := by apply card_BG_GammaSpPlus_inf' <;> assumption
 
 /-! ## §S. Sanity checks -/
 
 /-- Det(Q₈) for Q₈ ≤ SL₂(F₇) is the set of non-zero squares. -/
-theorem isNormDet_Q8mod7_iff {u : ZMod 7} (hu : u ≠ 0) : IsNormDet Q8mod7 u ↔ IsSquare u := by
-  sorry
+theorem isNormDet_Q8mod7_iff {u : ZMod 7} (hu : u ≠ 0) : IsNormDet Q8mod7 u ↔ IsSquare u := by apply isNormDet_Q8mod7_iff' <;> assumption
 
 /-- |Nor(Γ_{Q₈}(7))/Γ_{Q₈}(7)| = 6 (N(Q₈) = 2.S₄). -/
-theorem card_BG_Q8mod7 : Nat.card (BG (toR (GammaH 7 Q8mod7))) = 6 := by
-  sorry
+theorem card_BG_Q8mod7 : Nat.card (BG (toR (GammaH 7 Q8mod7))) = 6 := by apply card_BG_Q8mod7' <;> assumption
 
 /-- With Γ₀(2): 12 = 6 · 2, as 2 = 3² is a square mod 7 (w₂ survives). -/
 theorem card_BG_Q8mod7_inf_two :
-    Nat.card (BG (toR (GammaH 7 Q8mod7 ⊓ CongruenceSubgroup.Gamma0 2))) = 12 := by
-  sorry
+    Nat.card (BG (toR (GammaH 7 Q8mod7 ⊓ CongruenceSubgroup.Gamma0 2))) = 12 := by apply card_BG_Q8mod7_inf_two' <;> assumption
 
 /-- With Γ₀(3): 6, not 6 · 2, as 3 is not a square mod 7 (w₃ does not survive). -/
 theorem card_BG_Q8mod7_inf_three :
-    Nat.card (BG (toR (GammaH 7 Q8mod7 ⊓ CongruenceSubgroup.Gamma0 3))) = 6 := by
-  sorry
+    Nat.card (BG (toR (GammaH 7 Q8mod7 ⊓ CongruenceSubgroup.Gamma0 3))) = 6 := by apply card_BG_Q8mod7_inf_three' <;> assumption
 
 end
 
