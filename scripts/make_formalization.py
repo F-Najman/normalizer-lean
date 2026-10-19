@@ -1,12 +1,13 @@
 """Write palomar/<entry>/formalization.yaml, the Palomar metadata (formalization.yaml v0.4) of each entry.
 
 The entries are the challenges of `make_challenge.py` except Part 4 and Part 3 §B (B₀(N)), which are not Palomar
-entries. The fields are below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
+entries. Parts 7 and 8 have their own automation and review notes (`OVERRIDES`). The fields are below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
 README.md, so the two cannot drift apart; its theorem names must be exactly those of the entry's Comparator
 configuration.
 Run: python3 scripts/make_formalization.py            (writes the files)
      python3 scripts/make_formalization.py --check    (checks that they are up to date and valid)
 """
+import copy
 import json
 import os
 import re
@@ -35,6 +36,14 @@ SOURCES = {
     'Ze': {'title': 'Normalizers of congruence groups in SL₂(ℝ) and automorphisms of lattices',
            'authors': ['Shaul Zemel'], 'id': 'doi:10.1142/S1793042117500701', 'type': 'article',
            'location': 'Int. J. Number Theory 13 (2017), 1275–1300; arXiv:1512.07547'},
+    'Bo': {'title': 'Computing models for quotients of modular curves', 'authors': ['Josha Box'],
+           'id': 'doi:10.1007/s40993-021-00276-8', 'type': 'article',
+           'location': 'Res. Number Theory 7 (2021), no. 3, Paper No. 51; arXiv:2101.03797'},
+    'Fe': {'title': 'A moduli approach to quadratic Q-curves realizing projective mod p Galois representations',
+           'authors': ['Julio Fernández'], 'id': 'doi:10.4171/rmi/527', 'type': 'article',
+           'location': 'Rev. Mat. Iberoam. 24 (2008), no. 1, 1–30; arXiv:math/0506070'},
+    'ORIG8': {'title': 'Normalizers at mixed level: results first presented with this formalization',
+              'type': 'original-proof'},
     'DN': {'title': 'Sporadic points on X₀(N)', 'authors': ['M. Derickx', 'F. Najman'], 'id': 'arXiv:2511.09015',
            'type': 'preprint', 'location': 'https://arxiv.org/abs/2511.09015'},
 }
@@ -146,6 +155,59 @@ ENTRIES = {
           'propositions. Numbering of arXiv v1.'),
          ('DLM22', 'background', 'Proposition 5.6 proves the case of Cartan groups and their normalizers of the '
           'general theorem by the same argument; numbering of arXiv v2.')]),
+    'part7': (
+        'The normalizer of Γ_Δ(N) for every N and every Δ',
+        ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizer in SL₂(ℝ) of Γ_Δ(N) for every '
+         'N ≥ 1 and every subgroup Δ ≤ (ℤ/N)ˣ, with or without −1. Let h* be the largest h with h² ∣ N, d² ≡ 1 '
+         '(mod h) for every d ∈ Δ, and Δ ⊇ ker((ℤ/N)ˣ → (ℤ/(N/h))ˣ); let n* = N/h*² and D* = diag(h*, 1). Then '
+         'D*⁻¹Γ₀(n*)D* ≤ Nor(Γ_Δ(N)) ≤ D*⁻¹Γ₀(n*)⁺D*; an Atkin–Lehner element w_Q of level n* (conjugated by D*) '
+         'normalizes Γ_Δ(N) iff ι*_Q(Δ̄) = Δ̄, where ι*_Q inverts the components of (ℤ/(N/h*))ˣ at the primes of '
+         'Q; so Nor(Γ_Δ(N)) is described exactly, its index over Γ_Δ(N) is [(ℤ/N)ˣ : Δ]·ψ(N)/ψ(n*)·#{Q ∥ n* : '
+         'ι*_Q(Δ̄) = Δ̄}, and Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) iff h* ∣ h(N). This is Zemel\'s determination of these '
+         'normalizers, restated in closed form. 20 theorems, no sorry, only the axioms propext, Classical.choice '
+         'and Quot.sound.'),
+        [7], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
+        [('Ze', 'independently-proves', "Corollary 2.6, with Lemma 2.4, Proposition 2.7 and Proposition 1.9(iii): "
+          "h* is Zemel's σ_H, and D*⁻¹Γ₀(n*)⁺D* is his Γ₀^{∗,σ_H}(N) (Remark 1.10). The order formula is not "
+          'stated there in this form but follows directly. The proof formalized here was found independently, '
+          'from numerical data, before the author learned of the paper; the Lean proofs follow that proof.'),
+         ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), the case Δ = (ℤ/N)ˣ."),
+         ('AL', 'background', 'The Atkin–Lehner elements.'),
+         ('KK', 'background', 'The case Δ = {±1}, N ≠ 4 (the normalizer of ±Γ₁(N)).'),
+         ('L', 'background', 'The case Δ = {±1}, N ≠ 4 (the normalizer of ±Γ₁(N)).')]),
+    'part8': (
+        'Normalizers of congruence subgroups at mixed level: Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂)',
+        ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizer in SL₂(ℝ) of '
+         'Γ = Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂) for coprime N₁ and N₂, the group of the fibre product X_{H₁} ×_{X(1)} X_{H₂}, '
+         'where H₁ ≤ SL₂(ℤ/N₁) is such that, at every p ∣ N₁, H₁ mod p fixes no line or H₁ mod p^{v_p(N₁)} lies in '
+         'a split Cartan subgroup, and H₂ ≤ SL₂(ℤ/N₂) is arbitrary. Nor(Γ) ≤ Nor(Γ_{H₂}(N₂)); an element '
+         '(det m)^{−1/2}·m of Nor(Γ_{H₂}(N₂)) normalizes Γ iff m mod N₁ normalizes H₁; and |Nor(Γ)/Γ| is [N(H₁) : '
+         'H₁] times the number of classes of Nor(Γ_{H₂})/Γ_{H₂} whose determinant mod N₁ is the determinant of an '
+         'element of the normalizer of H₁ in GL₂(ℤ/N₁). Explicit forms follow for Γ_Δ(N₂) (the class of an '
+         'Atkin–Lehner involution w_Q contains an element of Nor(Γ) iff Q mod N₁ is such a determinant) and for H₂ '
+         'of prime level fixing exactly '
+         'one line; corollaries for Γ(N₁), Γ_ns⁺(p) and Γ_sp⁺(p); and an example: for the quaternion group Q₈ ≤ '
+         'SL₂(F₇), the determinants are the squares, and Γ_{Q₈}(7) ∩ Γ₀(3) has 6 modular automorphisms, not 12, '
+         'because the Fricke involution of X₀(3) does not lift. 18 theorems, no sorry, only the axioms propext, '
+         'Classical.choice and Quot.sound.'),
+        [8], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
+        [('ORIG8', 'other', 'The statements, in particular Nor(Γ) ≤ Nor(Γ_{H₂}(N₂)) and the order formula with '
+          'the determinant condition, are first presented with this formalization. A literature '
+          'search (October 2026: arXiv, journals and web search; books and MathSciNet were not searched) found the '
+          'ingredients and special cases below, but not these statements; whether they appear earlier is '
+          'unknown.'),
+         ('DLM26', 'background', 'Proposition 4.5 (1), (4): the local restrictions on det m that make det m prime '
+          'to N₁; Algorithm 4.9 computes the normalizer of any Γ_H. Numbering of arXiv v1.'),
+         ('Bo', 'background', 'Lemma 2.7 and Definition 2.8: an element of GL₂(ℤ/N₁) normalizing H₁ whose '
+          'determinant is det m mod N₁ lifts the automorphism given by m. This is the "if" direction of the coset '
+          'criterion; the converse, the inclusion Nor(Γ) ≤ Nor(Γ_{H₂}(N₂)) and the order are not stated there.'),
+         ('DLM22', 'other', 'Proposition 5.6 treats Cartan and Cartan-plus groups of composite level, including the '
+          'case n ≡ 2 mod 4 with a Cartan-plus group split at 2, where one more element, of determinant 2, '
+          'normalizes; numbering of arXiv v2.'),
+         ('Fe', 'other', 'Proposition 3.1: on the fibre product of X₀(N) and X(p), the automorphisms extending the '
+          'Atkin–Lehner involution w_N, and the structure of the group they generate, which depends on whether N '
+          'is a square mod p.'),
+         ('Ze', 'background', 'The normalizer of Γ_Δ(N₂), used for the explicit form for Γ_Δ(N₂) (Part 7).')]),
 }
 
 COMMON = {
@@ -194,12 +256,56 @@ COMMON = {
     },
 }
 
+# Parts 7 and 8 were added on 2026-10-19, with a different workflow from Parts 1–6: their own automation and review notes.
+OVERRIDES = {
+    'part7': {
+        'prompting_notes': (
+            'Staged workflow. The theorem was found by an AI agent from numerical data and proved on paper; the '
+            'definitions and statements were then written first (all sorry), checked numerically '
+            '(scripts/check_star_statements.py), reviewed by two fresh reviewer agents (blind and adversarial; '
+            'statements they suggested were added), approved by the author, and frozen; only then were they '
+            'proved. The frozen statements are checked mechanically by scripts/check_star_frozen.py.'),
+        'wall_time': 'about one day',
+        'automation_notes': (
+            'The author chose to formalize this result and approved every definition and statement before it was '
+            'frozen. After freezing, no statement changed. The mathematics on paper and the Lean code, proofs '
+            'included, were written by AI agents.'),
+        'review_status': 'statements approved by the author; proofs machine-checked',
+        'review_notes': (
+            'The definitions and statements were checked numerically against a brute-force computation of the '
+            'normalizer, reviewed by two AI reviewer agents before freezing, and approved by the author. '
+            'Comparator checks the challenge against its solution, definitions included.'),
+    },
+    'part8': {
+        'prompting_notes': (
+            'Staged workflow. At the author\'s request, an AI agent proposed the case of mixed level, which the author chose, found the theorem '
+            'from numerical experiments, proved it on paper and checked the literature; the definitions and '
+            'statements were then written first (all sorry), checked numerically '
+            '(scripts/check_mixed_statements.py), approved by the author, and frozen; only then were they proved. '
+            'The frozen statements are checked mechanically by scripts/check_mixed_frozen.py.'),
+        'wall_time': 'about one day',
+        'automation_notes': (
+            'The author chose to formalize this result and approved the definitions and statements before they '
+            'were frozen. After freezing, no statement changed. The theorem, its proof on paper and the Lean code, '
+            'proofs included, were found and written by AI agents.'),
+        'review_status': 'statements approved by the author; proofs machine-checked',
+        'review_notes': (
+            'The definitions and statements were checked numerically against a brute-force computation of the '
+            'normalizer (3716 cases and 143 for the corollaries) and approved by the author before freezing. '
+            'After freezing, two AI reviewer agents (blind and adversarial) reviewed them and found no statement '
+            'whose meaning differs from its description; their wording remarks (the statements give orders, and '
+            '"w_Q survives" means that its class meets the normalizer) were applied to the README and to this '
+            'metadata, not to the frozen Lean files. Comparator checks the challenge against its solution, '
+            'definitions included.'),
+    },
+}
+
 ACK = ('Mathlib. Comparator (leanprover/comparator). David Kurniadi Angdinata made the challenge self-contained '
        '(pull request #1), so that Comparator also checks the definitions.')
 
 REFS = {'AL': 'Atkin–Lehner', 'AS': 'Akbaş–Singerman', 'Ba': 'Bars', 'KK': 'Kim–Koo', 'L': 'Lang',
         'Ne': 'Newman', 'DLM22': 'Dose–Lido–Mercuri 2022', 'DLM26': 'Dose–Lido–Mercuri 2026',
-        'DN': 'Derickx–Najman', 'Ze': 'Zemel'}
+        'DN': 'Derickx–Najman', 'Ze': 'Zemel', 'Bo': 'Box'}
 
 ROW = re.compile(r'^\| *(?P<tag>[^|]*?) *\| *\[`(?P<name>[^`]+)`\]\((?P<file>[^)#]+)#L\d+\) *\| *(?P<stmt>.*?) *\|$')
 
@@ -236,6 +342,20 @@ def alignment(parts, skip_tags=()):
     return {'namespace': 'NormalizerLean', 'statements': stmts}
 
 
+def common(folder):
+    """COMMON, with the notes of `OVERRIDES` for Parts 7 and 8."""
+    doc = copy.deepcopy(COMMON)
+    o = OVERRIDES.get(folder)
+    if o:
+        method = doc['automation']['methods'][0]
+        method['prompting_notes'] = o['prompting_notes']
+        method['cost']['wall_time'] = o['wall_time']
+        doc['automation']['notes'] = o['automation_notes']
+        doc['review']['status'] = o['review_status']
+        doc['review']['notes'] = o['review_notes']
+    return doc
+
+
 def document(folder):
     name, description, parts, msc, scope_extra, sources = ENTRIES[folder]
     return {
@@ -246,7 +366,7 @@ def document(folder):
         'sources': [dict(SOURCES[k], relationship=rel, note=note) for k, rel, note in sources],
         'related_formalizations': [],
         'status': {'scope': SCOPE + scope_extra, 'sorry_count': 0, 'sorry_in_definitions': 0, 'axioms': []},
-        **COMMON,
+        **common(folder),
         'alignment': alignment(parts, SKIP_TAGS.get(folder, ())),
         'acknowledgements': ACK,
     }

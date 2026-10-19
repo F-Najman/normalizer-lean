@@ -89,7 +89,8 @@ Highlights:
   normalizer of H₁ in GL₂(ℤ/N₁).
   * Nor(Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂)) ≤ Nor(Γ_{H₂}(N₂)).
   * The order is [N(H₁) : H₁] times the number of classes of Nor(Γ_{H₂})/Γ_{H₂} whose determinant lies in Det(H₁)
-    mod N₁. An Atkin–Lehner involution w_Q at level N₂ survives iff Q mod N₁ ∈ Det(H₁).
+    mod N₁. The class of an Atkin–Lehner involution w_Q at level N₂ contains an element of Nor(Γ) iff
+    Q mod N₁ ∈ Det(H₁).
   * For Q₈ ≤ SL₂(F₇), Det(Q₈) is the set of squares, so Γ_{Q₈}(7) ∩ Γ₀(3) has order 6, not 6 · 2.
 
 Only **modular** automorphisms are counted, that is, those coming from the normalizer in SL₂(ℝ). Results saying
@@ -420,8 +421,8 @@ group of the fibre product X_{H₁} ×_{X(1)} X_{H₂}.
 |  | [`card_BG_inf_of_isNormDet`](NormalizerDelta/StatementsMixed.lean#L117) | if Det(H₁) = (ℤ/N₁)ˣ: \|Nor(Γ)/Γ\| = [N(H₁) : H₁] · \|Nor(Γ_{H₂})/Γ_{H₂}\| |
 |  | [`card_BG_inf_GammaDelta`](NormalizerDelta/StatementsMixed.lean#L127) | for Γ_Δ(N₂): [N(H₁) : H₁] · i_Δ · ψ(N₂)/ψ(n*) · #{Q ∥ n* : ι*_Q(Δ̄) = Δ̄, Q mod N₁ ∈ Det(H₁)} (Part 7 is N₁ = 1) |
 |  | [`card_BG_inf_prime_unique`](NormalizerDelta/StatementsMixed.lean#L136) | for H₂ of prime level p with exactly one fixed line, p mod N₁ ∈ Det(H₁): 2 · [N(H₁) : H₁] · [N(H₂) : H₂] |
-|  | [`card_BG_inf_prime_unique_of_not`](NormalizerDelta/StatementsMixed.lean#L145) | the same with p mod N₁ ∉ Det(H₁): [N(H₁) : H₁] · [N(H₂) : H₂] (the Fricke involution does not survive) |
-| corollaries | [`card_BG_Gamma_inf`](NormalizerDelta/StatementsMixed.lean#L154) | Γ(N₁) ∩ Γ_{H₂}(N₂): \|SL₂(ℤ/N₁)\| · \|Nor(Γ_{H₂})/Γ_{H₂}\| |
+|  | [`card_BG_inf_prime_unique_of_not`](NormalizerDelta/StatementsMixed.lean#L145) | the same with p mod N₁ ∉ Det(H₁): [N(H₁) : H₁] · [N(H₂) : H₂] (no element of the class of the Fricke involution normalizes Γ) |
+| corollaries | [`card_BG_Gamma_inf`](NormalizerDelta/StatementsMixed.lean#L154) | Γ(N₁) ∩ Γ_{H₂}(N₂): \|SL₂(ℤ/N₁)\| · \|Nor(Γ_{H₂})/Γ_{H₂}\| (in SL₂(ℝ); −1 ∉ Γ(N₁) for N₁ ≥ 3, so this is not the count for X(N₁) ×_{X(1)} X_{H₂}) |
 |  | [`card_BG_GammaNsPlus_inf`](NormalizerDelta/StatementsMixed.lean#L160) | Γ_ns⁺(p) ∩ Γ_{H₂}(N₂), p ≥ 5: as many as Γ_{H₂}(N₂) |
 |  | [`card_BG_GammaSpPlus_inf`](NormalizerDelta/StatementsMixed.lean#L165) | Γ_sp⁺(p) ∩ Γ_{H₂}(N₂), p ≥ 7: as many as Γ_{H₂}(N₂) |
 | sanity | [`isNormDet_Q8mod7_iff`](NormalizerDelta/StatementsMixed.lean#L172) | for Q₈ ≤ SL₂(F₇), Det(Q₈) is the set of non-zero squares |
@@ -432,6 +433,12 @@ group of the fibre product X_{H₁} ×_{X(1)} X_{H₂}.
 Sources: the restriction det m prime to N₁ is [DLM26, Prop. 4.5(1), (4)], as in Part 6. The lifting in
 `exists_mul_mem_normG_inf_iff` (⇐) is [Bo, Lemma 2.7]. [DLM22, Prop. 5.6] is the case of Cartan groups and
 N₂ = 2. The other statements were not found in this form in the literature checked (October 2026, not exhaustive).
+
+The statements are about orders: §A gives an extension 1 → N(H₁)/H₁ → Nor(Γ)/Γ → {classes with det m mod N₁ ∈
+Det(H₁)} → 1, not a product, and "w_Q survives" in the docstrings means that the class of w_Q contains an element of
+Nor(Γ) (W₂ itself does not normalize Γ_{Q₈}(7) ∩ Γ₀(2), but another element of its class does). After freezing, the
+statements were reviewed by two AI reviewer agents (blind and adversarial), who found no statement whose meaning
+differs from its description.
 
 ## Building and checking
 
@@ -492,7 +499,7 @@ Each script prints `OK`.
 
 <a id="checking-with-comparator"></a>
 **Checking with Comparator.** The statements form nine challenges, one for each part, with the B₀(N) theorems of
-Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4, Part 7 and Part 8 are Palomar entries:
+Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palomar metadata (`formalization.yaml`):
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
@@ -503,8 +510,8 @@ Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4, Part 7 and P
 | Part 4 | [`Challenge/Part4.lean`](Challenge/Part4.lean) | [`Solution/Part4.lean`](Solution/Part4.lean) | [`palomar/part4/`](palomar/part4) (no Palomar metadata) | 14 |
 | Part 5 | [`Challenge/Part5.lean`](Challenge/Part5.lean) | [`Solution/Part5.lean`](Solution/Part5.lean) | [`palomar/part5/`](palomar/part5) | 17 |
 | Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
-| Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) (no Palomar metadata) | 20 |
-| Part 8 | [`Challenge/Part8.lean`](Challenge/Part8.lean) | [`Solution/Part8.lean`](Solution/Part8.lean) | [`palomar/part8/`](palomar/part8) (no Palomar metadata) | 18 |
+| Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) | 20 |
+| Part 8 | [`Challenge/Part8.lean`](Challenge/Part8.lean) | [`Solution/Part8.lean`](Solution/Part8.lean) | [`palomar/part8/`](palomar/part8) | 18 |
 
 Each challenge imports only Mathlib, so it is the complete specification of its part. It copies verbatim the parts
 of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,

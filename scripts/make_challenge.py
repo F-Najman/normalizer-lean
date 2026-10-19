@@ -1,8 +1,8 @@
 """Generate the Comparator challenges (https://github.com/leanprover/comparator), one for each part.
 
 The 174 statements form nine challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
-Part 3 has a challenge of its own. Parts 1, 2, 5 and 6 and Part 3 without §B are the Palomar entries
-(`make_formalization.py` writes their metadata); Part 4, Part 3 §B, Part 7 and Part 8 are checked in the same way. For each
+Part 3 has a challenge of its own. Parts 1, 2, 5, 6, 7 and 8 and Part 3 without §B are the Palomar entries
+(`make_formalization.py` writes their metadata); Part 4 and Part 3 §B are checked in the same way. For each
 challenge:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
