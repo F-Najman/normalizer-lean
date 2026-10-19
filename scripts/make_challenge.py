@@ -50,7 +50,7 @@ ENTRIES = [
     ('Part6', 'part6', 'general modular curves X_H', [6], [1, 2, 3, 4, 6], ['NormalizerDelta/StatementsGeneral.lean']),
     ('Part7', 'part7', 'the normalizer of Γ_Δ(N) for every Δ', [7], [1, 2, 3, 7],
      ['NormalizerDelta/StatementsStar.lean']),
-    ('Part8', 'part8', 'the normalizer at mixed level', [8], [1, 2, 3, 4, 5, 6, 7, 8],
+    ('Part8', 'part8', 'the normalizer at mixed level', [8], [1, 2, 3, 5, 6, 7, 8],
      ['NormalizerDelta/StatementsMixed.lean']),
 ]
 
