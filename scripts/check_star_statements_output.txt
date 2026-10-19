@@ -1,0 +1,3 @@
+levels 1..250: 5617 pairs (N, Delta), 0 failures
+card_BG_GammaDeltaR_50: [120]
+card_BG_GammaDeltaR_4_bot: [4]
