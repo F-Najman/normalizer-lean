@@ -1,6 +1,7 @@
 module
 
 public import NormalizerDelta.DefsStar
+public import NormalizerDelta.ProofsStar
 
 @[expose] public section
 
@@ -40,109 +41,89 @@ noncomputable section
 /-! ## §S. h*_Δ -/
 
 /-- h = 1 satisfies C(h). -/
-theorem isHStar_one (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsHStar N Δ 1 := by
-  sorry
+theorem isHStar_one (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsHStar N Δ 1 := by apply isHStar_one' <;> assumption
 
 /-- h*_Δ satisfies C(h). -/
-theorem isHStar_hStar (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsHStar N Δ (hStar N Δ) := by
-  sorry
+theorem isHStar_hStar (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsHStar N Δ (hStar N Δ) := by apply isHStar_hStar' <;> assumption
 
 /-- Every h with C(h) divides h*_Δ: h*_Δ is the largest such h also for divisibility. -/
 theorem dvd_hStar {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) {h : ℕ} (hh : IsHStar N Δ h) :
-    h ∣ hStar N Δ := by
-  sorry
+    h ∣ hStar N Δ := by apply dvd_hStar' <;> assumption
 
 /-- h*_Δ ∣ h_Δ. -/
-theorem hStar_dvd_hDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : hStar N Δ ∣ hDelta N Δ := by
-  sorry
+theorem hStar_dvd_hDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : hStar N Δ ∣ hDelta N Δ := by apply hStar_dvd_hDelta' <;> assumption
 
 /-- For Δ = (ℤ/N)ˣ (Γ_Δ(N) = Γ₀(N)): h*_Δ = h(N). -/
-theorem hStar_top (N : ℕ) [NeZero N] : hStar N ⊤ = hPart N := by
-  sorry
+theorem hStar_top (N : ℕ) [NeZero N] : hStar N ⊤ = hPart N := by apply hStar_top' <;> assumption
 
 /-- For Δ = {±1} (Γ_Δ(N) = ±Γ₁(N)) and N ≠ 4: h*_Δ = 1. -/
-theorem hStar_pmOne {N : ℕ} [NeZero N] (hN : N ≠ 4) : hStar N (pmOne N) = 1 := by
-  sorry
+theorem hStar_pmOne {N : ℕ} [NeZero N] (hN : N ≠ 4) : hStar N (pmOne N) = 1 := by apply hStar_pmOne' <;> assumption
 
 /-- The exception N = 4 of `hStar_pmOne`: h*_{±1} = 2 (= h(4); here {±1} = (ℤ/4)ˣ). -/
-theorem hStar_pmOne_four : hStar 4 (pmOne 4) = 2 := by
-  sorry
+theorem hStar_pmOne_four : hStar 4 (pmOne 4) = 2 := by apply hStar_pmOne_four' <;> assumption
 
 /-- For N = M² and Δ = {d ≡ ±1 mod M} (X_Δ(M²) ≅ X(M), `conj_GammaDelta_sq`): h*_Δ = M. -/
 theorem hStar_deltaPm_sq (M : ℕ) [NeZero M] :
-    hStar (M ^ 2) (deltaPm (M ^ 2) M (dvd_pow_self M two_ne_zero)) = M := by
-  sorry
+    hStar (M ^ 2) (deltaPm (M ^ 2) M (dvd_pow_self M two_ne_zero)) = M := by apply hStar_deltaPm_sq' <;> assumption
 
 /-! ## §N. The normalizer of Γ_Δ(N) -/
 
 /-- **Lower bound**: D*⁻¹Γ₀(n*)D* ≤ Nor(Γ_Δ(N)). -/
 theorem Gamma0Star_le_normG (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
-    Gamma0Star N Δ ≤ NormG (GammaDeltaR N Δ) := by
-  sorry
+    Gamma0Star N Δ ≤ NormG (GammaDeltaR N Δ) := by apply Gamma0Star_le_normG' <;> assumption
 
 /-- Γ₀(N) ≤ D*⁻¹Γ₀(n*)D*, of index ψ(N)/ψ(n*). -/
 theorem Gamma0R_le_Gamma0Star (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
     Gamma0R N ≤ Gamma0Star N Δ ∧
-      ((Gamma0R N).relIndex (Gamma0Star N Δ) : ℚ) = psi N / psi (nStar N Δ) := by
-  sorry
+      ((Gamma0R N).relIndex (Gamma0Star N Δ) : ℚ) = psi N / psi (nStar N Δ) := by apply Gamma0R_le_Gamma0Star' <;> assumption
 
 /-- **Upper bound** (the sharp generalized Newman bound): Nor(Γ_Δ(N)) ≤ D*⁻¹Γ₀(n*)⁺D*. -/
 theorem normG_le_MStar (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
-    NormG (GammaDeltaR N Δ) ≤ MStar N Δ := by
-  sorry
+    NormG (GammaDeltaR N Δ) ≤ MStar N Δ := by apply normG_le_MStar' <;> assumption
 
 /-- M*_Δ ≤ M_Δ: `normG_le_MStar` sharpens Part 3's `normG_GammaDeltaR_le_MDelta`. -/
-theorem MStar_le_MDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : MStar N Δ ≤ MDelta N Δ := by
-  sorry
+theorem MStar_le_MDelta (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : MStar N Δ ≤ MDelta N Δ := by apply MStar_le_MDelta' <;> assumption
 
 /-- Q = 1 is always ι*-stable (ι*_1 is the identity), matching `Gamma0Star_le_normG`. -/
-theorem isIotaStable_one (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsIotaStable N Δ 1 := by
-  sorry
+theorem isIotaStable_one (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) : IsIotaStable N Δ 1 := by apply isIotaStable_one' <;> assumption
 
 /-- **The Atkin–Lehner elements**: for Q ∥ n* and an Atkin–Lehner element w of level n* for Q,
 D*⁻¹ w D* normalizes Γ_Δ(N) iff ι*_Q(Δ̄) = Δ̄. -/
 theorem conj_mem_normG_iff {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) {Q : ℕ} (hQ : Q ∣ nStar N Δ)
     (hQc : Nat.Coprime Q (nStar N Δ / Q)) {w : SL(2, ℝ)} (hw : IsAtkinLehner (nStar N Δ) Q w) :
-    (Dstar N Δ)⁻¹ * w * Dstar N Δ ∈ NormG (GammaDeltaR N Δ) ↔ IsIotaStable N Δ Q := by
-  sorry
+    (Dstar N Δ)⁻¹ * w * Dstar N Δ ∈ NormG (GammaDeltaR N Δ) ↔ IsIotaStable N Δ Q := by apply conj_mem_normG_iff' <;> assumption
 
 /-- **The normalizer of Γ_Δ(N)**: g normalizes Γ_Δ(N) iff D* g D*⁻¹ is an Atkin–Lehner element of level n* for
 some Q ∥ n* with ι*_Q(Δ̄) = Δ̄.  That is, Nor(Γ_Δ(N)) = D*⁻¹⟨Γ₀(n*), w_Q : Q ∥ n*, ι*_Q(Δ̄) = Δ̄⟩D*. -/
 theorem mem_normG_GammaDeltaR_iff {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) (g : SL(2, ℝ)) :
     g ∈ NormG (GammaDeltaR N Δ) ↔
       ∃ Q : ℕ, Q ∣ nStar N Δ ∧ Nat.Coprime Q (nStar N Δ / Q) ∧ IsIotaStable N Δ Q ∧
-        IsAtkinLehner (nStar N Δ) Q (Dstar N Δ * g * (Dstar N Δ)⁻¹) := by
-  sorry
+        IsAtkinLehner (nStar N Δ) Q (Dstar N Δ * g * (Dstar N Δ)⁻¹) := by apply mem_normG_GammaDeltaR_iff' <;> assumption
 
 /-- **The order**: [Nor(Γ_Δ(N)) : Γ_Δ(N)] = i_Δ · ψ(N)/ψ(n*) · #{Q ∥ n* : ι*_Q(Δ̄) = Δ̄}, for every N ≥ 1 and
 every Δ, with i_Δ = Δ.index = [(ℤ/N)ˣ : Δ].  (For −1 ∈ Δ this is the number of modular automorphisms of
 X_Δ(N).) -/
 theorem card_BG_GammaDeltaR_hStar (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
-    (Nat.card (BG (GammaDeltaR N Δ)) : ℚ) = Δ.index * (psi N / psi (nStar N Δ)) * wStar N Δ := by
-  sorry
+    (Nat.card (BG (GammaDeltaR N Δ)) : ℚ) = Δ.index * (psi N / psi (nStar N Δ)) * wStar N Δ := by apply card_BG_GammaDeltaR_hStar' <;> assumption
 
 /-- Link with Part 2: if h*_Δ = 1, then w*_Δ = #{Q ∥ N : ι_Q(Δ) = Δ} (`sIota`), for every N (no condition on
 4 ∣ N or 9 ∣ N). -/
 theorem wStar_eq_sIota {N : ℕ} [NeZero N] (Δ : Subgroup (ZMod N)ˣ) (h : hStar N Δ = 1) :
-    wStar N Δ = sIota N Δ := by
-  sorry
+    wStar N Δ = sIota N Δ := by apply wStar_eq_sIota' <;> assumption
 
 /-- Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) iff h*_Δ ∣ h(N). -/
 theorem normG_GammaDeltaR_le_Norm0_iff (N : ℕ) [NeZero N] (Δ : Subgroup (ZMod N)ˣ) :
-    NormG (GammaDeltaR N Δ) ≤ Norm0 N ↔ hStar N Δ ∣ hPart N := by
-  sorry
+    NormG (GammaDeltaR N Δ) ≤ Norm0 N ↔ hStar N Δ ∣ hPart N := by apply normG_GammaDeltaR_le_Norm0_iff' <;> assumption
 
 /-- Sanity check: X_Δ(50) with Δ = {d ≡ ±1 mod 5} (Bring's curve) has 120 modular automorphisms
 (h*_Δ = 5, n*_Δ = 2: 2 · 90/3 · 2). -/
 theorem card_BG_GammaDeltaR_50 :
-    Nat.card (BG (GammaDeltaR 50 (deltaPm 50 5 (by norm_num)))) = 120 := by
-  sorry
+    Nat.card (BG (GammaDeltaR 50 (deltaPm 50 5 (by norm_num)))) = 120 := by apply card_BG_GammaDeltaR_50' <;> assumption
 
 /-- Sanity check with −1 ∉ Δ: Γ_Δ(4) = Γ₁(4) for Δ = {1}, with h*_Δ = 1, n*_Δ = 4 and both Q = 1, 4 stable:
 |Nor(Γ₁(4))/Γ₁(4)| = 2 · 1 · 2 = 4.  (±Γ₁(4) = Γ₀(4) has h* = 2 and |B(4)| = 6: S₂ normalizes Γ₀(4) but not
 Γ₁(4), so this quotient is not twice that of ±Γ₁(4).) -/
-theorem card_BG_GammaDeltaR_4_bot : Nat.card (BG (GammaDeltaR 4 ⊥)) = 4 := by
-  sorry
+theorem card_BG_GammaDeltaR_4_bot : Nat.card (BG (GammaDeltaR 4 ⊥)) = 4 := by apply card_BG_GammaDeltaR_4_bot' <;> assumption
 
 end
 
