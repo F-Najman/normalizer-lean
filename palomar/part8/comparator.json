@@ -1,0 +1,29 @@
+{
+    "challenge_module": "Challenge.Part8",
+    "solution_module": "Solution.Part8",
+    "theorem_names": [
+        "NormalizerLean.isUnit_det_of_mem_normG_inf",
+        "NormalizerLean.normG_inf_le",
+        "NormalizerLean.mem_normG_inf_iff",
+        "NormalizerLean.normG_inf_inf_eq",
+        "NormalizerLean.relIndex_inf_normG",
+        "NormalizerLean.exists_mul_mem_normG_inf_iff",
+        "NormalizerLean.card_BG_inf",
+        "NormalizerLean.card_BG_inf_of_isNormDet",
+        "NormalizerLean.card_BG_inf_GammaDelta",
+        "NormalizerLean.card_BG_inf_prime_unique",
+        "NormalizerLean.card_BG_inf_prime_unique_of_not",
+        "NormalizerLean.card_BG_Gamma_inf",
+        "NormalizerLean.card_BG_GammaNsPlus_inf",
+        "NormalizerLean.card_BG_GammaSpPlus_inf",
+        "NormalizerLean.isNormDet_Q8mod7_iff",
+        "NormalizerLean.card_BG_Q8mod7",
+        "NormalizerLean.card_BG_Q8mod7_inf_two",
+        "NormalizerLean.card_BG_Q8mod7_inf_three"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}
