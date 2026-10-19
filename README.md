@@ -4,17 +4,17 @@ A Lean 4 / Mathlib formalization of the normalizers in SL₂(ℝ) of congruence 
 groups Nor(Γ)/Γ of modular automorphisms of the corresponding modular curves: X₀(N), X₁(N), X(N), X_Δ(N), the
 Cartan modular curves, and general modular curves X_H.
 
-* **136 theorems, all proved.** No `sorry`. Every theorem depends only on the standard axioms
+* **156 theorems, all proved.** No `sorry`. Every theorem depends only on the standard axioms
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* The seven files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 136 theorems, with
+* The eight files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 156 theorems, with
   `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5 and 6 and Part 3
   without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
   [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
   about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
-* About 17,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
+* About 19,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
 
 Author: Filip Najman.
 
@@ -33,6 +33,7 @@ definitions.
 * [Part 4. The order for X(N)](#part-4)
 * [Part 5. Cartan modular curves](#part-5)
 * [Part 6. General modular curves X_H](#part-6)
+* [Part 7. The normalizer of Γ_Δ(N) for every Δ](#part-7)
 * [Building and checking](#building-and-checking)
 * [Repository layout](#repository-layout)
 * [Notes on the sources](#notes-on-the-sources)
@@ -49,6 +50,7 @@ definitions.
 | [4](#part-4) | [`NormalizerDelta/StatementsXN.lean`](NormalizerDelta/StatementsXN.lean) | 14 | \|SL₂(ℤ/N)\| and the order for X(N); the same group computed in GL₂⁺(ℚ) |
 | [5](#part-5) | [`NormalizerDelta/StatementsCartan.lean`](NormalizerDelta/StatementsCartan.lean) | 17 | normalizers of groups of level N; split and non-split Cartan curves |
 | [6](#part-6) | [`NormalizerDelta/StatementsGeneral.lean`](NormalizerDelta/StatementsGeneral.lean) | 21 | every Γ ⊇ Γ(N): finiteness with a bound, the local restrictions of Dose–Lido–Mercuri, Nor(Γ_H)/Γ_H ≅ N(H)/H, every group of prime level |
+| [7](#part-7) | [`NormalizerDelta/StatementsStar.lean`](NormalizerDelta/StatementsStar.lean) | 20 | Γ_Δ(N) for every Δ: the normalizer exactly (Zemel [Ze]), its order, and when it lies in Nor(Γ₀(N)) |
 
 Highlights:
 
@@ -64,6 +66,12 @@ Highlights:
   the modular automorphism group has order 2^ω(N) φ(N)/2. N = 4 is an exception.
 * **X(N).** Nor(Γ(N)) = SL₂(ℤ), and the modular automorphism group of X(N) is SL₂(ℤ/N)/{±1}, of order
   N³/2 ∏_{p ∣ N}(1 − 1/p²). For the Klein quartic X(7) this is 168.
+* **Every X_Δ(N)** (Zemel [Ze], Cor. 2.6, restated). For every N and every Δ ≤ (ℤ/N)ˣ, let h* be the largest h
+  with h² ∣ N, d² ≡ 1 (mod h) for all d ∈ Δ, and Δ ⊇ ker((ℤ/N)ˣ → (ℤ/(N/h))ˣ); put n* = N/h*², D* = diag(h*, 1).
+  * Nor(Γ_Δ(N)) = D*⁻¹⟨Γ₀(n*), w_Q : Q ∥ n*, ι_Q(Δ̄) = Δ̄⟩D*, where ι_Q inverts the components of
+    (ℤ/(N/h*))ˣ at the primes of Q and Δ̄ is the image of Δ.
+  * [Nor(Γ_Δ(N)) : Γ_Δ(N)] = [(ℤ/N)ˣ : Δ] · ψ(N)/ψ(n*) · #{Q ∥ n* : ι_Q(Δ̄) = Δ̄}.
+  * Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) iff h* ∣ h(N).
 * **Cartan curves.**
   * X_sp(N) ≅ X₀(N²).
   * X_sp(p) (p ≥ 5) and X_ns(p) (p odd) have exactly 2 modular automorphisms.
@@ -84,8 +92,10 @@ not formalized here.
 * **Normalizers are taken in SL₂(ℝ).** For Γ ≤ SL₂(ℤ), `NormG (toR Γ)` is its normalizer in SL₂(ℝ) and
   `BG Γ = NormG Γ ⧸ Γ`; for Γ₀(N) this quotient is `B N`.
   * If −1 ∈ Γ, `BG Γ` is the modular automorphism group of X_Γ (the quotient taken in PSL₂(ℝ)).
-  * If −1 ∉ Γ, `BG Γ` is twice as large. For a modular curve one then uses ±Γ. That is why X(N) appears as
-    ±Γ(N) (`pmGammaR`) and X₁(N) as ±Γ₁(N) (`pmGamma1R`).
+  * If −1 ∉ Γ, the curve X_Γ only depends on ±Γ, so its modular automorphism group is `BG (±Γ)`. The order of
+    `BG Γ` is twice that of Nor(Γ)/±Γ, which can be smaller than `BG (±Γ)`, because Nor(Γ) ≤ Nor(±Γ) can be strict:
+    for Γ₁(4) it is 4, while ±Γ₁(4) = Γ₀(4) gives 6 (`card_BG_GammaDeltaR_4_bot`). For a modular curve one therefore
+    uses ±Γ. That is why X(N) appears as ±Γ(N) (`pmGammaR`) and X₁(N) as ±Γ₁(N) (`pmGamma1R`).
 * **Rational matrices** enter through `projSL A = (det A)^{−1/2}·A`. Parts 3, 4 and 6 also prove the equivalent
   description: the normalizer in GL₂⁺(ℚ) modulo Γ·ℚ^×.
 * **Definitions are honest.** B(N) is defined as the quotient group, not as a presented group. A presentation is
@@ -96,7 +106,7 @@ not formalized here.
 
 ## How to read the statements
 
-Each part consists of definitions, a statements file `Statements*.lean`, and proof files. The definitions of all six
+Each part consists of definitions, a statements file `Statements*.lean`, and proof files. The definitions of all seven
 parts are in one file, [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean), part by part; the files
 `NormalizerDelta/Defs*.lean` only import it.
 
@@ -327,6 +337,52 @@ Notation and the −1 convention:
 The general theorem and the prime-level results are not stated in [DLM26]. They follow from its Section 4.1; the
 case of Cartan groups is [DLM22, Prop. 5.6].
 
+<a id="part-7"></a>
+## Part 7. The normalizer of Γ_Δ(N) for every Δ
+
+Files: [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) (Part 7), [`NormalizerDelta/StatementsStar.lean`](NormalizerDelta/StatementsStar.lean).
+
+This part determines Nor(Γ_Δ(N)) for every N and every subgroup Δ ≤ (ℤ/N)ˣ, with or without −1. The result is
+Zemel's [Ze, Cor. 2.6] (with Lemma 2.4, Prop. 2.7 and Prop. 1.9(iii) there), restated in closed form: h* is his
+σ_H, and D*⁻¹Γ₀(n*)⁺D* is his Γ₀^{∗,σ_H}(N). The order formula is not stated there in this form, but it follows
+directly.
+
+Notation:
+
+* C(h) (`IsHStar`): h² ∣ N, d² ≡ 1 (mod h) for every d ∈ Δ, and Δ contains every unit u ≡ 1 (mod N/h).
+* h* (`hStar`) is the largest h with C(h). Then n* = N/h*² (`nStar`) and D* = diag(h*, 1) (`Dstar`).
+* For Q ∥ n*, ι*_Q inverts the components of (ℤ/(N/h*))ˣ at the primes of Q (`IsIotaStar`). Δ̄ is the image of Δ
+  in (ℤ/(N/h*))ˣ, and w* = #{Q ∥ n* : ι*_Q(Δ̄) = Δ̄} (`wStar`).
+
+| | Lean | statement |
+|---|---|---|
+| h* | [`isHStar_one`](NormalizerDelta/StatementsStar.lean#L44) | h = 1 satisfies C(h) |
+|  | [`isHStar_hStar`](NormalizerDelta/StatementsStar.lean#L47) | h* satisfies C(h) |
+|  | [`dvd_hStar`](NormalizerDelta/StatementsStar.lean#L50) | every h with C(h) divides h* |
+|  | [`hStar_dvd_hDelta`](NormalizerDelta/StatementsStar.lean#L54) | h* ∣ h_Δ |
+|  | [`hStar_top`](NormalizerDelta/StatementsStar.lean#L57) | for Γ₀(N): h* = h(N) |
+|  | [`hStar_pmOne`](NormalizerDelta/StatementsStar.lean#L60) | for ±Γ₁(N), N ≠ 4: h* = 1 |
+|  | [`hStar_pmOne_four`](NormalizerDelta/StatementsStar.lean#L63) | for ±Γ₁(4) = Γ₀(4): h* = 2 |
+|  | [`hStar_deltaPm_sq`](NormalizerDelta/StatementsStar.lean#L66) | for N = M² and Δ = {±1 mod M} (X_Δ(M²) ≅ X(M)): h* = M |
+| bounds | [`Gamma0Star_le_normG`](NormalizerDelta/StatementsStar.lean#L72) | D*⁻¹Γ₀(n*)D* ≤ Nor(Γ_Δ(N)) |
+|  | [`Gamma0R_le_Gamma0Star`](NormalizerDelta/StatementsStar.lean#L76) | Γ₀(N) ≤ D*⁻¹Γ₀(n*)D*, of index ψ(N)/ψ(n*) |
+|  | [`normG_le_MStar`](NormalizerDelta/StatementsStar.lean#L81) | **the sharp generalized Newman bound**: Nor(Γ_Δ(N)) ≤ D*⁻¹Γ₀(n*)⁺D* |
+|  | [`MStar_le_MDelta`](NormalizerDelta/StatementsStar.lean#L85) | D*⁻¹Γ₀(n*)⁺D* ≤ M_Δ, so this sharpens Part 3 |
+| Atkin–Lehner | [`isIotaStable_one`](NormalizerDelta/StatementsStar.lean#L88) | Q = 1 always satisfies ι*_Q(Δ̄) = Δ̄ |
+|  | [`conj_mem_normG_iff`](NormalizerDelta/StatementsStar.lean#L92) | for an Atkin–Lehner element w of level n* for Q ∥ n*: D*⁻¹wD* normalizes Γ_Δ(N) iff ι*_Q(Δ̄) = Δ̄ |
+| the normalizer | [`mem_normG_GammaDeltaR_iff`](NormalizerDelta/StatementsStar.lean#L98) | **Nor(Γ_Δ(N)) = D*⁻¹⟨Γ₀(n*), w_Q : Q ∥ n*, ι*_Q(Δ̄) = Δ̄⟩D***: g normalizes Γ_Δ(N) iff D*gD*⁻¹ is an Atkin–Lehner element of level n* for such a Q |
+|  | [`card_BG_GammaDeltaR_hStar`](NormalizerDelta/StatementsStar.lean#L106) | **the order**: [Nor(Γ_Δ(N)) : Γ_Δ(N)] = i_Δ · ψ(N)/ψ(n*) · w*, for every N and Δ |
+|  | [`wStar_eq_sIota`](NormalizerDelta/StatementsStar.lean#L111) | if h* = 1, then w* = #{Q ∥ N : ι_Q(Δ) = Δ}, Part 2's count, with no condition on 4 ∣ N or 9 ∣ N |
+|  | [`normG_GammaDeltaR_le_Norm0_iff`](NormalizerDelta/StatementsStar.lean#L115) | Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) iff h* ∣ h(N) |
+| sanity | [`card_BG_GammaDeltaR_50`](NormalizerDelta/StatementsStar.lean#L120) | X_Δ(50), Δ = {±1 mod 5} (Bring's curve): 120 = 2 · 90/3 · 2 |
+|  | [`card_BG_GammaDeltaR_4_bot`](NormalizerDelta/StatementsStar.lean#L126) | Γ₁(4) (Δ = {1}): 4 = 2 · 1 · 2, while ±Γ₁(4) = Γ₀(4) gives 6 |
+
+Special cases:
+
+* Δ = (ℤ/N)ˣ gives Newman's theorem and \|B(N)\| (Part 1).
+* Δ = {±1} with N ≠ 4 gives Kim–Koo and Lang (Part 2).
+* N = M² and Δ = {±1 mod M} give the order for X(M) (Part 4).
+
 ## Building and checking
 
 You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0-rc3) and Mathlib (v4.35.0-rc3) are
@@ -354,6 +410,7 @@ lake env lean scripts/check_axioms_extra.lean    # Part 3
 lake env lean scripts/check_axioms_xn.lean       # Part 4
 lake env lean scripts/check_axioms_cartan.lean   # Part 5
 lake env lean scripts/check_axioms_general.lean  # Part 6
+lake env lean scripts/check_axioms_star.lean     # Part 7
 ```
 
 A theorem that used `sorry` anywhere would show the axiom `sorryAx` here.
@@ -365,7 +422,7 @@ The scripts first remove the module-system header described above, then check th
 `NormalizerLean/Defs.lean` (for Part 1, the definitions region of the frozen `Statements.lean`).
 
 ```sh
-for s in restructure delta_frozen extra_frozen xn_frozen cartan_frozen general_frozen; do
+for s in restructure delta_frozen extra_frozen xn_frozen cartan_frozen general_frozen star_frozen; do
   python3 scripts/check_$s.py
 done
 ```
@@ -378,10 +435,12 @@ Each script prints `OK`.
   `frozen/`. The Lean code in `frozen/` is as frozen.
 * After freezing, one definition was renamed in Part 6 (`fricke` to `frickeP`, a name clash with Part 1). The
   frozen Part 6 files are the ones after the rename.
+* Part 7 was written in this repository, not in the development repository: its definitions and statements were
+  frozen at commit a3e92bd of this repository ([`frozen/a3e92bd/`](frozen/a3e92bd)), and the proofs came after.
 
 <a id="checking-with-comparator"></a>
-**Checking with Comparator.** The statements form seven challenges, one for each part, with the B₀(N) theorems of
-Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 are Palomar entries:
+**Checking with Comparator.** The statements form eight challenges, one for each part, with the B₀(N) theorems of
+Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4 and Part 7 are Palomar entries:
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
@@ -392,6 +451,7 @@ Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 are Paloma
 | Part 4 | [`Challenge/Part4.lean`](Challenge/Part4.lean) | [`Solution/Part4.lean`](Solution/Part4.lean) | [`palomar/part4/`](palomar/part4) (no Palomar metadata) | 14 |
 | Part 5 | [`Challenge/Part5.lean`](Challenge/Part5.lean) | [`Solution/Part5.lean`](Solution/Part5.lean) | [`palomar/part5/`](palomar/part5) | 17 |
 | Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
+| Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) (no Palomar metadata) | 20 |
 
 Each challenge imports only Mathlib, so it is the complete specification of its part. It copies verbatim the parts
 of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,
@@ -405,13 +465,13 @@ must be installed:
 
 ```sh
 lake exe cache get
-for e in part1 part2 part3 part3_b0 part4 part5 part6; do
+for e in part1 part2 part3 part3_b0 part4 part5 part6 part7; do
   lake comparator --config palomar/$e/comparator.json
 done
 ```
 
 With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
-`lean4lean`, `con-leche`, `con-ron`). All seven challenges pass with `--paranoid`: every checker accepts, and
+`lean4lean`, `con-leche`, `con-ron`). All eight challenges pass with `--paranoid`: every checker accepts, and
 Comparator prints `Your solution is okay!`.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
@@ -439,21 +499,22 @@ need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are save
 | [`check_extra_statements.py`](scripts/check_extra_statements.py) | Part 3: h_Δ = h(N) iff none of (i)–(iii), for every Δ, N ≤ 300; uniqueness of (σ, H) for N ≤ 24 |
 | [`check_xn_statements.py`](scripts/check_xn_statements.py) | Part 4: \|SL₂(ℤ/N)\| and the indices for N ≤ 16, \|PSL₂(ℤ/M)\|, the orders for X_Δ(M²), Δ = {±1 mod M}, at N = 49, …, 196 |
 | [`check_cartan_statements.py`](scripts/check_cartan_statements.py) | Part 5: indices, invariant lines and [N(H̄) : H̄] for the four Cartan groups, p ≤ 13, and the witnesses at p = 5, 3 |
+| [`check_star_statements.py`](scripts/check_star_statements.py) | Part 7: every statement, with the definitions implemented literally, for every Δ (with or without −1) and N ≤ 250, against the normalizer computed by brute force |
 | [`check_general_statements.py`](scripts/check_general_statements.py) | Part 6: Nor(Γ_H)/Γ_H by brute force for every H up to conjugacy at N = 2, …, 11, against the general theorem, the prime-level results and Prop. 4.5 |
 
-[`aut_orders.py`](scripts/aut_orders.py) is the coset count used by the Part 2 and 3 checks.
+[`aut_orders.py`](scripts/aut_orders.py) is the coset count used by the Part 2, 3 and 7 checks.
 
 ## Repository layout
 
 ```
-NormalizerLean/          Part 1: Statements.lean and the proofs; Defs.lean, the definitions of all six parts
-NormalizerDelta/         Parts 2–6: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
+NormalizerLean/          Part 1: Statements.lean and the proofs; Defs.lean, the definitions of all seven parts
+NormalizerDelta/         Parts 2–7: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
 NormalizerLean.lean      root of Part 1
-NormalizerDelta.lean     root of Parts 2–6
+NormalizerDelta.lean     root of Parts 2–7
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
-Challenge/               the seven challenges: definitions and statements with `sorry`, for Comparator
-Solution/                the seven solutions: they import the statements files
+Challenge/               the eight challenges: definitions and statements with `sorry`, for Comparator
+Solution/                the eight solutions: they import the statements files
 palomar/<challenge>/     comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0
@@ -466,7 +527,7 @@ LICENSE                  Apache License 2.0
   Bars's paper. Some comments also give paths under `~/automorphisms_X1/` for these notes.
 * [DLM22] is cited with the numbering of arXiv:2005.09009v2, and [DLM26] with that of arXiv:2610.08998v1.
 * This repository is a snapshot of a development repository. Commit hashes in `frozen/`, in the scripts and in
-  comments refer to that repository.
+  comments refer to that repository, except a3e92bd (Part 7), which is a commit of this repository.
 
 ## References
 
@@ -482,6 +543,8 @@ LICENSE                  Apache License 2.0
 * [KK] C. H. Kim, J. K. Koo, *The normalizer of Γ₁(N) in PSL₂(ℝ)*, Comm. Algebra 28 (2000), 5303–5310.
 * [L] M.-L. Lang, *Normalizer of Γ₁(m)*, J. Number Theory 86 (2001), 50–60.
 * [Ne] M. Newman, *Conjugacy, genus, and class numbers*, Math. Ann. 196 (1972), 198–217.
+* [Ze] S. Zemel, *Normalizers of congruence groups in SL₂(ℝ) and automorphisms of lattices*, Int. J. Number Theory 13
+  (2017), 1275–1300, [arXiv:1512.07547](https://arxiv.org/abs/1512.07547).
 
 ## License
 

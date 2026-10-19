@@ -1,8 +1,9 @@
 """Generate the Comparator challenges (https://github.com/leanprover/comparator), one for each part.
 
-The 136 statements form seven challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
+The 156 statements form eight challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
 Part 3 has a challenge of its own. Parts 1, 2, 5 and 6 and Part 3 without §B are the Palomar entries
-(`make_formalization.py` writes their metadata); Part 4 and Part 3 §B are checked in the same way. For each challenge:
+(`make_formalization.py` writes their metadata); Part 4, Part 3 §B and Part 7 are checked in the same way. For each
+challenge:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
   definitions the statements use (each part of that file is a self-contained block, beginning at a line
@@ -47,6 +48,8 @@ ENTRIES = [
     ('Part4', 'part4', 'the order for X(N)', [4], [1, 2, 3, 4], ['NormalizerDelta/StatementsXN.lean']),
     ('Part5', 'part5', 'Cartan modular curves', [5], [1, 2, 5], ['NormalizerDelta/StatementsCartan.lean']),
     ('Part6', 'part6', 'general modular curves X_H', [6], [1, 2, 3, 4, 6], ['NormalizerDelta/StatementsGeneral.lean']),
+    ('Part7', 'part7', 'the normalizer of Γ_Δ(N) for every Δ', [7], [1, 2, 3, 7],
+     ['NormalizerDelta/StatementsStar.lean']),
 ]
 
 HEADER = """import Mathlib
@@ -93,10 +96,12 @@ def section(text, spec):
 
 
 def defs_parts():
-    """The six parts of `Defs.lean` (without its imports), split before each line `-- Part k, moved verbatim`."""
+    """The seven parts of `Defs.lean` (without its imports), split before each line `-- Part k, moved verbatim` and
+    before the heading `/-! # Part 7` (Part 7 was written in `Defs.lean` directly)."""
     text = body(DEFS)
-    pieces = re.split(r'\n(?=-- Part \d, moved verbatim)', text)
-    assert len(pieces) == 6 and all(p.startswith(f'-- Part {k}, ') for k, p in enumerate(pieces[1:], 2)), DEFS
+    pieces = re.split(r'\n(?=-- Part \d, moved verbatim|/-! # Part 7: )', text)
+    assert len(pieces) == 7 and all(p.startswith(f'-- Part {k}, ') for k, p in enumerate(pieces[1:6], 2)), DEFS
+    assert pieces[6].startswith('/-! # Part 7: '), DEFS
     return [p.rstrip('\n') + '\n' for p in pieces]
 
 
@@ -140,7 +145,7 @@ def generate():
             'permitted_axioms': ['propext', 'Quot.sound', 'Classical.choice'],
         }, indent=4, ensure_ascii=False) + '\n'
         all_names += names
-    assert len(all_names) == len(set(all_names)) == 136, len(all_names)
+    assert len(all_names) == len(set(all_names)) == 156, len(all_names)
     return files
 
 

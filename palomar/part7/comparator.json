@@ -1,0 +1,31 @@
+{
+    "challenge_module": "Challenge.Part7",
+    "solution_module": "Solution.Part7",
+    "theorem_names": [
+        "NormalizerLean.isHStar_one",
+        "NormalizerLean.isHStar_hStar",
+        "NormalizerLean.dvd_hStar",
+        "NormalizerLean.hStar_dvd_hDelta",
+        "NormalizerLean.hStar_top",
+        "NormalizerLean.hStar_pmOne",
+        "NormalizerLean.hStar_pmOne_four",
+        "NormalizerLean.hStar_deltaPm_sq",
+        "NormalizerLean.Gamma0Star_le_normG",
+        "NormalizerLean.Gamma0R_le_Gamma0Star",
+        "NormalizerLean.normG_le_MStar",
+        "NormalizerLean.MStar_le_MDelta",
+        "NormalizerLean.isIotaStable_one",
+        "NormalizerLean.conj_mem_normG_iff",
+        "NormalizerLean.mem_normG_GammaDeltaR_iff",
+        "NormalizerLean.card_BG_GammaDeltaR_hStar",
+        "NormalizerLean.wStar_eq_sIota",
+        "NormalizerLean.normG_GammaDeltaR_le_Norm0_iff",
+        "NormalizerLean.card_BG_GammaDeltaR_50",
+        "NormalizerLean.card_BG_GammaDeltaR_4_bot"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

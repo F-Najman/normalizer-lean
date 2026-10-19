@@ -17,8 +17,8 @@ of `Statements.lean`.  Definitions: `NormalizerDelta/DefsExtra.lean`.
   of exactly one σH, so [Nor(Γ_Δ(N)) : Γ₀(N)] is the number of normalizing pairs (σ, H) (what `aut_orders.py`
   counts).  (Γ₀(N) is not normal in M_Δ in general, so the side of the cosets matters: the σH statements use
   right cosets Γ₀(N)g, the quotients `BG`, `B` left cosets; the counts agree.)
-* Conventions: in SL₂(ℝ), for −1 ∉ Δ the quotient `BG (GammaDeltaR N Δ)` is twice the modular automorphism
-  group (a quotient in PSL₂(ℝ)), and i_Δ = Δ.index is twice the PSL index.
+* Conventions: in SL₂(ℝ), for −1 ∉ Δ the order of `BG (GammaDeltaR N Δ)` is twice that of the quotient in PSL₂(ℝ),
+  which can be smaller than for X_Δ(N) = X_{±Δ}(N) (Part 7), and i_Δ = Δ.index is twice the PSL index.
 * §H: h_Δ = h(N) unless one of the cases i)–iii) holds, and conversely.
 * §B: the group B₀(N) of the sporadic-points paper: the normalizer of Γ₀(N) in GL₂⁺(ℚ) modulo Γ₀(N) · ℚ^× is B(N),
   via g ↦ (det g)^{-1/2} g; the literal quotient by Γ₀(N) alone is infinite.
