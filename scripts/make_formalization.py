@@ -32,8 +32,9 @@ SOURCES = {
               'location': 'Algebra Number Theory 16 (2022), 1423–1461'},
     'DLM26': {'title': 'Automorphisms of general modular curves', 'authors': ['V. Dose', 'G. M. Lido', 'P. Mercuri'],
               'id': 'arXiv:2610.08998v1', 'type': 'preprint', 'location': 'https://arxiv.org/abs/2610.08998v1'},
-    'ORIG3': {'title': 'Normalizers of Γ_Δ(N): results first presented with this formalization',
-              'type': 'original-proof'},
+    'Ze': {'title': 'Normalizers of congruence groups in SL₂(ℝ) and automorphisms of lattices',
+           'authors': ['Shaul Zemel'], 'id': 'doi:10.1142/S1793042117500701', 'type': 'article',
+           'location': 'Int. J. Number Theory 13 (2017), 1275–1300; arXiv:1512.07547'},
     'DN': {'title': 'Sporadic points on X₀(N)', 'authors': ['M. Derickx', 'F. Najman'], 'id': 'arXiv:2511.09015',
            'type': 'preprint', 'location': 'https://arxiv.org/abs/2511.09015'},
 }
@@ -50,9 +51,8 @@ SCOPE = ('Only modular automorphisms are treated: the quotient Nor(Γ)/Γ of the
 # README table rows left out of an entry, by their tag: Part 3 §B (B₀(N)) is not part of the Palomar entry.
 SKIP_TAGS = {'part3': ('B₀(N)',)}
 
-PRIORITY_NOTE = ('The results on M_Δ, the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N), the coset count and h_Δ are first '
-                 'presented with this formalization, by its author. No systematic literature search has been made, '
-                 'so whether these results, or equivalent ones, appear earlier in the literature is unknown.')
+ZEMEL_NOTE = ("Zemel's Corollary 2.6 (with Proposition 1.9) determines the normalizer of Γ_Δ(N) for every N and Δ: "
+              'it lies in Γ₀^{∗,σ}(N) = D_σ⁻¹Γ₀(N/σ²)⁺D_σ for his σ = σ_H, which divides h_Δ. ')
 
 # folder -> (project name, description, README parts, MSC 2020, extra scope, [(source, relationship, note)])
 ENTRIES = {
@@ -89,6 +89,9 @@ ENTRIES = {
          'Quot.sound.'),
         [2], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
         [('KK', 'formalizes', 'The normalizer of ±Γ₁(N) for N ≠ 4.'),
+         ('Ze', 'independently-proves', ZEMEL_NOTE + 'This implies the generalized Newman bound and, for h_Δ = '
+          'h(N), the inclusion Nor(Γ_Δ(N)) ≤ Nor(Γ₀(N)) and the index. The formal proofs were found independently; '
+          'the author learned of the paper after this formalization was registered.'),
          ('L', 'formalizes', 'The normalizer of ±Γ₁(N) for N ≠ 4.'),
          ('AL', 'background', 'The Atkin–Lehner elements.'),
          ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), which Part 2 generalizes to "
@@ -96,16 +99,20 @@ ENTRIES = {
     'part3': (
         'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, and a coset count',
         ('Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups '
-         'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which are the modular automorphism '
-         'groups of the curves X_Δ(N) when −1 ∈ Δ, and twice as large otherwise: the matrices allowed by the '
-         'generalized Newman bound h_Δ form a group '
+         'Γ_Δ(N) between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which for −1 ∈ Δ are the '
+         'modular automorphism groups of the curves X_Δ(N): the matrices allowed by the generalized Newman bound '
+         'h_Δ form a group '
          'M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so '
          'Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), '
          'with σ in a fixed set of representatives of Γ₀(N)\\SL₂(ℤ) and H a Hermite normal form, such that σH '
          'normalizes Γ_Δ(N); and h_Δ = h(N) except under three explicit conditions on N and Δ. 11 theorems, no '
          'sorry, only the axioms propext, Classical.choice and Quot.sound.'),
         [3], ['11F06', '20H05', '14G35', '14H37', '68V20'], '',
-        [('ORIG3', 'other', PRIORITY_NOTE),
+        [('Ze', 'independently-proves', ZEMEL_NOTE + 'This implies, in a sharper form, the inclusion of '
+          'Nor(Γ_Δ(N)) in M_Δ and the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N). The formal proofs were found independently; '
+          'the author learned of the paper after this formalization was registered. The σH coset description and '
+          'count and the criterion for h_Δ = h(N) are not stated in that paper; no systematic literature search '
+          'has been made for them, so whether they appear earlier is unknown.'),
          ('Ne', 'background', "Newman's description of the normalizer of Γ₀(N), with the bound h(N) that the "
           'generalized bound h_Δ extends to Γ_Δ(N).')]),
     'part5': (
@@ -169,8 +176,10 @@ COMMON = {
     },
     'fidelity': {
         'divergences': (
-            'Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ the quotient is twice the modular '
-            'automorphism group, so X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational matrices A enter '
+            'Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ, the curve X_Γ depends only on ±Γ, and the '
+            'order of Nor(Γ)/Γ is twice that of Nor(Γ)/±Γ, which can be smaller than the modular automorphism '
+            'group of X_Γ, because Nor(Γ) ≤ Nor(±Γ) can be strict (Γ₁(4): 4, against 6 for ±Γ₁(4) = Γ₀(4)); so '
+            'X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational matrices A enter '
             'as (det A)^{−1/2}·A; Parts 3, 4 and 6 also prove the description as the normalizer in GL₂⁺(ℚ) modulo '
             'Γ·ℚ^×. In the presentations [x, y] = x⁻¹y⁻¹xy. Theorem numbers of Dose–Lido–Mercuri refer to '
             'arXiv:2005.09009v2 and arXiv:2610.08998v1.'),
@@ -190,7 +199,7 @@ ACK = ('Mathlib. Comparator (leanprover/comparator). David Kurniadi Angdinata ma
 
 REFS = {'AL': 'Atkin–Lehner', 'AS': 'Akbaş–Singerman', 'Ba': 'Bars', 'KK': 'Kim–Koo', 'L': 'Lang',
         'Ne': 'Newman', 'DLM22': 'Dose–Lido–Mercuri 2022', 'DLM26': 'Dose–Lido–Mercuri 2026',
-        'DN': 'Derickx–Najman'}
+        'DN': 'Derickx–Najman', 'Ze': 'Zemel'}
 
 ROW = re.compile(r'^\| *(?P<tag>[^|]*?) *\| *\[`(?P<name>[^`]+)`\]\((?P<file>[^)#]+)#L\d+\) *\| *(?P<stmt>.*?) *\|$')
 

@@ -90,10 +90,11 @@ automation:
     freezing, no statement changed (one definition was renamed, fricke to frickeP, to avoid a name clash). The Lean code,
     proofs included, was written by AI agents.
 fidelity:
-  divergences: Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ the quotient is twice the modular automorphism group,
-    so X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational matrices A enter as (det A)^{−1/2}·A; Parts 3, 4 and 6 also
-    prove the description as the normalizer in GL₂⁺(ℚ) modulo Γ·ℚ^×. In the presentations [x, y] = x⁻¹y⁻¹xy. Theorem numbers
-    of Dose–Lido–Mercuri refer to arXiv:2005.09009v2 and arXiv:2610.08998v1.
+  divergences: 'Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ, the curve X_Γ depends only on ±Γ, and the order of
+    Nor(Γ)/Γ is twice that of Nor(Γ)/±Γ, which can be smaller than the modular automorphism group of X_Γ, because Nor(Γ) ≤
+    Nor(±Γ) can be strict (Γ₁(4): 4, against 6 for ±Γ₁(4) = Γ₀(4)); so X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational
+    matrices A enter as (det A)^{−1/2}·A; Parts 3, 4 and 6 also prove the description as the normalizer in GL₂⁺(ℚ) modulo
+    Γ·ℚ^×. In the presentations [x, y] = x⁻¹y⁻¹xy. Theorem numbers of Dose–Lido–Mercuri refer to arXiv:2005.09009v2 and arXiv:2610.08998v1.'
 review:
   status: statements reviewed by the author; proofs machine-checked
   reviewers:

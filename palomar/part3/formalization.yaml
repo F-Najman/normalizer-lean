@@ -4,12 +4,12 @@ version: v0.4
 project:
   name: 'Normalizers of Γ_Δ(N): the group M_Δ, finiteness, and a coset count'
   description: 'Formal statements and proofs, in Lean 4 with Mathlib, about the normalizers in SL₂(ℝ) of the groups Γ_Δ(N)
-    between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which are the modular automorphism groups of the curves
-    X_Δ(N) when −1 ∈ Δ, and twice as large otherwise: the matrices allowed by the generalized Newman bound h_Δ form a group
-    M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ, 1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so Nor(Γ_Δ(N))/Γ_Δ(N)
-    is finite for every Δ; its order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), with σ in a fixed set of representatives
-    of Γ₀(N)\SL₂(ℤ) and H a Hermite normal form, such that σH normalizes Γ_Δ(N); and h_Δ = h(N) except under three explicit
-    conditions on N and Δ. 11 theorems, no sorry, only the axioms propext, Classical.choice and Quot.sound.'
+    between Γ₁(N) and Γ₀(N), and the quotients Nor(Γ_Δ(N))/Γ_Δ(N), which for −1 ∈ Δ are the modular automorphism groups of
+    the curves X_Δ(N): the matrices allowed by the generalized Newman bound h_Δ form a group M_Δ = D⁻¹Γ₀(n_Δ)⁺D, D = diag(h_Δ,
+    1), which contains Nor(Γ_Δ(N)) and contains Γ₀(N) with finite index, so Nor(Γ_Δ(N))/Γ_Δ(N) is finite for every Δ; its
+    order is [(ℤ/N)ˣ : Δ] times the number of pairs (σ, H), with σ in a fixed set of representatives of Γ₀(N)\SL₂(ℤ) and H
+    a Hermite normal form, such that σH normalizes Γ_Δ(N); and h_Δ = h(N) except under three explicit conditions on N and
+    Δ. 11 theorems, no sorry, only the axioms propext, Classical.choice and Quot.sound.'
   authors:
   - Filip Najman
   responsible_maintainers:
@@ -26,12 +26,18 @@ classification:
   - 14H37
   - 68V20
 sources:
-- title: 'Normalizers of Γ_Δ(N): results first presented with this formalization'
-  type: original-proof
-  relationship: other
-  note: The results on M_Δ, the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N), the coset count and h_Δ are first presented with this formalization,
-    by its author. No systematic literature search has been made, so whether these results, or equivalent ones, appear earlier
-    in the literature is unknown.
+- title: Normalizers of congruence groups in SL₂(ℝ) and automorphisms of lattices
+  authors:
+  - Shaul Zemel
+  id: doi:10.1142/S1793042117500701
+  type: article
+  location: Int. J. Number Theory 13 (2017), 1275–1300; arXiv:1512.07547
+  relationship: independently-proves
+  note: 'Zemel''s Corollary 2.6 (with Proposition 1.9) determines the normalizer of Γ_Δ(N) for every N and Δ: it lies in Γ₀^{∗,σ}(N)
+    = D_σ⁻¹Γ₀(N/σ²)⁺D_σ for his σ = σ_H, which divides h_Δ. This implies, in a sharper form, the inclusion of Nor(Γ_Δ(N))
+    in M_Δ and the finiteness of Nor(Γ_Δ(N))/Γ_Δ(N). The formal proofs were found independently; the author learned of the
+    paper after this formalization was registered. The σH coset description and count and the criterion for h_Δ = h(N) are
+    not stated in that paper; no systematic literature search has been made for them, so whether they appear earlier is unknown.'
 - title: Conjugacy, genus, and class numbers
   authors:
   - Morris Newman
@@ -67,10 +73,11 @@ automation:
     freezing, no statement changed (one definition was renamed, fricke to frickeP, to avoid a name clash). The Lean code,
     proofs included, was written by AI agents.
 fidelity:
-  divergences: Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ the quotient is twice the modular automorphism group,
-    so X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational matrices A enter as (det A)^{−1/2}·A; Parts 3, 4 and 6 also
-    prove the description as the normalizer in GL₂⁺(ℚ) modulo Γ·ℚ^×. In the presentations [x, y] = x⁻¹y⁻¹xy. Theorem numbers
-    of Dose–Lido–Mercuri refer to arXiv:2005.09009v2 and arXiv:2610.08998v1.
+  divergences: 'Normalizers are taken in SL₂(ℝ), not PSL₂(ℝ). If −1 ∉ Γ, the curve X_Γ depends only on ±Γ, and the order of
+    Nor(Γ)/Γ is twice that of Nor(Γ)/±Γ, which can be smaller than the modular automorphism group of X_Γ, because Nor(Γ) ≤
+    Nor(±Γ) can be strict (Γ₁(4): 4, against 6 for ±Γ₁(4) = Γ₀(4)); so X(N) and X₁(N) appear through ±Γ(N) and ±Γ₁(N). Rational
+    matrices A enter as (det A)^{−1/2}·A; Parts 3, 4 and 6 also prove the description as the normalizer in GL₂⁺(ℚ) modulo
+    Γ·ℚ^×. In the presentations [x, y] = x⁻¹y⁻¹xy. Theorem numbers of Dose–Lido–Mercuri refer to arXiv:2005.09009v2 and arXiv:2610.08998v1.'
 review:
   status: statements reviewed by the author; proofs machine-checked
   reviewers:
