@@ -1,0 +1,17 @@
+# N1 = 1: 1 classes of type I, 0 others
+# N1 = 2: 3 classes of type I, 1 others
+# N1 = 3: 5 classes of type I, 2 others
+# N1 = 4: 8 classes of type I, 11 others
+# N1 = 5: 9 classes of type I, 3 others
+# N1 = 7: 15 classes of type I, 4 others
+# N1 = 8: 24 classes of type I, 82 others
+# N1 = 9: 20 classes of type I, 28 others
+# cases 3716
+# cases with an obstruction (H1 of type I, some class of Nor(Gamma_H2) with det not in Det(H1)): 66
+# corollary cases 143
+# isNormDet_Q8mod7_iff, card_BG_Q8mod7 (6), _inf_two (12), _inf_three (6): OK
+# DONE failures 0
+
+real	3m24.613s
+user	9m42.977s
+sys	0m0.412s
