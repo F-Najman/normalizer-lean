@@ -9,8 +9,8 @@ Cartan modular curves, and general modular curves X_H.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
 * The nine files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 174 theorems, with
-  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5 and 6 and Part 3
-  without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
+  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5, 6, 7 and 8 and
+  Part 3 without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
   [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
   about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
