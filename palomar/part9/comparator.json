@@ -1,0 +1,20 @@
+{
+    "challenge_module": "Challenge.Part9",
+    "solution_module": "Solution.Part9",
+    "theorem_names": [
+        "NormalizerLean.helling",
+        "NormalizerLean.commensurable_gamma0Plus",
+        "NormalizerLean.gamma0Plus_maximal",
+        "NormalizerLean.maximal_commensurable_iff",
+        "NormalizerLean.mem_commensurator_SL2ZR_iff",
+        "NormalizerLean.commensurable_normG",
+        "NormalizerLean.finite_BG_of_commensurable",
+        "NormalizerLean.normG_conj_le_gamma0Plus",
+        "NormalizerLean.not_maximal_gamma0Plus_four"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

@@ -1,0 +1,13 @@
+module
+
+import NormalizerDelta
+
+#print axioms NormalizerLean.helling
+#print axioms NormalizerLean.commensurable_gamma0Plus
+#print axioms NormalizerLean.gamma0Plus_maximal
+#print axioms NormalizerLean.maximal_commensurable_iff
+#print axioms NormalizerLean.mem_commensurator_SL2ZR_iff
+#print axioms NormalizerLean.commensurable_normG
+#print axioms NormalizerLean.finite_BG_of_commensurable
+#print axioms NormalizerLean.normG_conj_le_gamma0Plus
+#print axioms NormalizerLean.not_maximal_gamma0Plus_four

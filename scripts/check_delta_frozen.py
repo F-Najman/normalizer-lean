@@ -1,7 +1,7 @@
 """Check that the NormalizerDelta definitions and statements are unchanged since the Stage-0 commit.
 
 * NormalizerDelta/Defs.lean at FROZEN, without its import line, must occur verbatim in
-  NormalizerLean/Defs.lean, which holds the definitions of all six parts.
+  NormalizerLean/Defs.lean, which holds the definitions of Parts 1–8.
 * NormalizerDelta/Statements.lean, with each proof `:= by apply X' <;> assumption` put back to
   `:= by\\n  sorry` and the line `import NormalizerDelta.Proofs` removed, must equal its version at FROZEN.
 Run: python3 scripts/check_delta_frozen.py

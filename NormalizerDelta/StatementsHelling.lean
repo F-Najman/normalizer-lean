@@ -1,6 +1,7 @@
 module
 
 public import NormalizerDelta.DefsHelling
+public import NormalizerDelta.ProofsHelling
 
 @[expose] public section
 
@@ -45,17 +46,14 @@ noncomputable section
 squarefree N, by g = (det A)^{-1/2}·A with A integral and det A > 0. -/
 theorem helling {G : Subgroup SL(2, ℝ)} (hG : G.Commensurable SL2ZR) :
     ∃ (N : ℕ) (A : Matrix (Fin 2) (Fin 2) ℤ), Squarefree N ∧ 0 < A.det ∧
-      G.map (MulAut.conj (projSL (A.map (Int.cast : ℤ → ℝ)))).toMonoidHom ≤ Gamma0Plus N := by
-  sorry
+      G.map (MulAut.conj (projSL (A.map (Int.cast : ℤ → ℝ)))).toMonoidHom ≤ Gamma0Plus N := by apply helling' <;> assumption
 
 /-- Γ₀(N)⁺ is commensurable with SL₂(ℤ), for every N ≥ 1. -/
-theorem commensurable_gamma0Plus (N : ℕ) [NeZero N] : (Gamma0Plus N).Commensurable SL2ZR := by
-  sorry
+theorem commensurable_gamma0Plus (N : ℕ) [NeZero N] : (Gamma0Plus N).Commensurable SL2ZR := by apply commensurable_gamma0Plus' <;> assumption
 
 /-- For squarefree N, Γ₀(N)⁺ is maximal among the subgroups of SL₂(ℝ) commensurable with SL₂(ℤ). -/
 theorem gamma0Plus_maximal {N : ℕ} (hN : Squarefree N) {H : Subgroup SL(2, ℝ)}
-    (hH : H.Commensurable SL2ZR) (hle : Gamma0Plus N ≤ H) : H = Gamma0Plus N := by
-  sorry
+    (hH : H.Commensurable SL2ZR) (hle : Gamma0Plus N ≤ H) : H = Gamma0Plus N := by apply gamma0Plus_maximal' <;> assumption
 
 /-- **Helling's theorem, maximal form** [Duncan, Theorem 2.11]: a subgroup H ≤ SL₂(ℝ) is maximal among the
 subgroups commensurable with SL₂(ℤ) iff it is commensurable with SL₂(ℤ) and conjugate to Γ₀(N)⁺ for some
@@ -63,41 +61,35 @@ squarefree N. -/
 theorem maximal_commensurable_iff {H : Subgroup SL(2, ℝ)} :
     Maximal (fun K : Subgroup SL(2, ℝ) => K.Commensurable SL2ZR) H ↔
       H.Commensurable SL2ZR ∧ ∃ (N : ℕ) (g : SL(2, ℝ)), Squarefree N ∧
-        H = (Gamma0Plus N).map (MulAut.conj g).toMonoidHom := by
-  sorry
+        H = (Gamma0Plus N).map (MulAut.conj g).toMonoidHom := by apply maximal_commensurable_iff' <;> assumption
 
 /-- The commensurator of SL₂(ℤ) in SL₂(ℝ): g commensurates SL₂(ℤ) iff g = (det A)^{-1/2}·A for an integral A with
 det A > 0. -/
 theorem mem_commensurator_SL2ZR_iff {g : SL(2, ℝ)} :
     g ∈ Subgroup.Commensurable.commensurator SL2ZR ↔
-      ∃ A : Matrix (Fin 2) (Fin 2) ℤ, 0 < A.det ∧ g = projSL (A.map (Int.cast : ℤ → ℝ)) := by
-  sorry
+      ∃ A : Matrix (Fin 2) (Fin 2) ℤ, 0 < A.det ∧ g = projSL (A.map (Int.cast : ℤ → ℝ)) := by apply mem_commensurator_SL2ZR_iff' <;> assumption
 
 /-! ## §N. Normalizers -/
 
 /-- For Γ commensurable with SL₂(ℤ), its normalizer in SL₂(ℝ) is commensurable with SL₂(ℤ). -/
 theorem commensurable_normG {Γ : Subgroup SL(2, ℝ)} (hΓ : Γ.Commensurable SL2ZR) :
-    (NormG Γ).Commensurable SL2ZR := by
-  sorry
+    (NormG Γ).Commensurable SL2ZR := by apply commensurable_normG' <;> assumption
 
 /-- For Γ commensurable with SL₂(ℤ), Nor_{SL₂(ℝ)}(Γ)/Γ is finite. -/
-theorem finite_BG_of_commensurable {Γ : Subgroup SL(2, ℝ)} (hΓ : Γ.Commensurable SL2ZR) : Finite (BG Γ) := by
-  sorry
+theorem finite_BG_of_commensurable {Γ : Subgroup SL(2, ℝ)} (hΓ : Γ.Commensurable SL2ZR) : Finite (BG Γ) := by apply finite_BG_of_commensurable' <;> assumption
 
 /-- For Γ commensurable with SL₂(ℤ), Nor_{SL₂(ℝ)}(Γ) is conjugate into Γ₀(N)⁺ for some squarefree N, by
 g = (det A)^{-1/2}·A with A integral and det A > 0. -/
 theorem normG_conj_le_gamma0Plus {Γ : Subgroup SL(2, ℝ)} (hΓ : Γ.Commensurable SL2ZR) :
     ∃ (N : ℕ) (A : Matrix (Fin 2) (Fin 2) ℤ), Squarefree N ∧ 0 < A.det ∧
-      (NormG Γ).map (MulAut.conj (projSL (A.map (Int.cast : ℤ → ℝ)))).toMonoidHom ≤ Gamma0Plus N := by
-  sorry
+      (NormG Γ).map (MulAut.conj (projSL (A.map (Int.cast : ℤ → ℝ)))).toMonoidHom ≤ Gamma0Plus N := by apply normG_conj_le_gamma0Plus' <;> assumption
 
 /-! ## §S. Sanity -/
 
 /-- Γ₀(4)⁺ is not maximal among the subgroups commensurable with SL₂(ℤ): the squarefreeness in `helling` and
 `gamma0Plus_maximal` is needed. -/
 theorem not_maximal_gamma0Plus_four :
-    ¬ Maximal (fun K : Subgroup SL(2, ℝ) => K.Commensurable SL2ZR) (Gamma0Plus 4) := by
-  sorry
+    ¬ Maximal (fun K : Subgroup SL(2, ℝ) => K.Commensurable SL2ZR) (Gamma0Plus 4) := by apply not_maximal_gamma0Plus_four' <;> assumption
 
 end
 

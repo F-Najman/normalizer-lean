@@ -1,7 +1,7 @@
 """Check that the definitions and statements of the general modular curves are unchanged since their Stage-0 commit.
 
 * NormalizerDelta/DefsGeneral.lean at FROZEN, without its import line, must occur verbatim in
-  NormalizerLean/Defs.lean, which holds the definitions of all six parts.
+  NormalizerLean/Defs.lean, which holds the definitions of Parts 1–8.
 * NormalizerDelta/StatementsGeneral.lean, with each proof `:= by apply X' <;> assumption` put back to
   `:= by\\n  sorry` and the line `import NormalizerDelta.ProofsGeneral` removed, must equal its version at FROZEN.
 (The earlier statements are checked by scripts/check_delta_frozen.py, check_extra_frozen.py,

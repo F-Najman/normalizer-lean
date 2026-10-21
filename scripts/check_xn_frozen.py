@@ -1,7 +1,7 @@
 """Check that the definitions and statements of the X(N) additions are unchanged since their Stage-0 commit.
 
 * NormalizerDelta/DefsXN.lean at FROZEN, without its import line, must occur verbatim in
-  NormalizerLean/Defs.lean, which holds the definitions of all six parts.
+  NormalizerLean/Defs.lean, which holds the definitions of Parts 1–8.
 * NormalizerDelta/StatementsXN.lean, with each proof `:= by apply X' <;> assumption` put back to
   `:= by\\n  sorry` and the line `import NormalizerDelta.ProofsXN` removed, must equal its version at FROZEN.
 (The 34 statements of Statements.lean and the 14 of StatementsExtra.lean are checked by

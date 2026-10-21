@@ -2,25 +2,27 @@
 
 A Lean 4 / Mathlib formalization of the normalizers in SL₂(ℝ) of congruence subgroups Γ ≤ SL₂(ℤ), and of the
 groups Nor(Γ)/Γ of modular automorphisms of the corresponding modular curves: X₀(N), X₁(N), X(N), X_Δ(N), the
-Cartan modular curves, and general modular curves X_H.
+Cartan modular curves, and general modular curves X_H; and of Helling's theorem on the maximal subgroups of SL₂(ℝ)
+commensurable with SL₂(ℤ).
 
-* **174 theorems, all proved.** No `sorry`. Every theorem depends only on the standard axioms
+* **183 theorems, all proved.** No `sorry`. Every theorem depends only on the standard axioms
   `propext`, `Classical.choice` and `Quot.sound`.
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* The nine files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 174 theorems, with
+* The ten files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 183 theorems, with
   `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5, 6, 7 and 8 and
   Part 3 without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
   [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
   about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
-* About 21,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
+* About 24,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
 
 Author: Filip Najman.
 
 I thank David Kurniadi Angdinata for his help with Comparator, in particular for making the challenge
 self-contained ([#1](https://github.com/F-Najman/normalizer-lean/pull/1)), so that Comparator also checks the
 definitions.
+I thank Maarten Derickx for suggesting the formalization of Helling's theorem (Part 9).
 
 ## Contents
 
@@ -35,6 +37,7 @@ definitions.
 * [Part 6. General modular curves X_H](#part-6)
 * [Part 7. The normalizer of Γ_Δ(N) for every Δ](#part-7)
 * [Part 8. Mixed level: Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂)](#part-8)
+* [Part 9. Helling's theorem](#part-9)
 * [Building and checking](#building-and-checking)
 * [Repository layout](#repository-layout)
 * [Notes on the sources](#notes-on-the-sources)
@@ -53,6 +56,7 @@ definitions.
 | [6](#part-6) | [`NormalizerDelta/StatementsGeneral.lean`](NormalizerDelta/StatementsGeneral.lean) | 21 | every Γ ⊇ Γ(N): finiteness with a bound, the local restrictions of Dose–Lido–Mercuri, Nor(Γ_H)/Γ_H ≅ N(H)/H, every group of prime level |
 | [7](#part-7) | [`NormalizerDelta/StatementsStar.lean`](NormalizerDelta/StatementsStar.lean) | 20 | Γ_Δ(N) for every Δ: the normalizer exactly (Zemel [Ze]), its order, and when it lies in Nor(Γ₀(N)) |
 | [8](#part-8) | [`NormalizerDelta/StatementsMixed.lean`](NormalizerDelta/StatementsMixed.lean) | 18 | Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂) for coprime levels, H₁ as in Part 6 and H₂ arbitrary: the normalizer and its order, with a determinant condition |
+| [9](#part-9) | [`NormalizerDelta/StatementsHelling.lean`](NormalizerDelta/StatementsHelling.lean) | 9 | Helling's theorem: every subgroup commensurable with SL₂(ℤ) is conjugate into Γ₀(N)⁺, N squarefree; these are the maximal ones; the commensurator of SL₂(ℤ); normalizers of arithmetic groups |
 
 Highlights:
 
@@ -92,6 +96,10 @@ Highlights:
     mod N₁. The class of an Atkin–Lehner involution w_Q at level N₂ contains an element of Nor(Γ) iff
     Q mod N₁ ∈ Det(H₁).
   * For Q₈ ≤ SL₂(F₇), Det(Q₈) is the set of squares, so Γ_{Q₈}(7) ∩ Γ₀(3) has order 6, not 6 · 2.
+* **Helling's theorem** [He], [Du, Theorem 2.11]. Every subgroup of SL₂(ℝ) commensurable with SL₂(ℤ) is conjugate,
+  by (det A)^{-1/2}·A with A integral, into Γ₀(N)⁺ = ⟨Γ₀(N), w_Q : Q ∣ N⟩ for some squarefree N, and for squarefree N
+  the group Γ₀(N)⁺ is maximal. So the normalizer of every congruence subgroup is conjugate into some Γ₀(N)⁺, and
+  Nor(Γ)/Γ is finite for every Γ commensurable with SL₂(ℤ).
 
 Only **modular** automorphisms are counted, that is, those coming from the normalizer in SL₂(ℝ). Results saying
 that every automorphism of a given curve is modular need algebraic geometry that Mathlib does not have, and are
@@ -116,8 +124,8 @@ not formalized here.
 
 ## How to read the statements
 
-Each part consists of definitions, a statements file `Statements*.lean`, and proof files. The definitions of all seven
-parts are in one file, [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean), part by part; the files
+Each part consists of definitions, a statements file `Statements*.lean`, and proof files. The definitions of Parts 1–8
+are in one file, [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean), part by part (Part 9 has none); the files
 `NormalizerDelta/Defs*.lean` only import it.
 
 * Every theorem in a statements file is proved by one line, `:= by apply X' <;> assumption`, where `X'` is proved
@@ -440,6 +448,39 @@ Nor(Γ) (W₂ itself does not normalize Γ_{Q₈}(7) ∩ Γ₀(2), but another e
 statements were reviewed by two AI reviewer agents (blind and adversarial), who found no statement whose meaning
 differs from its description.
 
+<a id="part-9"></a>
+## Part 9. Helling's theorem
+
+Files: [`NormalizerDelta/StatementsHelling.lean`](NormalizerDelta/StatementsHelling.lean). Part 9 has no new
+definitions. Its formalization was suggested by Maarten Derickx.
+
+A subgroup G ≤ SL₂(ℝ) is commensurable with SL₂(ℤ) if G ∩ SL₂(ℤ) has finite index in G and in SL₂(ℤ) (Mathlib's
+`Subgroup.Commensurable G SL2ZR`). Γ₀(N)⁺ = ⟨w_Q : Q ∣ N⟩ is `Gamma0Plus N` of Part 3. For an integral matrix A with
+det A > 0, `projSL A` = (det A)^{-1/2}·A ∈ SL₂(ℝ).
+
+| | Lean | statement |
+|---|---|---|
+| Helling | [`helling`](NormalizerDelta/StatementsHelling.lean#L47) | **every G commensurable with SL₂(ℤ) is conjugate into Γ₀(N)⁺ for some squarefree N**, by (det A)^{-1/2}·A with A integral, det A > 0 |
+|  | [`commensurable_gamma0Plus`](NormalizerDelta/StatementsHelling.lean#L52) | Γ₀(N)⁺ is commensurable with SL₂(ℤ), for every N ≥ 1 |
+|  | [`gamma0Plus_maximal`](NormalizerDelta/StatementsHelling.lean#L55) | for squarefree N, every H ⊇ Γ₀(N)⁺ commensurable with SL₂(ℤ) is Γ₀(N)⁺ |
+|  | [`maximal_commensurable_iff`](NormalizerDelta/StatementsHelling.lean#L61) | the maximal subgroups commensurable with SL₂(ℤ) are the conjugates of the Γ₀(N)⁺, N squarefree, that are commensurable with SL₂(ℤ) [Du, Theorem 2.11] |
+|  | [`mem_commensurator_SL2ZR_iff`](NormalizerDelta/StatementsHelling.lean#L68) | the commensurator of SL₂(ℤ) in SL₂(ℝ) is {(det A)^{-1/2}·A : A integral, det A > 0} |
+| normalizers | [`commensurable_normG`](NormalizerDelta/StatementsHelling.lean#L75) | for Γ commensurable with SL₂(ℤ), so is Nor(Γ) |
+|  | [`finite_BG_of_commensurable`](NormalizerDelta/StatementsHelling.lean#L79) | for Γ commensurable with SL₂(ℤ), Nor(Γ)/Γ is finite |
+|  | [`normG_conj_le_gamma0Plus`](NormalizerDelta/StatementsHelling.lean#L83) | for Γ commensurable with SL₂(ℤ), Nor(Γ) is conjugate into Γ₀(N)⁺ for some squarefree N |
+| sanity | [`not_maximal_gamma0Plus_four`](NormalizerDelta/StatementsHelling.lean#L91) | Γ₀(4)⁺ is not maximal: it lies in Nor(Γ₀(4)), a conjugate of SL₂(ℤ) |
+
+Sources: Helling [He], in the form of [Du, Theorem 2.11], where G_(1,N)+ is Γ₀(N)⁺ in PSL₂(ℝ). The proof follows
+Conway [Co].
+
+* G permutes a finite set of classes of lattices in ℚ², and at each prime p it fixes the centre of their image in
+  the p-adic tree, which is a vertex or an edge.
+* The Lean proof formalizes neither the trees nor the lattices. A vertex is an integral matrix X (the lattice
+  Xℤ_(p)²). The distance of X and Y is d_p(adj(X)·Y), where d_p(Z) = v_p(det Z) − 2·v_p(the gcd of the entries of Z).
+* The centres are glued over the primes with the Smith normal form.
+* For Nor(Γ), the finite set is the set of vertices fixed by the elements of Γ whose representatives have square
+  determinant.
+
 ## Building and checking
 
 You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0-rc3) and Mathlib (v4.35.0-rc3) are
@@ -469,6 +510,7 @@ lake env lean scripts/check_axioms_cartan.lean   # Part 5
 lake env lean scripts/check_axioms_general.lean  # Part 6
 lake env lean scripts/check_axioms_star.lean     # Part 7
 lake env lean scripts/check_axioms_mixed.lean    # Part 8
+lake env lean scripts/check_axioms_helling.lean  # Part 9
 ```
 
 A theorem that used `sorry` anywhere would show the axiom `sorryAx` here.
@@ -480,7 +522,8 @@ The scripts first remove the module-system header described above, then check th
 `NormalizerLean/Defs.lean` (for Part 1, the definitions region of the frozen `Statements.lean`).
 
 ```sh
-for s in restructure delta_frozen extra_frozen xn_frozen cartan_frozen general_frozen star_frozen mixed_frozen; do
+for s in restructure delta_frozen extra_frozen xn_frozen cartan_frozen general_frozen star_frozen mixed_frozen \
+         helling_frozen; do
   python3 scripts/check_$s.py
 done
 ```
@@ -493,13 +536,15 @@ Each script prints `OK`.
   `frozen/`. The Lean code in `frozen/` is as frozen.
 * After freezing, one definition was renamed in Part 6 (`fricke` to `frickeP`, a name clash with Part 1). The
   frozen Part 6 files are the ones after the rename.
-* Parts 7 and 8 were written in this repository, not in the development repository: their definitions and
-  statements were frozen at commits a3e92bd and 54dcc6e of this repository ([`frozen/a3e92bd/`](frozen/a3e92bd),
-  [`frozen/54dcc6e/`](frozen/54dcc6e)), and the proofs came after.
+* Parts 7, 8 and 9 were written in this repository, not in the development repository: their definitions and
+  statements were frozen at commits a3e92bd, 54dcc6e and 7fc9442 of this repository
+  ([`frozen/a3e92bd/`](frozen/a3e92bd), [`frozen/54dcc6e/`](frozen/54dcc6e), [`frozen/7fc9442/`](frozen/7fc9442)),
+  and the proofs came after.
 
 <a id="checking-with-comparator"></a>
-**Checking with Comparator.** The statements form nine challenges, one for each part, with the B₀(N) theorems of
-Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palomar metadata (`formalization.yaml`):
+**Checking with Comparator.** The statements form ten challenges, one for each part, with the B₀(N) theorems of
+Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4 and Part 9 have Palomar metadata
+(`formalization.yaml`):
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
@@ -512,6 +557,7 @@ Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palom
 | Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
 | Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) | 20 |
 | Part 8 | [`Challenge/Part8.lean`](Challenge/Part8.lean) | [`Solution/Part8.lean`](Solution/Part8.lean) | [`palomar/part8/`](palomar/part8) | 18 |
+| Part 9 | [`Challenge/Part9.lean`](Challenge/Part9.lean) | [`Solution/Part9.lean`](Solution/Part9.lean) | [`palomar/part9/`](palomar/part9) (no Palomar metadata) | 9 |
 
 Each challenge imports only Mathlib, so it is the complete specification of its part. It copies verbatim the parts
 of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,
@@ -525,13 +571,13 @@ must be installed:
 
 ```sh
 lake exe cache get
-for e in part1 part2 part3 part3_b0 part4 part5 part6 part7 part8; do
+for e in part1 part2 part3 part3_b0 part4 part5 part6 part7 part8 part9; do
   lake comparator --config palomar/$e/comparator.json
 done
 ```
 
 With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
-`lean4lean`, `con-leche`, `con-ron`). All nine challenges pass with `--paranoid`: every checker accepts, and
+`lean4lean`, `con-leche`, `con-ron`). All ten challenges pass with `--paranoid`: every checker accepts, and
 Comparator prints `Your solution is okay!`.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
@@ -569,13 +615,13 @@ need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are save
 
 ```
 NormalizerLean/          Part 1: Statements.lean and the proofs; Defs.lean, the definitions of all eight parts
-NormalizerDelta/         Parts 2–8: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
+NormalizerDelta/         Parts 2–9: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
 NormalizerLean.lean      root of Part 1
-NormalizerDelta.lean     root of Parts 2–8
+NormalizerDelta.lean     root of Parts 2–9
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
-Challenge/               the nine challenges: definitions and statements with `sorry`, for Comparator
-Solution/                the nine solutions: they import the statements files
+Challenge/               the ten challenges: definitions and statements with `sorry`, for Comparator
+Solution/                the ten solutions: they import the statements files
 palomar/<challenge>/     comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0
@@ -588,8 +634,8 @@ LICENSE                  Apache License 2.0
   Bars's paper. Some comments also give paths under `~/automorphisms_X1/` for these notes.
 * [DLM22] is cited with the numbering of arXiv:2005.09009v2, and [DLM26] with that of arXiv:2610.08998v1.
 * This repository is a snapshot of a development repository. Commit hashes in `frozen/`, in the scripts and in
-  comments refer to that repository, except a3e92bd (Part 7) and 54dcc6e (Part 8), which are commits of this
-  repository.
+  comments refer to that repository, except a3e92bd (Part 7), 54dcc6e (Part 8) and 7fc9442 (Part 9), which are
+  commits of this repository.
 
 ## References
 
@@ -599,11 +645,17 @@ LICENSE                  Apache License 2.0
   [arXiv:2101.03797](https://arxiv.org/abs/2101.03797).
 * [Ba] F. Bars, *The group structure of the normalizer of Γ₀(N) after Atkin–Lehner*, Comm. Algebra 36 (2008),
   2160–2170.
+* [Co] J. H. Conway, *Understanding groups like Γ₀(N)*, in *Groups, difference sets, and the Monster* (Columbus, OH,
+  1993), de Gruyter, 1996, 327–343.
 * [DLM22] V. Dose, G. Lido, P. Mercuri, *Automorphisms of Cartan modular curves of prime and composite level*,
   Algebra Number Theory 16 (2022), 1423–1461, [arXiv:2005.09009](https://arxiv.org/abs/2005.09009).
 * [DLM26] V. Dose, G. M. Lido, P. Mercuri, *Automorphisms of general modular curves*,
   [arXiv:2610.08998](https://arxiv.org/abs/2610.08998).
+* [Du] J. F. Duncan, *Arithmetic groups and the affine E8 Dynkin diagram*,
+  [arXiv:0810.1465](https://arxiv.org/abs/0810.1465).
 * [DN] M. Derickx, F. Najman, *Sporadic points on X₀(N)*, [arXiv:2511.09015](https://arxiv.org/abs/2511.09015).
+* [He] H. Helling, *Bestimmung der Kommensurabilitätsklasse der Hilbertschen Modulgruppe*, Math. Z. 92 (1966),
+  269–280.
 * [KK] C. H. Kim, J. K. Koo, *The normalizer of Γ₁(N) in PSL₂(ℝ)*, Comm. Algebra 28 (2000), 5303–5310.
 * [L] M.-L. Lang, *Normalizer of Γ₁(m)*, J. Number Theory 86 (2001), 50–60.
 * [Ne] M. Newman, *Conjugacy, genus, and class numbers*, Math. Ann. 196 (1972), 198–217.

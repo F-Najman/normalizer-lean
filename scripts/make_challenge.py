@@ -1,8 +1,8 @@
 """Generate the Comparator challenges (https://github.com/leanprover/comparator), one for each part.
 
-The 174 statements form nine challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
+The 183 statements form ten challenges (`ENTRIES`): one for each part, except that the B₀(N) section (§B) of
 Part 3 has a challenge of its own. Parts 1, 2, 5, 6, 7 and 8 and Part 3 without §B are the Palomar entries
-(`make_formalization.py` writes their metadata); Part 4 and Part 3 §B are checked in the same way. For each
+(`make_formalization.py` writes their metadata); Part 4, Part 3 §B and Part 9 are checked in the same way. For each
 challenge:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
@@ -52,6 +52,7 @@ ENTRIES = [
      ['NormalizerDelta/StatementsStar.lean']),
     ('Part8', 'part8', 'the normalizer at mixed level', [8], [1, 2, 3, 5, 6, 7, 8],
      ['NormalizerDelta/StatementsMixed.lean']),
+    ('Part9', 'part9', "Helling's theorem", [9], [1, 2, 3], ['NormalizerDelta/StatementsHelling.lean']),
 ]
 
 HEADER = """import Mathlib
@@ -147,7 +148,7 @@ def generate():
             'permitted_axioms': ['propext', 'Quot.sound', 'Classical.choice'],
         }, indent=4, ensure_ascii=False) + '\n'
         all_names += names
-    assert len(all_names) == len(set(all_names)) == 174, len(all_names)
+    assert len(all_names) == len(set(all_names)) == 183, len(all_names)
     return files
 
 
