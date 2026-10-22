@@ -10,8 +10,8 @@ commensurable with SL₂(ℤ).
 * The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
 * The ten files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 183 theorems, with
-  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5, 6, 7 and 8 and
-  Part 3 without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
+  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5, 6, 7, 8 and 9
+  and Part 3 without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
   [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
   about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
