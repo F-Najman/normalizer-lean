@@ -468,10 +468,10 @@ det A > 0, `projSL A` = (det A)^{-1/2}·A ∈ SL₂(ℝ).
 | normalizers | [`commensurable_normG`](NormalizerDelta/StatementsHelling.lean#L75) | for Γ commensurable with SL₂(ℤ), so is Nor(Γ) |
 |  | [`finite_BG_of_commensurable`](NormalizerDelta/StatementsHelling.lean#L79) | for Γ commensurable with SL₂(ℤ), Nor(Γ)/Γ is finite |
 |  | [`normG_conj_le_gamma0Plus`](NormalizerDelta/StatementsHelling.lean#L83) | for Γ commensurable with SL₂(ℤ), Nor(Γ) is conjugate into Γ₀(N)⁺ for some squarefree N |
-| sanity | [`not_maximal_gamma0Plus_four`](NormalizerDelta/StatementsHelling.lean#L91) | Γ₀(4)⁺ is not maximal: it lies in Nor(Γ₀(4)), a conjugate of SL₂(ℤ) |
+| sanity | [`not_maximal_gamma0Plus_four`](NormalizerDelta/StatementsHelling.lean#L91) | Γ₀(4)⁺ is not maximal, so `gamma0Plus_maximal` needs N squarefree (Γ₀(4)⁺ lies in Nor(Γ₀(4)), a conjugate of SL₂(ℤ)) |
 
 Sources: Helling [He], in the form of [Du, Theorem 2.11], where G_(1,N)+ is Γ₀(N)⁺ in PSL₂(ℝ). The proof follows
-Conway [Co].
+Conway's argument [Co], as presented in [Du, Proposition 2.10].
 
 * G permutes a finite set of classes of lattices in ℚ², and at each prime p it fixes the centre of their image in
   the p-adic tree, which is a vertex or an edge.
@@ -543,7 +543,7 @@ Each script prints `OK`.
 
 <a id="checking-with-comparator"></a>
 **Checking with Comparator.** The statements form ten challenges, one for each part, with the B₀(N) theorems of
-Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4 and Part 9 have Palomar metadata
+Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palomar metadata
 (`formalization.yaml`):
 
 | part | challenge | solution | configuration and metadata | theorems |
@@ -557,7 +557,7 @@ Part 3 in a challenge of their own; all but Part 3 B₀(N), Part 4 and Part 9 ha
 | Part 6 | [`Challenge/Part6.lean`](Challenge/Part6.lean) | [`Solution/Part6.lean`](Solution/Part6.lean) | [`palomar/part6/`](palomar/part6) | 21 |
 | Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) | 20 |
 | Part 8 | [`Challenge/Part8.lean`](Challenge/Part8.lean) | [`Solution/Part8.lean`](Solution/Part8.lean) | [`palomar/part8/`](palomar/part8) | 18 |
-| Part 9 | [`Challenge/Part9.lean`](Challenge/Part9.lean) | [`Solution/Part9.lean`](Solution/Part9.lean) | [`palomar/part9/`](palomar/part9) (no Palomar metadata) | 9 |
+| Part 9 | [`Challenge/Part9.lean`](Challenge/Part9.lean) | [`Solution/Part9.lean`](Solution/Part9.lean) | [`palomar/part9/`](palomar/part9) | 9 |
 
 Each challenge imports only Mathlib, so it is the complete specification of its part. It copies verbatim the parts
 of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,
