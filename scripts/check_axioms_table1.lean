@@ -1,3 +1,5 @@
+module
+
 import NormalizerDelta.Table1
 
 open NormalizerLean

@@ -1,6 +1,6 @@
 """Write palomar/<entry>/formalization.yaml, the Palomar metadata (formalization.yaml v0.4) of each entry.
 
-The Palomar entries are listed in `ENTRIES`. Parts 7, 8 and 9 have their own automation and review notes,
+The entries and table challenges are listed in `ENTRIES`. Parts 7, 8 and 9 have their own automation and review notes,
 and Part 9 has its own scope, divergences and acknowledgements (`OVERRIDES`). The `alignment` section,
 a plain-language account of every compared theorem, is generated from the tables in
 README.md, so the two cannot drift apart; its theorem names must be exactly those of the entry's Comparator
@@ -17,6 +17,8 @@ import sys
 import yaml
 
 SOURCES = {
+    'Na': {'title': 'Automorphisms of the modular curves X_Δ(N)', 'authors': ['Filip Najman'],
+           'id': 'hexagon:2611.00443v1', 'type': 'preprint', 'location': 'https://hexagonmath.org/pdf/2611.00443v1'},
     'Ne': {'title': 'Conjugacy, genus, and class numbers', 'authors': ['Morris Newman'], 'type': 'article',
            'location': 'Math. Ann. 196 (1972), 198–217'},
     'AL': {'title': 'Hecke operators on Γ₀(m)', 'authors': ['A. O. L. Atkin', 'J. Lehner'], 'type': 'article',
@@ -252,6 +254,29 @@ ENTRIES = {
           'with PSL₂(ℤ) stabilizes a cell (Duncan\'s Proposition 2.10, attributed to this paper), which the formal '
           'proof follows. The paper itself was not consulted.'),
          ('AL', 'background', 'The Atkin–Lehner elements, which generate Γ₀(N)⁺.')]),
+    'table1': (
+        'Modular automorphism counts in Table 1 for X_Δ(N)',
+        ('For each of the 42 rows of Table 1 in Filip Najman’s Automorphisms of the modular curves X_Δ(N), '
+         'Lean verifies the diamond index [(ℤ/N)ˣ : Δ] and the order of the modular automorphism group '
+         'Nor(Γ_Δ(N))/Γ_Δ(N). The modular counts in the two split entries are 6 at level 37 and 48 at level 63. '
+         'The proof specializes the general normalizer index formula and verifies the finite computations in '
+         'the Lean kernel. The result is stated as 1 theorem indexed by the table rows.'),
+        ['table1'], ['11G18', '14H37', '11F06', '68V20'],
+        'The modular automorphism counts and diamond indices for the 42 listed subgroups.',
+        [('Na', 'formalizes', 'Table 1, page 28, the modular automorphism counts and diamond indices. The '
+          'calculation uses the index formula of Theorem 10.6.'),
+         ('Ze', 'background', 'Corollary 2.6 gives the normalizer description used in the general index formula.')]),
+    'table2': (
+        'Normalizer indices in Table 2 for X_Δ(N)',
+        ('For each of the 28 rows of Table 2 in Filip Najman’s Automorphisms of the modular curves X_Δ(N), '
+         'Lean verifies the diamond index [(ℤ/N)ˣ : Δ] and the index [Nor(Γ_Δ(N)) : Γ_Δ(N)]. Each listed '
+         'normalizer extends beyond Nor(Γ₀(N)). The proof specializes the general normalizer index formula '
+         'and verifies the finite computations in the Lean kernel. The result is stated as 1 theorem indexed by the table rows.'),
+        ['table2'], ['11G18', '14H37', '11F06', '68V20'],
+        'The diamond and normalizer indices and the normalizer noncontainment assertions for the 28 listed subgroups.',
+        [('Na', 'formalizes', 'Table 2, page 29, and its accompanying normalizer noncontainment assertions. '
+          'The calculation uses the index formula of Theorem 10.6 and the noncontainment criterion.'),
+         ('Ze', 'background', 'Corollary 2.6 gives the normalizer description used in the general index formula.')]),
 }
 
 COMMON = {
@@ -408,9 +433,11 @@ def plain(md):
 def alignment(parts, skip_tags=()):
     stmts, part, tag = [], None, ''
     for line in open('README.md'):
-        m = re.match(r'^## Part (\d+)\. (.*)$', line)
+        m = re.match(r'^## (Part|Table) (\d+)\.? (.*)$', line)
         if m:
-            part, tag = (int(m.group(1)), m.group(2).strip()), ''
+            label, number, title = m.groups()
+            key = int(number) if label == 'Part' else f'table{number}'
+            part, tag = (key, f'{label} {number} ({plain(title.strip())})'), ''
             continue
         if line.startswith('## '):
             part = None
@@ -422,7 +449,7 @@ def alignment(parts, skip_tags=()):
         if tag in skip_tags:
             continue
         refs = [REFS[r] for r in re.findall(r'\[([A-Za-z0-9]+)\]', m.group('stmt')) if r in REFS]
-        source = f'Part {part[0]} ({plain(part[1])}), {tag}' if tag else f'Part {part[0]} ({plain(part[1])})'
+        source = f'{part[1]}, {tag}' if tag else part[1]
         if refs:
             source += '; ' + ', '.join(dict.fromkeys(refs))
         stmts.append({'source': source, 'lean': 'NormalizerLean.' + m.group('name'),
@@ -432,7 +459,31 @@ def alignment(parts, skip_tags=()):
 
 
 def common(folder):
-    """COMMON, with the notes of `OVERRIDES` for Parts 7, 8 and 9."""
+    """Workflow and verification for the selected entry."""
+    if folder in ('table1', 'table2'):
+        data = {'table1': 'table_small.tsv', 'table2': 'table_order.tsv'}[folder]
+        return {
+            'automation': {
+                'methods': [{
+                    'method': 'agent',
+                    'framework': 'OpenAI Codex',
+                    'tool_setup': 'Codex encoded the published rows, wrote the Lean verification and Comparator '
+                                  'challenge, and ran the build, axiom audit and Comparator.',
+                }],
+                'notes': 'Filip Najman selected the published results to verify. The table proofs apply the '
+                         'existing general normalizer index formula.',
+            },
+            'fidelity': {
+                'divergences': 'The paper uses PSL₂(ℝ). Lean computes the quotient in SL₂(ℝ), which gives the '
+                               'same index because Γ_Δ(N) contains −I for each listed Δ.',
+            },
+            'review': {
+                'status': 'table data cross-checked and proof machine-checked',
+                'notes': f'The Lean entries were checked against {data} at revision 67347db of '
+                         'F-Najman/automorphisms_XDelta. Comparator compared the statements and definitions and '
+                         'checked the proof with the default and independent kernels using locally built exports.',
+            },
+        }
     doc = copy.deepcopy(COMMON)
     o = OVERRIDES.get(folder)
     if o:
@@ -453,6 +504,7 @@ def common(folder):
 
 def document(folder):
     name, description, parts, msc, scope_extra, sources = ENTRIES[folder]
+    scope = scope_extra if folder in ('table1', 'table2') else SCOPE + scope_extra
     return {
         'version': 'v0.4',
         'project': {'name': name, 'description': description, 'authors': ['Filip Najman'],
@@ -460,7 +512,7 @@ def document(folder):
         'classification': {'arxiv': ['math.NT', 'math.GR'], 'msc2020': msc},
         'sources': [dict(SOURCES[k], relationship=rel, note=note) for k, rel, note in sources],
         'related_formalizations': [],
-        'status': {'scope': OVERRIDES.get(folder, {}).get('scope', SCOPE + scope_extra), 'sorry_count': 0,
+        'status': {'scope': OVERRIDES.get(folder, {}).get('scope', scope), 'sorry_count': 0,
                    'sorry_in_definitions': 0, 'axioms': []},
         **common(folder),
         'alignment': alignment(parts, SKIP_TAGS.get(folder, ())),
@@ -502,7 +554,8 @@ def validate(folder, doc):
     if sorted(names) != sorted(config['theorem_names']):
         errors.append('the alignment names differ from the Comparator configuration: %s' % sorted(
             set(names) ^ set(config['theorem_names'])))
-    if re.search(r'\d+ theorems', doc['project']['description']).group(0) != f'{len(names)} theorems':
+    count = re.search(r'\b(\d+) theorems?\b', desc)
+    if not count or int(count.group(1)) != len(names):
         errors.append('the number of theorems in the description is wrong')
     return [f'{folder}: {e}' for e in errors]
 

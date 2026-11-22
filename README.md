@@ -496,32 +496,34 @@ modular automorphism group, expressed as the normalizer quotient
 Nor(Γ_Δ(N))/Γ_Δ(N). The proof applies the general formula of Part 7 and
 checks each finite computation in the Lean kernel. The split entries give
 modular counts of 6 at level 37 and 48 at level 63.
-[Paper, Table 1](https://hexagonmath.org/pdf/2611.00443v1#page=28) · [Lean proof](NormalizerDelta/Table1.lean)
+[Paper, Table 1](https://hexagonmath.org/pdf/2611.00443v1#page=28) · [Companion data](https://github.com/F-Najman/automorphisms_XDelta/blob/67347db/code/table_small.tsv)
 
-The Comparator challenge gives the table data and normalizer definitions over
-Mathlib alone. The solution imports the verified theorem.
-[Challenge](Challenge/Table1.lean) · [Solution](Solution/Table1.lean) · [Comparator configuration](palomar/table1/comparator.json)
+| paper | Lean theorem | verified claims |
+|---|---|---|
+| All 42 rows | [`Table1.indices`](NormalizerDelta/Table1.lean#L182) | The diamond index and the modular automorphism count for each listed subgroup. |
+
+[Challenge](Challenge/Table1.lean) · [Solution](Solution/Table1.lean) · [Comparator configuration](palomar/table1/comparator.json) · [Palomar metadata](palomar/table1/formalization.yaml)
 
 ## Table 2 normalizer indices
 
-[`NormalizerLean.Table2.indices`](NormalizerDelta/Table2.lean) verifies the 28 normalizer indices in
-Table 2 of *Automorphisms of the modular curves X_Δ(N)*. For each listed subgroup Δ it also checks
-the diamond index and the noncontainment of its normalizer in Nor(Γ₀(N)). The proof uses the general
-index formula of Part 7 and kernel-checked finite computations. [Paper, Table 2](https://hexagonmath.org/pdf/2611.00443v1#page=29)
+The verification for Table 2 of *Automorphisms of the modular curves X_Δ(N)* uses the general index formula
+of Part 7 and kernel-checked finite computations. Each listed normalizer extends beyond Nor(Γ₀(N)).
+[Paper, Table 2](https://hexagonmath.org/pdf/2611.00443v1#page=29) · [Companion data](https://github.com/F-Najman/automorphisms_XDelta/blob/67347db/code/table_order.tsv)
 
-The [Comparator challenge](Challenge/Table2.lean) includes the table data and the normalizer definitions.
-The [solution](Solution/Table2.lean) imports the proof.
+| paper | Lean theorem | verified claims |
+|---|---|---|
+| All 28 rows | [`Table2.indices`](NormalizerDelta/Table2.lean#L148) | The diamond index, the normalizer index, and the noncontainment of the normalizer in Nor(Γ₀(N)) for each listed subgroup. |
+
+[Challenge](Challenge/Table2.lean) · [Solution](Solution/Table2.lean) · [Comparator configuration](palomar/table2/comparator.json) · [Palomar metadata](palomar/table2/formalization.yaml)
 
 ## Building and checking
 
 You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0-rc3) and Mathlib (v4.35.0-rc3) are
-pinned in `lean-toolchain` and `lake-manifest.json`. The pin is the release candidate rather than v4.35.0 because
-Palomar cannot yet render challenges on v4.35.0
-([PalomarSubmission#161](https://github.com/PalomarRegistry/PalomarSubmission/issues/161)).
+pinned in `lean-toolchain` and `lake-manifest.json` for reproducible builds and Comparator runs.
 
-Every Lean file uses Lean's [module system](https://lean-lang.org/doc/reference/latest/Source-Files-and-Modules/):
-it starts with `module`, its imports are `public import`, and its declarations follow `@[expose] public section`,
-so everything is public and every definition can be unfolded by the files that import it.
+Every Lean file starts with `module`. The library and challenge files use `public import` and
+`@[expose] public section` for the declarations and definitions their clients need.
+[Lean's module system](https://lean-lang.org/doc/reference/latest/Source-Files-and-Modules/)
 [`scripts/module_header.py`](scripts/module_header.py) adds exactly these lines and removes them again.
 
 ```sh
@@ -576,8 +578,8 @@ Each script prints `OK`.
 
 <a id="checking-with-comparator"></a>
 **Checking with Comparator.** The statements form twelve challenges, including a separate challenge for
-the B₀(N) theorems of Part 3 and one each for Tables 1 and 2. The Palomar entries include metadata
-(`formalization.yaml`).
+the B₀(N) theorems of Part 3 and one each for Tables 1 and 2. The configuration directories for the
+eight listed registry entries and both table challenges include `formalization.yaml`.
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
@@ -612,7 +614,14 @@ done
 ```
 
 With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
-`lean4lean`, `con-leche`, `con-ron`). All twelve challenges have passed those checks. The runs for Tables 1 and 2
+`lean4lean`, `con-leche`, `con-ron`). Run these commands to check the two tables.
+
+```sh
+lake comparator --config palomar/table1/comparator.json --paranoid
+lake comparator --config palomar/table2/comparator.json --paranoid
+```
+
+All twelve challenges have passed the independent kernel checks. The runs for Tables 1 and 2
 compared locally built exports because the host blocked Bubblewrap's UID mapping.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
@@ -626,8 +635,8 @@ compared locally built exports because the host blocked Bubblewrap's UID mapping
   different challenges, so that, as in the library, each gets its own lemma.
 * [`scripts/make_challenge.py`](scripts/make_challenge.py) generates the challenges, the solutions and the
   configurations from `NormalizerLean/Defs.lean` and the statements files, and
-  [`scripts/make_formalization.py`](scripts/make_formalization.py) generates each Palomar entry's `formalization.yaml` (the
-  Palomar metadata) from the tables of this README. With `--check`, both check that their files are up to date.
+  [`scripts/make_formalization.py`](scripts/make_formalization.py) generates the `formalization.yaml` files (the
+  Palomar metadata) from the theorem tables in this README. With `--check`, both check that their files are up to date.
 
 **Numerical checks.** Before freezing, the statements were tested by brute force over ranges of N. The scripts
 need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are saved next to them.
@@ -657,7 +666,7 @@ certs/                   certificates for the presentations (Magma and Python ge
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
 Challenge/               the twelve challenges for Comparator
 Solution/                the twelve solutions importing the proved statements
-palomar/<challenge>/     comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
+palomar/<challenge>/     Comparator configuration and, where present, Palomar metadata
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0
 ```
@@ -693,6 +702,8 @@ LICENSE                  Apache License 2.0
   269–280.
 * [KK] C. H. Kim, J. K. Koo, *The normalizer of Γ₁(N) in PSL₂(ℝ)*, Comm. Algebra 28 (2000), 5303–5310.
 * [L] M.-L. Lang, *Normalizer of Γ₁(m)*, J. Number Theory 86 (2001), 50–60.
+* [Na] F. Najman, *Automorphisms of the modular curves X_Δ(N)*, Hexagon preprint 2611.00443v1.
+  [Paper](https://hexagonmath.org/pdf/2611.00443v1) · [Computer code and logs, revision 67347db](https://github.com/F-Najman/automorphisms_XDelta/tree/67347db)
 * [Ne] M. Newman, *Conjugacy, genus, and class numbers*, Math. Ann. 196 (1972), 198–217.
 * [Ze] S. Zemel, *Normalizers of congruence groups in SL₂(ℝ) and automorphisms of lattices*, Int. J. Number Theory 13
   (2017), 1275–1300, [arXiv:1512.07547](https://arxiv.org/abs/1512.07547).
