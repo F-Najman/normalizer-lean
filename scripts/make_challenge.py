@@ -1,7 +1,7 @@
 """Generate the Comparator challenges (https://github.com/leanprover/comparator).
 
 The 183 statements in Parts 1–9 form ten challenges (`ENTRIES`). The B₀(N) section (§B) of Part 3 has a
-challenge of its own. Table 2 has an additional challenge. Parts 1, 2, 5, 6, 7, 8 and 9 and Part 3 without §B
+challenge of its own. Tables 1 and 2 have additional challenges. Parts 1, 2, 5, 6, 7, 8 and 9 and Part 3 without §B
 are the Palomar entries (`make_formalization.py` writes their metadata). For each challenge:
 
 * `Challenge/<Entry>.lean` imports only Mathlib. It copies verbatim the parts of `NormalizerLean/Defs.lean` whose
@@ -11,7 +11,7 @@ are the Palomar entries (`make_formalization.py` writes their metadata). For eac
 * `Solution/<Entry>.lean` imports the entry's statements files, which prove the same theorems.
 * `palomar/<entry>/comparator.json`: the entry's theorem names and the three standard axioms.
 
-The Table 2 challenge copies its row definitions and statement from `NormalizerDelta/Table2.lean`.
+The table challenges copy their row definitions and statements from `NormalizerDelta/Table*.lean`.
 
 Why the copies give the library's constants. Lean shares the auxiliary `_proof_n` lemmas of a file between its
 declarations (keyed by their type). Each challenge copies a subsequence of whole parts of `Defs.lean`, in order. In
@@ -113,41 +113,45 @@ def listing(items):
     return items[0] if len(items) == 1 else ', '.join(items[:-1]) + ' and ' + items[-1]
 
 
-def table2_files(parts):
-    table = body('NormalizerDelta/Table2.lean')
+def table_files(parts, number, count, title, quantities, additional_checks):
+    module = f'Table{number}'
+    namespace = f'{NAMESPACE}.{module}'
+    source = f'NormalizerDelta/{module}.lean'
+    table = body(source)
 
     def documented_block(first, stop):
-        start = table.rindex('/--', 0, table.index(first))
-        return table[start:table.index(stop)].rstrip()
+        declaration = table.index(first)
+        start = table.rindex('/--', 0, declaration)
+        return table[start:table.index(stop, declaration)].rstrip()
 
-    header = """import Mathlib
+    header = f"""import Mathlib
 
 /-!
-# Normalizer indices for Table 2
+# {title} for Table {number}
 
-The challenge states the 28 normalizer indices from Table 2 of
+The challenge states the {count} {quantities} from Table {number} of
 *Automorphisms of the modular curves X_Δ(N)*, with the corresponding diamond
-indices and the normalizer noncontainment assertions. The normalizer
+{additional_checks} The normalizer
 definitions are copied from Parts 1 and 2 of `NormalizerLean/Defs.lean`.
 The row definitions and the statement are copied from
-`NormalizerDelta/Table2.lean`.
+`{source}`.
 -/"""
     definitions = '\n'.join(f'/-! # From `{DEFS}`, Part {k} (verbatim) -/\n\n{parts[k - 1]}'
                             for k in (1, 2)).rstrip()
-    delta = documented_block('def delta ', 'private def residue ')
+    delta = documented_block('def delta ', 'private def ')
     rows = documented_block('structure Row where', 'private def Row.members ')
-    statement = documented_block('theorem indices ', 'end NormalizerLean.Table2')
+    statement = documented_block('theorem indices ', f'end {namespace}')
     theorem_type = statement.split(' :=\n', 1)[0]
-    challenge = '\n\n'.join([header, definitions, 'namespace NormalizerLean.Table2\n\nopen Finset',
-                             delta, rows, theorem_type + ' :=\n  sorry', 'end NormalizerLean.Table2'])
+    challenge = '\n\n'.join([header, definitions, f'namespace {namespace}\n\nopen Finset',
+                             delta, rows, theorem_type + ' :=\n  sorry', f'end {namespace}'])
     return {
-        'Challenge/Table2.lean': port(challenge + '\n'),
-        'Solution/Table2.lean': 'module\n\npublic import NormalizerDelta.Table2\n\n'
-                                '/-! The proof of the statement in `Challenge/Table2.lean`. -/\n',
-        'palomar/table2/comparator.json': json.dumps({
-            'challenge_module': 'Challenge.Table2',
-            'solution_module': 'Solution.Table2',
-            'theorem_names': ['NormalizerLean.Table2.indices'],
+        f'Challenge/{module}.lean': port(challenge + '\n'),
+        f'Solution/{module}.lean': f'module\n\npublic import NormalizerDelta.{module}\n\n'
+                                   f'/-! The proof of the statement in `Challenge/{module}.lean`. -/\n',
+        f'palomar/table{number}/comparator.json': json.dumps({
+            'challenge_module': f'Challenge.{module}',
+            'solution_module': f'Solution.{module}',
+            'theorem_names': [f'{namespace}.indices'],
             'permitted_axioms': ['propext', 'Quot.sound', 'Classical.choice'],
         }, indent=4, ensure_ascii=False) + '\n',
     }
@@ -190,7 +194,10 @@ def generate():
         }, indent=4, ensure_ascii=False) + '\n'
         all_names += names
     assert len(all_names) == len(set(all_names)) == 183, len(all_names)
-    return files | table2_files(parts)
+    files.update(table_files(parts, 1, 42, 'Modular automorphism counts', 'modular automorphism counts', 'indices.'))
+    files.update(table_files(parts, 2, 28, 'Normalizer indices', 'normalizer indices',
+                             'indices and the normalizer noncontainment assertions.'))
+    return files
 
 
 if __name__ == '__main__':
@@ -202,4 +209,4 @@ if __name__ == '__main__':
     for f, s in files.items():
         os.makedirs(os.path.dirname(f), exist_ok=True)
         open(f, 'w').write(s)
-    print('wrote', len(files), 'files for', len(ENTRIES) + 1, 'challenges')
+    print('wrote', len(files), 'files for', len(files) // 3, 'challenges')

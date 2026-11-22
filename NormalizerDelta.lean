@@ -8,4 +8,5 @@ public import NormalizerDelta.StatementsGeneral
 public import NormalizerDelta.StatementsStar
 public import NormalizerDelta.StatementsMixed
 public import NormalizerDelta.StatementsHelling
+public import NormalizerDelta.Table1
 public import NormalizerDelta.Table2
