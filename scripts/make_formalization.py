@@ -1,8 +1,8 @@
 """Write palomar/<entry>/formalization.yaml, the Palomar metadata (formalization.yaml v0.4) of each entry.
 
-The entries are the challenges of `make_challenge.py` except Part 4 and Part 3 §B (B₀(N)), which are not Palomar
-entries. Parts 7, 8 and 9 have their own automation and review notes, and Part 9 its own scope, divergences and
-acknowledgements (`OVERRIDES`). The fields are below. The `alignment` section, a plain-language account of every compared theorem, is generated from the tables in
+The Palomar entries are listed in `ENTRIES`. Parts 7, 8 and 9 have their own automation and review notes,
+and Part 9 has its own scope, divergences and acknowledgements (`OVERRIDES`). The `alignment` section,
+a plain-language account of every compared theorem, is generated from the tables in
 README.md, so the two cannot drift apart; its theorem names must be exactly those of the entry's Comparator
 configuration.
 Run: python3 scripts/make_formalization.py            (writes the files)

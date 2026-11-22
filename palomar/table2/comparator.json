@@ -1,0 +1,12 @@
+{
+    "challenge_module": "Challenge.Table2",
+    "solution_module": "Solution.Table2",
+    "theorem_names": [
+        "NormalizerLean.Table2.indices"
+    ],
+    "permitted_axioms": [
+        "propext",
+        "Quot.sound",
+        "Classical.choice"
+    ]
+}

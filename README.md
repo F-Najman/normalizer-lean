@@ -5,16 +5,18 @@ groups Nor(Γ)/Γ of modular automorphisms of the corresponding modular curves: 
 Cartan modular curves, and general modular curves X_H; and of Helling's theorem on the maximal subgroups of SL₂(ℝ)
 commensurable with SL₂(ℤ).
 
-* **183 theorems, all proved.** No `sorry`. Every theorem depends only on the standard axioms
+* **184 theorems, all proved.** Every theorem depends only on the standard axioms
   `propext`, `Classical.choice` and `Quot.sound`.
-* The definitions and statements of each part were written and **frozen before any proof was written**. The proofs
+* The definitions and statements of Parts 1–9 were written and **frozen before any proof was written**. The proofs
   did not change them; [`frozen/`](frozen) and the scripts in [`scripts/`](scripts) let you check this.
-* The ten files in [`Challenge/`](Challenge), one for each part (Part 3 in two), state the 183 theorems, with
-  `sorry` as proofs, together with every definition they use, over Mathlib alone; Parts 1, 2, 5, 6, 7, 8 and 9
-  and Part 3 without B₀(N) are entries of the [Palomar](https://palomar-registry.org) registry.
+* The eleven files in [`Challenge/`](Challenge) give the theorem statements and their definitions over Mathlib
+  alone. Parts 1, 2, 5, 6, 7, 8 and 9 and Part 3 without B₀(N) are entries of the
+  [Palomar](https://palomar-registry.org) registry.
   [Comparator](https://github.com/leanprover/comparator) checks that the repository proves exactly these statements
   about exactly these definitions (see
   [Checking with Comparator](#checking-with-comparator)).
+* [Table 2](#table-2-normalizer-indices) verifies all 28 normalizer indices in *Automorphisms of the modular curves
+  X_Δ(N)* using the general formula of Part 7.
 * About 24,000 lines of Lean, on Lean v4.35.0-rc3 and Mathlib v4.35.0-rc3, using Lean's module system.
 
 Author: Filip Najman.
@@ -38,6 +40,7 @@ I thank Maarten Derickx for suggesting the formalization of Helling's theorem (P
 * [Part 7. The normalizer of Γ_Δ(N) for every Δ](#part-7)
 * [Part 8. Mixed level: Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂)](#part-8)
 * [Part 9. Helling's theorem](#part-9)
+* [Table 2. Normalizer indices](#table-2-normalizer-indices)
 * [Building and checking](#building-and-checking)
 * [Repository layout](#repository-layout)
 * [Notes on the sources](#notes-on-the-sources)
@@ -57,6 +60,7 @@ I thank Maarten Derickx for suggesting the formalization of Helling's theorem (P
 | [7](#part-7) | [`NormalizerDelta/StatementsStar.lean`](NormalizerDelta/StatementsStar.lean) | 20 | Γ_Δ(N) for every Δ: the normalizer exactly (Zemel [Ze]), its order, and when it lies in Nor(Γ₀(N)) |
 | [8](#part-8) | [`NormalizerDelta/StatementsMixed.lean`](NormalizerDelta/StatementsMixed.lean) | 18 | Γ_{H₁}(N₁) ∩ Γ_{H₂}(N₂) for coprime levels, H₁ as in Part 6 and H₂ arbitrary: the normalizer and its order, with a determinant condition |
 | [9](#part-9) | [`NormalizerDelta/StatementsHelling.lean`](NormalizerDelta/StatementsHelling.lean) | 9 | Helling's theorem: every subgroup commensurable with SL₂(ℤ) is conjugate into Γ₀(N)⁺, N squarefree; these are the maximal ones; the commensurator of SL₂(ℤ); normalizers of arithmetic groups |
+| [Table 2](#table-2-normalizer-indices) | [`NormalizerDelta/Table2.lean`](NormalizerDelta/Table2.lean) | 1 | All 28 normalizer indices, diamond indices, and normalizer noncontainment assertions |
 
 Highlights:
 
@@ -481,6 +485,16 @@ Conway's argument [Co], as presented in [Du, Proposition 2.10].
 * For Nor(Γ), the finite set is the set of vertices fixed by the elements of Γ whose representatives have square
   determinant.
 
+## Table 2 normalizer indices
+
+[`NormalizerLean.Table2.indices`](NormalizerDelta/Table2.lean) verifies the 28 normalizer indices in
+Table 2 of *Automorphisms of the modular curves X_Δ(N)*. For each listed subgroup Δ it also checks
+the diamond index and the noncontainment of its normalizer in Nor(Γ₀(N)). The proof uses the general
+index formula of Part 7 and kernel-checked finite computations. [Paper, Table 2](https://hexagonmath.org/pdf/2611.00443v1#page=29)
+
+The [Comparator challenge](Challenge/Table2.lean) includes the table data and the normalizer definitions.
+The [solution](Solution/Table2.lean) imports the proof.
+
 ## Building and checking
 
 You need [elan](https://github.com/leanprover/elan). The Lean toolchain (v4.35.0-rc3) and Mathlib (v4.35.0-rc3) are
@@ -511,6 +525,7 @@ lake env lean scripts/check_axioms_general.lean  # Part 6
 lake env lean scripts/check_axioms_star.lean     # Part 7
 lake env lean scripts/check_axioms_mixed.lean    # Part 8
 lake env lean scripts/check_axioms_helling.lean  # Part 9
+lake env lean scripts/check_axioms_table2.lean   # Table 2
 ```
 
 A theorem that used `sorry` anywhere would show the axiom `sorryAx` here.
@@ -542,9 +557,9 @@ Each script prints `OK`.
   and the proofs came after.
 
 <a id="checking-with-comparator"></a>
-**Checking with Comparator.** The statements form ten challenges, one for each part, with the B₀(N) theorems of
-Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palomar metadata
-(`formalization.yaml`):
+**Checking with Comparator.** The statements form eleven challenges, including a separate challenge for
+the B₀(N) theorems of Part 3 and one for Table 2. The Palomar entries include metadata
+(`formalization.yaml`).
 
 | part | challenge | solution | configuration and metadata | theorems |
 |---|---|---|---|---|
@@ -558,6 +573,7 @@ Part 3 in a challenge of their own; all but Part 3 B₀(N) and Part 4 have Palom
 | Part 7 | [`Challenge/Part7.lean`](Challenge/Part7.lean) | [`Solution/Part7.lean`](Solution/Part7.lean) | [`palomar/part7/`](palomar/part7) | 20 |
 | Part 8 | [`Challenge/Part8.lean`](Challenge/Part8.lean) | [`Solution/Part8.lean`](Solution/Part8.lean) | [`palomar/part8/`](palomar/part8) | 18 |
 | Part 9 | [`Challenge/Part9.lean`](Challenge/Part9.lean) | [`Solution/Part9.lean`](Solution/Part9.lean) | [`palomar/part9/`](palomar/part9) | 9 |
+| Table 2 | [`Challenge/Table2.lean`](Challenge/Table2.lean) | [`Solution/Table2.lean`](Solution/Table2.lean) | [`palomar/table2/`](palomar/table2) | 1 |
 
 Each challenge imports only Mathlib, so it is the complete specification of its part. It copies verbatim the parts
 of [`NormalizerLean/Defs.lean`](NormalizerLean/Defs.lean) whose definitions its statements use, then the statements,
@@ -571,14 +587,14 @@ must be installed:
 
 ```sh
 lake exe cache get
-for e in part1 part2 part3 part3_b0 part4 part5 part6 part7 part8 part9; do
+for e in part1 part2 part3 part3_b0 part4 part5 part6 part7 part8 part9 table2; do
   lake comparator --config palomar/$e/comparator.json
 done
 ```
 
 With `--paranoid` it also replays the proofs with the independent checkers bundled with Lean (`nanoda`,
-`lean4lean`, `con-leche`, `con-ron`). All ten challenges pass with `--paranoid`: every checker accepts, and
-Comparator prints `Your solution is okay!`.
+`lean4lean`, `con-leche`, `con-ron`). All eleven challenges have passed those checks. The Table 2 run
+compared locally built exports because the host blocked Bubblewrap's UID mapping.
 
 * Comparator compares the definitions as well as the statements: every definition a statement uses must be the same
   constant in the challenge and in the library, including the auxiliary lemmas inside it. The definitions contain no
@@ -617,11 +633,11 @@ need Python 3; `check_xn_statements.py` also needs SymPy. Their outputs are save
 NormalizerLean/          Part 1: Statements.lean and the proofs; Defs.lean, the definitions of all eight parts
 NormalizerDelta/         Parts 2–9: Statements*.lean and the proofs; Defs*.lean only import NormalizerLean/Defs.lean
 NormalizerLean.lean      root of Part 1
-NormalizerDelta.lean     root of Parts 2–9
+NormalizerDelta.lean     root of Parts 2–9 and the Table 2 verification
 certs/                   certificates for the presentations (Magma and Python generators, JSON data)
 frozen/<commit>/         the definitions and statements files as frozen (as .lean.txt)
-Challenge/               the ten challenges: definitions and statements with `sorry`, for Comparator
-Solution/                the ten solutions: they import the statements files
+Challenge/               the eleven challenges for Comparator
+Solution/                the eleven solutions importing the proved statements
 palomar/<challenge>/     comparator.json of each challenge; formalization.yaml (Palomar metadata) of each entry
 scripts/                 axiom checks, frozen-statement checks, numerical checks, with their outputs
 LICENSE                  Apache License 2.0

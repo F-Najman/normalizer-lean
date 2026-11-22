@@ -1,0 +1,2 @@
+'NormalizerLean.card_BG_GammaDeltaR_hStar' depends on axioms: [propext, Classical.choice, Quot.sound]
+'NormalizerLean.Table2.indices' depends on axioms: [propext, Classical.choice, Quot.sound]
